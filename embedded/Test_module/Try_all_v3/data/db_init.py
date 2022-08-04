@@ -4,9 +4,9 @@ from mysql import connector
 class db_proc:
     def create_db(self):
         self.db = connector.connect(
-            host = '13.125.213.119',
+            host = '3.36.69.192',
             user = 'educolab',
-            password = 'educolab',
+            password = 'c102_edu',
             database = 'educolab'
         )
         self.cur = self.db.cursor()
