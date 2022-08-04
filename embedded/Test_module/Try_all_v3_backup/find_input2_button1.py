@@ -57,6 +57,7 @@ class Find_input2_button1(Screen):
     def on_leave(self): # 페이지 이동시 기존 입력 값 지우기
         self.ids.left_input.text=""
         self.ids.right_input.text=""
+        self.manager.before_page=self.name
 
     def onPopUp(self): # 왼쪽 버튼 클릭시 팝업 및 다음 페이지 경로 지정
         if self.next_flag:

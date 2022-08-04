@@ -39,6 +39,9 @@ class Main_Screen(Screen):
         self.ids.bad_points_icon.img_path='./icon/minus.png'
         self.ids.homework_icon.img_path='./icon/homework.png'
         self.ids.survey_icon.img_path='./icon/survey.png'
+
+    def on_leave(self):
+        self.manager.before_page=self.name
         
 class main_test_App(App):
     def build(self):

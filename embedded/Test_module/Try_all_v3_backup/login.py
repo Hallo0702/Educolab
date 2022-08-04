@@ -50,6 +50,7 @@ class Login_Screen(Screen):
     def on_leave(self):
         self.ids.ID_input.text=""
         self.ids.PW_input.text=""
+        self.manager.before_page=self.name
 
 class login_test_App(App):
     def build(self):

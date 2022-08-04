@@ -10,6 +10,7 @@ from find_input1_button1 import Find_input1_button1
 from find_input2_button2 import Find_input2_button2
 from find_input2_button1 import Find_input2_button1
 from main_page import Main_Screen
+from list_page import List_Screen
 
 from find_result import Find_result
 from find_renew import Find_renew
@@ -21,6 +22,9 @@ class WindowManager(ScreenManager):
         super(WindowManager, self).__init__(**kwargs)
         self.DB=db_proc()
         self.DB.create_db()
+        self.before_page=''
+        self.page_num=1 #list page_num
+        self.max_page_num=5 #list max page_num
 
     def onStop(self): # 창 종료 버튼
         self.DB.db_close()
