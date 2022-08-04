@@ -19,8 +19,12 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('main/', views.NoticeMainView.as_view(), name='notice_main'),
-    path('create/', views.NoticeCreateView.as_view(), name='notice_create'),
-    path('detail/', views.NoticeDetailView.as_view(), name='notice_detail'),
-    path('update/', views.NoticeUpdateView.as_view(), name='notice_update'),
+    path('main/', views.SurveyTeacherMainView.as_view(), name='survey_main'),
+    path('create/', views.SurveyCreateView.as_view(), name='survey_create'),
+    path('detail/', views.SurveyDetailView.as_view(), name='survey_detail'),
+    path('update/', views.SurveyUpdateView.as_view(), name='survey_update'),
+    path('stat/', views.SurveyStatView.as_view(), name='survey_stat'),
+    path('stat/detail/',views.SurveyStatDetailView.as_view(),name="survey_stat_detail"),
+    path('submit/', views.SurveySubmitView.as_view(), name='survey_submit'),
+    
 ]
