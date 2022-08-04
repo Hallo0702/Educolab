@@ -60,18 +60,11 @@ const routes = [
     component: () => import('@/views/NoticeFormView')
   },
 
-  // 과제(교사)
+  // 과제(교사) 메인
   {
-    path: '/teacher/task',
-    name: 'TeacherTask',
-    component: () => import('@/views/TeacherTaskView')
-  },
-
-  // 과제(학생)
-  {
-    path: '/student/task',
-    name: 'StudentTaskListView',
-    component: () => import('@/views/StudentTaskListView')
+    path: '/:userType/task',
+    name: 'TaskListView',
+    component: () => import('@/views/TaskListView')
   },
   // 과제 상세 
   {
