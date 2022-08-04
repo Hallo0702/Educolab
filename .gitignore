@@ -1,3 +1,55 @@
+<<<<<<< HEAD
+# Created by https://www.toptal.com/developers/gitignore/api/windows,python,django,venv,visualstudiocode
+# Edit at https://www.toptal.com/developers/gitignore?templates=windows,python,django,venv,visualstudiocode
+
+=======
+>>>>>>> e1818b6d2deacd318c2af7954bcc9922945a1f93
+.DS_Store
+node_modules
+/dist
+
+
+# local env files
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+
+<<<<<<< HEAD
+=======
+# local env files
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
 # Created by https://www.toptal.com/developers/gitignore/api/windows,python,django,venv,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,python,django,venv,visualstudiocode
 
@@ -26,6 +78,7 @@ pnpm-debug.log*
 *.sw?
 
 
+>>>>>>> e1818b6d2deacd318c2af7954bcc9922945a1f93
 ### Django ###
 *.log
 *.pot
@@ -35,6 +88,32 @@ local_settings.py
 db.sqlite3
 db.sqlite3-journal
 media
+
+.DS_Store
+node_modules
+/dist
+
+
+# local env files
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+
 
 # If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/
 # in your Git repository. Update and uncomment the following line accordingly.
@@ -342,3 +421,8 @@ $RECYCLE.BIN/
 *.lnk
 
 backend/my_settings.py
+<<<<<<< HEAD
+=======
+front-end/node_modules
+front-end/node_modules/*
+>>>>>>> e1818b6d2deacd318c2af7954bcc9922945a1f93

@@ -45,6 +45,7 @@ class SendSignupEmailView(APIView):
     def post(self,request):
         email = request.data.get('email')
         auth_num = email_auth_num()
+        print(email)
         send_mail(subject='educolab 회원가입 이메일 인증 메일입니다',message=auth_num,recipient_list=[email],from_email=EMAIL_HOST_USER)
         context = {
             'auth_num' : auth_num,
