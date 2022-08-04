@@ -317,3 +317,4 @@ $RECYCLE.BIN/
 *.lnk
 
 backend/educolab/my_settings.py
+login_token.txt
