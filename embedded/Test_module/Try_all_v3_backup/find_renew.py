@@ -51,6 +51,7 @@ class Find_renew(Screen):
         self.ids.left_input.text=""
         self.ids.right_input.text=""
         self.ids.right_info_text=""
+        self.manager.before_page=self.name
 
 class find_test_App(App):
     def build(self):

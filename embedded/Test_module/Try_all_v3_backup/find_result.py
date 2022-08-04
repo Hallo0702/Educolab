@@ -35,6 +35,9 @@ class Find_result(Screen):
             self.ids.sub_title.text= f'축하합니다! 메인화면에 접속하셨습니다.'
             self.next_page_slide="right"
 
+    def on_leave(self):
+        self.manager.before_page=self.name
+
 class find_test_App(App):
     def build(self):
         Builder.load_file('find_result.kv')

@@ -73,8 +73,7 @@ class Find_input2_button2(Screen):
             self.left_next_page_temp=self.name
             self.right_next_page_temp="PW_renew"
             ########################
-
-
+            
     def leftBtn(self):
         self.leftInput = self.ids.left_input.text
         self.rightInput = self.ids.right_input.text
@@ -86,6 +85,7 @@ class Find_input2_button2(Screen):
     def on_leave(self): # 페이지 이동시 기존 입력 값 지우기
         self.ids.left_input.text=""
         self.ids.right_input.text=""
+        self.manager.before_page=self.name
 
     def left_onPopUp(self): # 왼쪽 버튼 클릭시 팝업 및 다음 페이지 경로 지정
         self.left_next_flag = False

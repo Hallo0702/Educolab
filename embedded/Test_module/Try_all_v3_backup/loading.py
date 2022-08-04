@@ -35,6 +35,8 @@ class Loading_Screen(Screen):
             self.manager.transition=NoTransition()
             self.manager.current='login'
             self.manager.transition=SlideTransition()
+    def on_leave(self):
+        self.manager.before_page=self.name
 
 class loading_test_App(App):
     def build(self):
