@@ -40,6 +40,15 @@ class Main_Screen(Screen):
         self.ids.homework_icon.img_path='./icon/homework.png'
         self.ids.survey_icon.img_path='./icon/survey.png'
 
+    def go_notice(self):
+        pass
+    def go_memo(self):
+        pass
+    def go_quiz(self):
+        pass
+    def go_survey(self):
+        pass
+
     def on_leave(self):
         self.manager.before_page=self.name
         
