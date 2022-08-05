@@ -17,7 +17,7 @@ class Loading_Screen(Screen):
         Window.clearcolor = (242/255,245/255,247/255,1)
         Window.size = (1280,720)
         Window.borderless=True
-        Builder.load_file('loading.kv')
+        # Builder.load_file('loading.kv')
 
     def on_pre_enter(self):
         Clock.schedule_once(self.go_page,0)

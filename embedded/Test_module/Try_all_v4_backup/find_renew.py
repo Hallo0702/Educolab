@@ -16,7 +16,7 @@ class Find_renew(Screen):
         Window.clearcolor = (242/255,245/255,247/255,1)
         Window.size = (1280,720)
         Window.borderless=True
-        Builder.load_file('find_renew.kv')
+        # Builder.load_file('find_renew.kv')
         # self.name_temp=''
         # self.username_temp=''
         # self.email_temp=''

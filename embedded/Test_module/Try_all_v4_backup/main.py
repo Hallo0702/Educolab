@@ -17,6 +17,22 @@ from find_result import Find_result
 from find_renew import Find_renew
 from data.db_init import db_proc
 
+##### to remove warning message ######
+Builder.load_file('loading.kv')
+Builder.load_file('login.kv')
+Builder.load_file('find_input1_button1.kv')
+Builder.load_file('find_input2_button1.kv')
+Builder.load_file('find_input2_button2.kv')
+Builder.load_file('find_renew.kv')
+Builder.load_file('find_result.kv')
+
+Builder.load_file('myPopup.kv')
+
+Builder.load_file('main_page.kv')
+Builder.load_file('list_page.kv')
+Builder.load_file('info.kv')
+###########################################
+
 
 class WindowManager(ScreenManager):
     def __init__(self, **kwargs):

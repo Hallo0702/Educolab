@@ -18,7 +18,7 @@ class Find_input1_button1(Screen):
         Window.size = (1280,720)
         Window.borderless=True
 
-        Builder.load_file('find_input1_button1.kv')
+        # Builder.load_file('find_input1_button1.kv')
         self.popup=MyPopUp()
 
     def midBtn(self):

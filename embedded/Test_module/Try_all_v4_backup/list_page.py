@@ -20,7 +20,7 @@ class List_Screen(Screen):
         Window.clearcolor = (242/255,245/255,247/255,1)
         Window.size = (1280,720)
         Window.borderless=True
-        Builder.load_file('list_page.kv')
+        # Builder.load_file('list_page.kv')
         self.next_page='main'
         self.page_num=0
 
@@ -70,7 +70,7 @@ class List_Screen(Screen):
             self.ids.before1.source='./icon/None.png'
         else:
             self.ids.before2.source='./icon/left_double.png'
-            self.ids.before1.source='./icon/left_double.png'
+            self.ids.before1.source='./icon/left_single.png'
         
         if self.manager.page_num==self.manager.max_page_num:
             self.ids.after1.source='./icon/None.png'
