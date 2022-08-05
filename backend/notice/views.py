@@ -80,7 +80,7 @@ class NoticeDetailView(APIView):
 
         
         return Response({"message" : "잘못된 접근입니다."})
-#
+
     def delete(self, req):
         notice_id = req.GET['notice_num']
 
