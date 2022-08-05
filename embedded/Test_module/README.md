@@ -6,5 +6,10 @@
 - **Try_all_v1** : 화면 이동 제한 및 팝업 + 로그인 및 찾기 기능 <br>
 - **Try_all_v1_backup** : 프론트 기능만 업데이트 된 버전<br>
 - **Try_all_v2_backup** : v1 + 프론트(시작화면 로딩, DB 추가, 가상키보드 기능)<br>
-- **Try_all_v3** : v2_backup + 화면 정리<br>
-- **notice_v0** : 최초 화면 디자인 정의<br>
+<br>
+- **notice_v0** : 공지사항 목록 및 상세 화면 디자인<br>
+- **Try_all_v3** : v2_backup + 로그인 토큰 저장 기능<br>
+- **Try_all_v3_backup** : v3 + 공지사항 목록 화면 추가<br>
+- **Try_all_v4** : v3_backup + 기능 추가 개발 중 <br>
+- **Try_all_v4_backup** : v3_backup + 화면 개발 중<br>
+

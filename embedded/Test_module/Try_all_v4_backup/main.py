@@ -11,6 +11,7 @@ from find_input2_button2 import Find_input2_button2
 from find_input2_button1 import Find_input2_button1
 from main_page import Main_Screen
 from list_page import List_Screen
+from info import Info_Screen
 
 from find_result import Find_result
 from find_renew import Find_renew

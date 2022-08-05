@@ -40,6 +40,8 @@ class Main_Screen(Screen):
         self.ids.homework_icon.img_path='./icon/homework.png'
         self.ids.survey_icon.img_path='./icon/survey.png'
 
+    def for_logout(self):
+        pass
     def go_notice(self):
         pass
     def go_memo(self):

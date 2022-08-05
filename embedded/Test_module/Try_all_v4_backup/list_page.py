@@ -30,7 +30,7 @@ class List_Screen(Screen):
             self.key_color=[151/255, 71/255, 255/255,1]
             self.ids.main_title.text="공지사항"
         if 'Memo' in self.name:
-            self.key_color=[198/255, 128/255, 255/255,1]
+            self.key_color=[198/255, 128/255, 62/255,1]
             self.ids.main_title.text="필기노트"
         if 'Quiz' in self.name:
             self.key_color=[77/255, 166/255, 96/255,1]
@@ -39,7 +39,7 @@ class List_Screen(Screen):
             self.key_color=[0/255, 176/255, 240/255,1]
             self.ids.main_title.text="설문조사"
 
-        ##title
+        ######## 여기 컨텐츠 받아와서 넣으셔야 합니다 #####
         self.ids.num1.text="번호 1"
         self.ids.title1.text=self.name
         self.ids.writer1.text="작성자 1"
@@ -60,7 +60,9 @@ class List_Screen(Screen):
         self.ids.title5.text="제목 5"
         self.ids.writer5.text="작성자 5"
         self.ids.date5.text="날짜 5"
+        #################################################
         self.ids.middle.text=str(self.manager.page_num)
+        
 
         ##icons
         if self.manager.page_num==1:
@@ -77,10 +79,18 @@ class List_Screen(Screen):
             self.ids.after1.source='./icon/right_single.png'
             self.ids.after2.source='./icon/right_double.png'
 
-    def page_num_reset(self):
+    def content_btn(self, content_num): ##### 각각의 게시물을 들어갈때 들어가는 페이지 설정 
+        if self.name=='Notice_list1' or self.name=='Notice_list2': self.content_page="Notice_info"
+        else : self.content_page=self.name
+        ##### 몇번째 게시물로 들어가는지 확인 #####
+        ### Content_num : 1 ~ 5
+        print("게시물 "+str(content_num)+"번")
+
+
+    def page_num_reset(self): ##### main 페이지로 넘어갈때 
         self.manager.page_num=1
 
-    def next_flag_setup(self, btn_direction):
+    def next_flag_setup(self, btn_direction): ##### list 옆 페이지로 넘어가는 flag 정의
         self.next_flag=1
         if btn_direction=="before" and self.manager.page_num==1:
             self.next_flag=0
@@ -90,7 +100,7 @@ class List_Screen(Screen):
         if btn_direction=="before" : self.manager.page_num-=self.next_flag
         if btn_direction=="after" : self.manager.page_num+=self.next_flag
 
-    def next_page_setup(self, page_hint):
+    def next_page_setup(self, page_hint):  ##### list 옆 페이지로 넘어가는 페이지 정의
         if self.next_flag:
             if self.manager.before_page=='main':
                 if self.name=='Notice_list1': self.next_page='Notice_list2'
@@ -99,7 +109,14 @@ class List_Screen(Screen):
                 if self.name=='Survey_list1': self.next_page='Survey_list2'
 
             else:
-                self.next_page=self.manager.before_page
+                if self.name=='Notice_list1': self.next_page='Notice_list2'
+                if self.name=='Notice_list2': self.next_page='Notice_list1'
+                if self.name=='Memo_list1': self.next_page='Memo_list2'
+                if self.name=='Memo_list2': self.next_page='Memo_list1'
+                if self.name=='Quiz_list1': self.next_page='Quiz_list2'
+                if self.name=='Quiz_list2': self.next_page='Quiz_list1'
+                if self.name=='Survey_list1': self.next_page='Survey_list2'
+                if self.name=='Survey_list2': self.next_page='Survey_list1'
             if page_hint=="start":self.manager.page_num=1
             if page_hint=="end": self.manager.page_num=self.manager.max_page_num
         else:
