@@ -34,6 +34,9 @@ export const accounts = {
       access: localStorage.getItem("access") || "",
       currentUser: {},
       authError: null,
+      subjectOptions : [
+        '국어', '수학', '사회', '과학', '보건', '기술가정', '기타'
+      ]
     };
   },
   getters: {
@@ -42,7 +45,7 @@ export const accounts = {
     authError: state => state.authError,
     authHeader: state => ({ Authorization: `Bearer ${state.access}` }),
     getUserType: state => state.userType,
-    getSubject: state => state.teacherInfo.subject,
+    getSubject: state => state.subjectOptions,
   },
   mutations: {
     SET_TOKEN: (state, access) => (state.access = access),
@@ -133,10 +136,11 @@ export const accounts = {
         })
     },
     logout({ dispatch }) {
-      dispatch("removeToken");
+      dispatch("removeToken")
+      // 새로고침까지 (vuex 데이터 모두 제거하고 싶음)
       router.push({ name: "login" }).catch((err) => {
-        console.log(err.respone);
-      });
+        console.log(err.respone)
+      })
     },
     setUserType({ commit }, userType) {
       // 로그인할 때
