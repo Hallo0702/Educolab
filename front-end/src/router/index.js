@@ -139,7 +139,7 @@ const routes = [
   },
   // 존재하지 않는 페이지
   {
-    path: '/:anything',
+    path: '/:pathMatch(.*)*',
     redirect: '/404'
   },
 ]
