@@ -23,7 +23,7 @@ class Main_Screen(Screen):
 
     def on_pre_enter(self):
         ##### 여기 문구를 수정해주세요 #####
- with open("./login_info.json", 'r') as file:
+        with open("./login_info.json", 'r') as file:
             # 학생정보 db 받아오기
             self.data = json.load(file)
             self.query1 = 'select name from accounts_schoolinfo where code=%s'

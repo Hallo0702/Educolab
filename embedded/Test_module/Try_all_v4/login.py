@@ -2,9 +2,11 @@ from kivy.app import App
 from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen
+from pymysql import NULL
 import requests
 from myTextInput import limitedTextInput
 from myPopup import MyPopUp
+import json
 
 ## self.ID  = 입력받은 ID
 ## self.PW  = 입력받은 ID
@@ -39,12 +41,8 @@ class Login_Screen(Screen):
     def onPopUp(self):
         if self.next_flag:
             self.login_next_page="main"
-            print("access :" + self.res.json()['access'])
-            print("refresh :" + self.res.json()['refresh'])
-            print("username :" + self.res.json()['name'])
-            self.f = open("login_token.txt", 'w')
-            self.f.write(self.res.json()['access'])
-            self.f.close()
+            with open("./login_info.json", 'w', encoding='utf-8') as file:
+                json.dump(self.res.json(), file)
         else:
             self.popup.ids.alert.text="아이디와 비밀번호를\n다시 확인하여 주십시오"
             self.popup.open()

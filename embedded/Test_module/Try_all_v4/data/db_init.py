@@ -16,6 +16,9 @@ class db_proc:
         self.cur.execute(query, args)
         return self.cur
 
+    def db_commit(self):
+        self.db.commit()
+
     def db_close(self):
         print("db 연결 해제")
         self.db.close()

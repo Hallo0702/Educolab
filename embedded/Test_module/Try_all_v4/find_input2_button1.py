@@ -22,8 +22,6 @@ class Find_input2_button1(Screen):
 
         Builder.load_file('find_input2_button1.kv')
         self.popup=MyPopUp()
-        # self.name_temp=''
-        # self.username_temp=''
 
     def on_pre_enter(self):     
         # 화면 출력 내용 변환
@@ -70,7 +68,7 @@ class Find_input2_button1(Screen):
 class find_test_App(App):
     def build(self):
         Builder.load_file('find_input2_button2.kv')
-        return Find_input2_button2()
+        return Find_input2_button1()
 
 if __name__=="__main__":
     find_test_App().run()
