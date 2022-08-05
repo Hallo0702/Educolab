@@ -11,11 +11,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='files',
-            name='atch_file_name',
-            field=models.CharField(default='', max_length=45),
-        ),
         migrations.AlterField(
             model_name='files',
             name='notice',
