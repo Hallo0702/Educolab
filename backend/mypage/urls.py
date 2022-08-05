@@ -19,9 +19,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('main/', views.HomeworkMainView.as_view(), name="homework_main"),
-    path('create/', views.HomeworkCreateView.as_view(), name="homework_create"),
-    path('detail/', views.HomeworkDetailView.as_view(), name='homework_detail_delete_put'),
-    path('check/', views.HomeworkCheckView.as_view(), name='homework_check'),
-    path('submit/', views.HomeworkSubmitView.as_view(), name='homework_submit'),
+    path('main/', views.MypageMainView.as_view(), name='mypage_main'),
+    path('grant/', views.PointGrantView.as_view(), name='mypage_point'),
 ]
