@@ -1,4 +1,4 @@
-const BASE_URL = "http://3.36.69.192:8000/";
+const BASE_URL = "https://i7c102.p.ssafy.io/api/";
 const ACCOUNTS = BASE_URL + "accounts/";
 const NOTICE = BASE_URL + "notice/";
 
