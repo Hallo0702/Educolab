@@ -315,10 +315,7 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+*.pem
 
 backend/educolab/my_settings.py
-<<<<<<< HEAD
-login_token.json
-=======
 login_info.json
->>>>>>> d48d9426eed1989d4a9d68b58e2c45d685a97296
