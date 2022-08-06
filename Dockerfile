@@ -1,5 +1,5 @@
-FROM jenkins/jenkins:lts
-WORKDIR /usr/src/app
+FROM python:3.9.5
+WORKDIR /var/jenkins_home/workspace/educolab_back/
 COPY requirements.txt ./
 
 RUN pip install --upgrade pip
