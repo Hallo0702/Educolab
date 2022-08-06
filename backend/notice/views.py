@@ -1,5 +1,3 @@
-from urllib import response
-from requests import request
 from rest_framework.decorators import APIView
 from rest_framework.response import Response
 from accounts.models import SchoolInfo
@@ -32,6 +30,7 @@ class NoticeMainView(APIView) :
 
 class NoticeCreateView(APIView):
     def post(self, req):
+        print(req.data)
         if not req.user.userflag:
             return Response({"message : 선생님만 접근 가능합니다."})
         # notice = Notice()
@@ -41,6 +40,7 @@ class NoticeCreateView(APIView):
 
         files = req.FILES.getlist("files")
 
+        print(files)
         for file in files:
             fp = Files.objects.create(notice=notice, atch_file=file, atch_file_name=file)
             fp.save()
@@ -66,7 +66,7 @@ class NoticeDetailView(APIView):
         
         
         fileserializer = FileSerializer(files, many=True)
-        print(files)
+
         
         ## 공지사항 시리얼라이저 생성
         notice_detail_serializer = NoticeSerializer(notice)
@@ -86,17 +86,16 @@ class NoticeDetailView(APIView):
 
         ## 공지사항 번호로 공지사항 인스턴스 가져오기
         notice = Notice.objects.get(pk=notice_id)
-
+#
         notice.delete()
         return Response("success")
 
 class NoticeUpdateView(APIView):
-    notice_id = ""
     def get(self, req):
         if not req.user.userflag:
             return Response({"message : 선생님만 접근 가능합니다."})
         ## 공지사항 번호 가져오기
-        self.notice_id = req.GET['notice_num']
+        notice_id = req.GET['notice_num']
 
         ## 공지사항 번호로 공지사항 인스턴스 가져오기
         notice = Notice.objects.get(pk=self.notice_id)
@@ -123,8 +122,8 @@ class NoticeUpdateView(APIView):
         return Response({"message" : "잘못된 접근입니다."})
 
     def put(self, req):
-        self.notice_id = req.data['notice_num']
-        notice = Notice.objects.get(pk=self.notice_id)
+        notice_id = req.data['notice_num']
+        notice = Notice.objects.get(pk=notice_id)
         notice_serializer = NoticeSerializer(notice, data=req.data)
         if notice_serializer.is_valid(raise_exception=True):
             notice = notice_serializer.save(teacher=req.user, school=SchoolInfo.objects.get(code=req.data['school']))
