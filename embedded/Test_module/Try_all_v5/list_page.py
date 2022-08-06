@@ -1,3 +1,4 @@
+from audioop import reverse
 from kivy.app import App
 from kivy.core.window import Window
 from kivy.lang import Builder
@@ -24,6 +25,13 @@ class List_Screen(Screen):
         self.page_num=0
 
     def on_pre_enter(self):
+        ######## 여기 컨텐츠 받아와서 넣으셔야 합니다 #####
+        for i in range(5):
+            self.ids['num' + str(i+1)].text=''
+            self.ids['writer'+str(i+1)].text=''
+            self.ids['date'+str(i+1)].text=''
+            self.ids['title'+str(i+1)].text=''
+        #################################################
         ##### key_color and title #####
         with open("./login_info.json", 'r', encoding='utf-8') as file:
             data = json.load(file)
@@ -45,15 +53,6 @@ class List_Screen(Screen):
             self.ids.main_title.text="설문조사"
             self.survey_list()
 
-        ######## 여기 컨텐츠 받아와서 넣으셔야 합니다 #####
-        for i in range(5):
-            self.ids['num' + str(i + 1)].text="번호 "+str(i)
-            self.ids['writer'+str(i+1)].text="작성자 "+str(i)
-            self.ids['date'+str(i+1)].text="날짜 "+str(i)
-            self.ids['title'+str(i+1)].text="제목 "+str(i)
-            if i==0:
-                self.ids['title1'].text=self.name
-        #################################################
         self.ids.middle.text=str(self.manager.page_num)
 
         ##icons
@@ -73,10 +72,19 @@ class List_Screen(Screen):
 
     def notice_list(self):
         res = requests.get('http://127.0.0.1:8000/notice/main', headers={'Authorization' : 'Bearer ' + self.acc_token})
-        data = json.loads(res.text)[0]
-        for data in json.loads(res.text):
+        data_full = json.loads(res.text)
+        data_full.sort(key=lambda x: -x['pk'])
+        i = 1
+        for data in data_full:
             for key in data:
-                print(data[key])
+                if key=='pk': self.ids['num' + str(i)].text = str(data[key])
+                elif key=='teacher': self.ids['writer' + str(i)].text = str(data[key]['name'])
+                elif key=='updated_at':
+                    temp = str(data[key]).split('T')
+                    self.ids['date' + str(i)].text = str(temp[0])
+                elif key=='title': self.ids['title' + str(i)].text = str(data[key])
+            i += 1
+        self.manager.max_page_num = int(i / 5) + 1
     def memo_list(self):
         pass
     def quiz_list(self):
@@ -90,6 +98,7 @@ class List_Screen(Screen):
         ##### 몇번째 게시물로 들어가는지 확인 #####
         ### Content_num : 1 ~ 5
         print("게시물 "+str(content_num)+"번")
+        self.content_num = int(self.ids['num' + str(content_num)].text)
 
 
     def page_num_reset(self): ##### main 페이지로 넘어갈때 
