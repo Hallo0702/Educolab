@@ -1,4 +1,4 @@
-const BASE_URL = "http://127.0.0.1:8000/";
+const BASE_URL = "http://3.36.69.192:8000/";
 const ACCOUNTS = BASE_URL + "accounts/";
 const NOTICE = BASE_URL + "notice/";
 
