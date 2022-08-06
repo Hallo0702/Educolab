@@ -73,29 +73,6 @@ export const accounts = {
       commit("SET_TOKEN", "");
       localStorage.setItem("access", "")
     },
-    initInfo({state, getters, dispatch}) {
-      if (getters.getUserType == "student") {
-        for (let key in state.studentInfo) {
-          if (key === 'userflag') {
-            dispatch('changeData', {'userflag':false})
-          } else if (key === 'birthday') {
-            dispatch('changeData', {'birthday':"2008-01-01"})
-          } else {
-            dispatch('changeData', {[key]:null})
-          }
-        }
-      } else {
-        for (let key in state.teacherInfo) {
-          if (key === 'userflag') {
-            dispatch('changeData', {'userflag':false})
-          } else if (key === 'birthday') {
-            dispatch('changeData', {'birthday':"1967-01-01"})
-          } else {
-            dispatch('changeData', {[key]:null})
-          }
-        }
-      }
-    },
     login({ commit, dispatch }, credentials) {
       // 로그인 함수 구현
       axios({
@@ -108,6 +85,7 @@ export const accounts = {
           dispatch("saveToken", access)
           console.log(res.data)
           commit("SET_CURRENT_USER",res.data)
+          // 새로고침 -> 로그인 정보 날리기
           router.push({ name: "educolab" })
         })
         .catch((err) => {
@@ -124,8 +102,8 @@ export const accounts = {
       axios.post(drf.accounts.signup(), data)
         .then(() => {
           window.alert("회원가입이 완료되었습니다")
+          // 새로고침 -> vuex에 있는 정보 날려버리기 -> 이동
           router.push({ name: "login" })
-          this.initInfo()
         })
         .catch(({response}) => {
           if (response.data?.email) {
@@ -150,5 +128,6 @@ export const accounts = {
     changeData({ commit }, data) {
       commit("CHANGE_DATA", data)
     },
+    // back에 현재 사용자 정보 요청 (토큰 보내면 )
   },
 };
