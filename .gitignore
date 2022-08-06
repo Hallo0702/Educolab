@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 # Created by https://www.toptal.com/developers/gitignore/api/windows,python,django,venv,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,python,django,venv,visualstudiocode
 
-=======
->>>>>>> e1818b6d2deacd318c2af7954bcc9922945a1f93
 .DS_Store
 node_modules
 /dist
@@ -29,8 +26,6 @@ pnpm-debug.log*
 *.sw?
 
 
-<<<<<<< HEAD
-=======
 # local env files
 .env.local
 .env.*.local
@@ -78,7 +73,6 @@ pnpm-debug.log*
 *.sw?
 
 
->>>>>>> e1818b6d2deacd318c2af7954bcc9922945a1f93
 ### Django ###
 *.log
 *.pot
