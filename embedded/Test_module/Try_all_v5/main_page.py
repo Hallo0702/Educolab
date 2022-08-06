@@ -60,9 +60,8 @@ class Main_Screen(Screen):
         self.ids.survey_icon.img_path='./icon/survey.png'
 
     def for_logout(self):
-        with open("./login_info.json", 'r') as file:
-            data = json.load(file)
-            self.acc_token = data["access"]
+        with open("./login_info.json", 'w', encoding='utf-8') as file:
+            json.dump({}, file)
 
     def on_leave(self):
         self.manager.before_page=self.name
