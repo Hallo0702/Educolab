@@ -71,7 +71,7 @@ class List_Screen(Screen):
             self.ids.after2.source='./icon/right_double.png'
 
     def notice_list(self):
-        res = requests.get('http://127.0.0.1:8000/notice/main', headers={'Authorization' : 'Bearer ' + self.acc_token})
+        res = requests.get('https://i7c102.p.ssafy.io/api/notice/main', headers={'Authorization' : 'Bearer ' + self.acc_token})
         data_full = json.loads(res.text)
         data_full.sort(key=lambda x: -x['pk'])
         i = 1
@@ -115,9 +115,9 @@ class List_Screen(Screen):
                 self.content_page="Survey_word1"
             ##**# 설문조사 하나의 전체 문항개수 = self.manager.max_prob_num
             ##**# 설문조사 하나의 현재 문항개수 = self.manager.prob_num
-
         else : self.content_page=self.name
 
+        self.content_number = content_num
         ##**# 데이터가 없어서 일단 화면 테스트를 목적으로 임시 주석
         ##**# 함수 survey_list에서 self.deact_flag 만들어 주시고 푸시면 정상 작동
         ##**# 게시물이 5개 미만일때 정보 없는 버튼 비활성화 목적의 flag 활용

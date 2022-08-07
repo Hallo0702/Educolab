@@ -26,11 +26,7 @@ class Main_Screen(Screen):
         with open("./login_info.json", 'r') as file:
             # 학생정보 db 받아오기
             self.data = json.load(file)
-            self.query1 = 'select name from accounts_schoolinfo where code=%s'
-            self.args1 = (self.data["schoolcode"], )
-            self.cur1 = self.manager.DB.execute(query=self.query1, args=self.args1)
-            for (name, ) in self.cur1:
-                self.school_name = name + ' '
+            self.school_name = self.data["schoolname"] + ' '
             self.query2 = 'select grade, class_field, name, plus_point, minus_point from accounts_userinfo where email=%s and name=%s'
             self.args2 = (self.data["email"], self.data["name"])
             self.cur2 = self.manager.DB.execute(query=self.query2, args=self.args2)
