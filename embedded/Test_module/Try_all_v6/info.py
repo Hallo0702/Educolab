@@ -48,7 +48,7 @@ class Info_Screen(Screen):
     def notice_detail(self):
         print(self.page_pk)
         res = requests.get('https://i7c102.p.ssafy.io/api/notice/detail', params={'notice_num': self.page_pk}, headers={'Authorization' : 'Bearer ' + self.acc_token})
-        # print(json.loads(res))
+        # print(res.text)
         data = json.loads(res.text)['notice']
         self.ids.title.text=data['title']
         temp = str(data['updated_at']).split('T')

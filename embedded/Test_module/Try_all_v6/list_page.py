@@ -72,6 +72,7 @@ class List_Screen(Screen):
 
     def notice_list(self):
         res = requests.get('https://i7c102.p.ssafy.io/api/notice/main', headers={'Authorization' : 'Bearer ' + self.acc_token})
+        print(res.text)
         data_full = json.loads(res.text)
         data_full.sort(key=lambda x: -x['pk'])
         i = 1
@@ -90,8 +91,8 @@ class List_Screen(Screen):
         self.deact_flag=(i-1)%5
         if self.deact_flag==0: self.deact_flag=5
 
-        print(self.deact_flag)
-        print(self.manager.max_page_num)        
+        if self.manager.page_num!=self.manager.max_page_num:
+            self.deact_flag=5
 
 
 
@@ -107,7 +108,19 @@ class List_Screen(Screen):
 
 
     def content_btn(self, content_num): # List에서 각각의 게시물 들어갈때 페이지 구분 
-        if self.name=='Notice_list1' or self.name=='Notice_list2': self.content_page="Notice_info"
+        if self.name=='Notice_list1' or self.name=='Notice_list2': 
+            if content_num>self.deact_flag:
+                self.content_page=self.name
+            else:
+                self.content_page="Notice_info"
+        ##### 임시: 나중에 뒤로 내릴 것 #######################################
+            if content_num > self.deact_flag: self.content_page=self.name
+            else:
+                ##### 몇번째 게시물로 들어가는지 확인 #####
+                ### Content_num : 1 ~ 5
+                print("게시물 "+str(content_num)+"번")
+                self.content_number = int(self.ids['num' + str(content_num)].text)
+        #####################################################################
         elif self.name=='Survey_list1' or self.name=='Survey_list2':
             ##**# 설문조사 1번 문항 : 주관식? 객관식? type_flag
             self.type_flag=True  #객관식
@@ -121,17 +134,11 @@ class List_Screen(Screen):
         else:
             self.content_page=self.name
 
-        self.content_number = content_num
-        print("now"+self.content_page)
+        # self.content_number = content_num
+        # print("now"+self.content_page)
         ##**# 데이터가 없어서 일단 화면 테스트를 목적으로 임시 주석
         ##**# 함수 survey_list에서 self.deact_flag 만들어 주시고 푸시면 정상 작동
         ##**# 게시물이 5개 미만일때 정보 없는 버튼 비활성화 목적의 flag 활용
-        # if content_num > self.deact_flag: self.content_page=self.name
-        # else:
-        #     ##### 몇번째 게시물로 들어가는지 확인 #####
-        #     ### Content_num : 1 ~ 5
-        #     print("게시물 "+str(content_num)+"번")
-        #     self.content_num = int(self.ids['num' + str(content_num)].text)
 
 
     def page_num_reset(self): ##### main 페이지로 넘어갈때 
