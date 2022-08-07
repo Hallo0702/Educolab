@@ -36,8 +36,33 @@ export const accounts = {
       authError: null,
       subjectOptions : [
         '국어', '수학', '사회', '과학', '보건', '기술가정', '기타'
-      ]
-    };
+      ],
+      emailOptions: [
+        '@gmail.com', '@naver.com', '@hanmail.com', '@nate.com', '직접 입력'
+      ],
+      userInfo: {
+        username: null,
+        password1: null,
+        password2: null,
+        name: null,
+        school: null,
+        homeroom_teacher_flag: null,
+        grade: null,
+        class_field: null,
+        subject: null,
+        phone_number: null,
+        birthday: null,
+        email: null,
+        userflag: null,
+        plus_point: null,
+        minus_point: null,
+        profil: null,
+      },
+      findPw: {
+        name: null,
+        email: null,
+      }
+    }
   },
   getters: {
     isLoggedIn: state => !!state.access, 
@@ -46,6 +71,9 @@ export const accounts = {
     authHeader: state => ({ Authorization: `Bearer ${state.access}` }),
     getUserType: state => state.userType,
     getSubject: state => state.subjectOptions,
+    getEmail: state => state.emailOptions,
+    getUserInfo: state => state.userInfo,
+    getInfo: state => state.findPw,
   },
   mutations: {
     SET_TOKEN: (state, access) => (state.access = access),
@@ -63,6 +91,16 @@ export const accounts = {
       }
     },
     SET_USER_TYPE: (state, userType) => (state.userType = userType),
+    CHANGE_INFO(state, data) {
+      for (let key in data) {
+        state.userInfo[key] = data[key]
+      }
+    },
+    CHANGE_PW_INFO(state, data) {
+      for (let key in data) {
+        state.findPw[key] = data[key]
+      }
+    }
   },
   actions: {
     saveToken({ commit }, access) {
@@ -128,6 +166,12 @@ export const accounts = {
     changeData({ commit }, data) {
       commit("CHANGE_DATA", data)
     },
+    changeInfo({commit}, data) {
+      commit("CHANGE_INFO", data)
+    },
+    changePwInfo({commit}, data) {
+      commit("CHANGE_PW_INFO", data)
+    }
     // back에 현재 사용자 정보 요청 (토큰 보내면 )
   },
 };

@@ -1,3 +1,4 @@
+// const BASE_URL = 'https://i7c102.p.ssafy.io/api'
 const BASE_URL = 'http://localhost:8000'
 const ACCOUNTS = BASE_URL + '/accounts/'
 const NOTICE = BASE_URL + '/notice/'
@@ -14,6 +15,7 @@ export default {
     sendEmail: () => ACCOUNTS + 'send_signup_email/',
     sendPwEmail: () => ACCOUNTS + 'send_pw_email/',
     changePw: () => ACCOUNTS + 'change_pw/',
+    // changeInfo: () => ACCOUNTS + 
   },
   notice: {
     noticeList: () => NOTICE + 'main/',

@@ -8,6 +8,15 @@
       :options="subjectOptions"
       :value="subject.value"
     />
+    <q-select v-if="userType === 'teacher'"
+      color="teal"
+      v-model="subject"
+      label="담임여부"
+      :options="['O', 'X']"
+      :value="subject.value"
+    />
+    <!-- 담임여부 -->
+    
     <!-- 학년/반 (학생) -->
     <div v-else>
       <q-select
