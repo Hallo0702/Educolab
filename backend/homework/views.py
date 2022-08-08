@@ -57,13 +57,13 @@ class HomeworkMainView(APIView):
                 else:
                     done_homework.append(homework)
             
-            my_submit_homework = student.S_homework.filter(submit_flag=True).order_by('-pk')
+            my_submit_homework = student.S_homework.filter(submit_flag=True).order_by('-id')
             my_homework = student.S_homework.filter(submit_flag=False).order_by('deadline')
 
             notdone_homework_serializer = TeacherHomeworkMainSerializer(notdone_homework, many=True)
             not_done = sorted(notdone_homework_serializer.data, key=lambda x:x['deadline'])
             done_homework_serialzier = TeacherHomeworkMainSerializer(done_homework, many=True)
-            done = sorted(done_homework_serialzier.data,key=lambda x:x['pk'], reverse=True)
+            done = sorted(done_homework_serialzier.data,key=lambda x:x['id'], reverse=True)
 
             my_submit_homework_serializer = StudentHomeworkMainSerializer(my_submit_homework, many=True)
             my_homework_serializer = StudentHomeworkMainSerializer(my_homework, many=True)
@@ -107,9 +107,7 @@ class HomeworkCreateView(APIView):
                 school = request.user.school
                 print(school)
                 school_student= school.school_student.all()
-                print(school_student)
-                students = school_student.filter(grade=homework_serializer.validated_data['grade'],class_field=homework_serializer.validated_data['class_field'])
-                print(students)
+                students = school_student.filter(grade=homework_serializer.validated_data['grade'],class_field=homework_serializer.validated_data['class_field'],userflag=False)
                 homework = homework_serializer.save(teacher=request.user,target=students)
                 print(homework)
                 files = request.FILES.getlist("files")
