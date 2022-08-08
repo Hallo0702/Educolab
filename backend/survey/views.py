@@ -176,7 +176,7 @@ class SurveySubmitView(APIView):
         print(answers)
         print(answers)
         
-        insertDB =  request.body.decode("utf-8")  # Don't use json.dumps() here
+        insertDB =  req.body.decode("utf-8")  # Don't use json.dumps() here
         jsonDict =  json.loads(insertDB)
         print(insertDB)
         print(jsonDict)
