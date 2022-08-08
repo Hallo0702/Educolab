@@ -179,13 +179,13 @@ class SurveySubmitView(APIView):
             return Response({"message" : "설문 제출 자격이 없습니다."})
 
         done =  survey.done_target.filter(username=req.user.username).exists()
-        print(done)
         if done:
             return Response({"message" : "이미 제출하셨습니다."})
-        for answer in answers:
-            question = SurveyQuestions.objects.get(id=answer['id'])
-            
 
+        for answer in answers:
+            print(answer['id'])
+            print(type(answer['id']))
+            question = SurveyQuestions.objects.get(id=answer['id'])
             
             if question.multiple_bogi is not None:
                 if answer['answer'] == 1:
