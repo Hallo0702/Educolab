@@ -52,7 +52,7 @@ class TeacherHomeworkDetailSerializer(serializers.ModelSerializer):
     teacher_file = FileSerializer(many=True,read_only=True)
     class Meta:
         model = TeacherHomework
-        fields = ('id','teacher','title','subject','content','updated_at','deadline','check_flag','student_submit','teacher_file')
+        fields = ('id','teacher','grade','class_field','title','subject','content','updated_at','deadline','check_flag','student_submit','teacher_file')
 
 class StudentHomeworkDetailSerializer(serializers.ModelSerializer):
     student = UserNameSerializer(read_only=True)
