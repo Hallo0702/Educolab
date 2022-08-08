@@ -21,9 +21,6 @@ from . import views
 urlpatterns = [
     path('main/', views.MypageMainView.as_view(), name='mypage_main'),
     path('grant/', views.PointGrantView.as_view(), name='mypage_point'),
-<<<<<<< HEAD
     path('profil/', views.ProfilChangeView.as_view(), name='profil_change'),
     
-=======
->>>>>>> embed_notice
 ]

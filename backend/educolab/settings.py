@@ -18,11 +18,7 @@ import environ
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-<<<<<<< HEAD
 MEDIA_URL = 'api/media/'
-=======
-MEDIA_URL = '/media/'
->>>>>>> embed_notice
 
 STATIC_ROOT = '/static/'
 
@@ -46,14 +42,12 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'mypage',
     'survey',
     'notice',
     'accounts',
     'homework',
-<<<<<<< HEAD
     'mainpage',
-=======
->>>>>>> embed_notice
     'drf_yasg',
     'django.contrib.sites',
     'allauth',
