@@ -29,6 +29,8 @@ class Survey_Select_Screen(Screen):
         self.popup = MyPopUp2()
     
     def on_pre_enter(self):
+        self.check_flag=True
+
         # 초기화
         with open("./login_info.json", 'r', encoding='utf-8') as file:
             data = json.load(file)
@@ -44,6 +46,7 @@ class Survey_Select_Screen(Screen):
         temp_list = str(self.data_full[self.manager.prob_num]['multiple_bogi']).split('/')
 
         for i in range(5):
+            print(temp_list)
             self.ids['ex'+str(i+1)].text=temp_list[i]
         
         ##**# 중복 답안 여부 : self.several_flag
@@ -67,8 +70,10 @@ class Survey_Select_Screen(Screen):
         else: self.ids.before.source='./icon/left_button.png'
         if self.prob_num==self.manager.max_prob_num: self.ids.after.source='./icon/None.png'
         else: self.ids.after.source='./icon/right_button.png'
-        self.percent=self.manager.survey_cnt/self.manager.max_prob_num
+        self.percent=len(self.manager.survey_ans)/self.manager.max_prob_num
+        if self.percent==0: self.percent=0.00001
         self.ids.progress.text=f'{self.percent*100:.1f}%'
+
 
     def next_flag_setup(self, btn_direction): ##### list 옆 페이지로 넘어가는 self.next_flag 정의
         self.next_flag=1
@@ -96,16 +101,23 @@ class Survey_Select_Screen(Screen):
             self.next_page=self.name
 
     def checkbox_click(self, instance, value, ans_num): # 체크박스 클릭시 결과를 넣어준다.
-        if value==True:
-            self.result.append(ans_num)
-        else:
-            self.result.remove(ans_num)
+        if self.check_flag:
+            self.manager.survey_ans.pop(str(self.prob_num),None)
 
-    def cnt_setup(self): #정답을 낸 문항 개수를 즉시 반영하기 위한 함수
-        if len(self.result)==0: # 문항 답변 X
-            if str(self.prob_num) in self.manager.survey_ans: self.manager.survey_cnt-=1 # 지운거
-        else:
-            if str(self.prob_num) not in self.manager.survey_ans: self.manager.survey_cnt+=1 # 추가한거
+            if value==True:
+                self.result.append(ans_num)
+            else:
+                self.result.remove(ans_num)
+            
+            self.result.sort()
+            if len(self.result)!=0:
+                self.manager.survey_ans[str(self.prob_num)]=self.result.copy()
+            self.manager.survey_ans=dict(sorted(self.manager.survey_ans.items()))
+            # print(self.manager.survey_ans)
+
+            self.percent=len(self.manager.survey_ans)/self.manager.max_prob_num
+            # print(self.percent)
+            self.ids.progress.text=f'{self.percent*100:.1f}%'
 
     def toggle_btn(self, btn): # 체크박스 뿐 아니라 보기를 눌렀을 때 활성화 하기 위한 용도의 함수
         if self.ids[btn].active==True:
@@ -113,37 +125,23 @@ class Survey_Select_Screen(Screen):
         else:
             self.ids[btn].active=True
 
-    def onPopUp(self):
-        # 데이터 저장
-        self.cnt_setup()
-        self.result.sort()
-        if len(self.result)!=0:
-            self.manager.survey_ans[str(self.prob_num)]=self.result.copy()
-        else:
-            if str(self.prob_num) in self.manager.survey_ans: self.manager.survey_ans.pop(str(self.prob_num),None)
-        for i in range(5):
-            self.ids['ans'+str(i+1)].active=False
-
+    def onPopUp(self, btn_flag):
         # ##### 필수 설문이 완료되었는지 체크 : self.end_flag #####
         self.end_flag=True  # 필수 설문 완료
         # self.end_flag=False # 필수 설문 미완료
         #########################################################################
-        if self.end_flag:
+        if self.end_flag and btn_flag:
             self.popup.ids.alert.text="설문이 완료되었습니다. 종료하시겠습니까?\n설문 종료시 답변을 더 이상 수정할 수 없습니다"
             self.popup.open()
         else:
             self.popup.ids.alert.text="설문이 끝나지 않았습니다. 종료하시겠습니까?\n종료시 현재까지 진행된 내용은 저장하지 않습니다."
             self.popup.open()
 
-    def on_pre_leave(self):
-        # 데이터 저장
-        self.result.sort()
-        if len(self.result)!=0:
-            self.manager.survey_ans[str(self.prob_num)]=self.result.copy()
-        else:
-            if str(self.prob_num) in self.manager.survey_ans: self.manager.survey_ans.pop(str(self.prob_num),None)
+    def on_leave(self):
+        self.check_flag=False
         for i in range(5):
             self.ids['ans'+str(i+1)].active=False
+
 
 class survey_test_App(App):
     def build(self):
