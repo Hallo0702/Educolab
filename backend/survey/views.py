@@ -172,7 +172,7 @@ class SurveySubmitView(APIView):
 
         answers = req.data['answers']
         survey = SurveyList.objects.get(id=req.data['survey_num'])
-        
+        print(answers)
         userauth = survey.target.filter(username=req.user.username).exists()
         if not userauth:
             return Response({"message" : "설문 제출 자격이 없습니다."})
