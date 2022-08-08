@@ -174,12 +174,7 @@ class SurveySubmitView(APIView):
         survey = SurveyList.objects.get(id=req.data['survey_num'])
         print("answers:")
         print(answers)
-        print(answers)
-        
-        insertDB =  req.body.decode("utf-8")  # Don't use json.dumps() here
-        jsonDict =  json.loads(insertDB)
-        print(insertDB)
-        print(jsonDict)
+
         userauth = survey.target.filter(username=req.user.username).exists()
         if not userauth:
             return Response({"message" : "설문 제출 자격이 없습니다."})
