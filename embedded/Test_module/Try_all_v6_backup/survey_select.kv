@@ -46,13 +46,39 @@
 			color: 1,1,1,1
 
 			on_release:
-				root.onPopUp()
+				root.onPopUp(False)
 
 			size_hint: None, None
 			height: 50
 			width : 200
 
 			pos_hint: {"right":0.95,"top":0.94}
+			# width:150
+			background_normal:''
+			background_color: (0,0,0,0)
+			canvas.before:
+				Color:
+					rgba :(54/255,54/255,54/255,1)
+				RoundedRectangle:
+					size: self.size
+					pos: self.pos
+					radius:[10]
+
+		Button:
+			text:"설문 완료"
+			bold:True
+			font_size: 30
+			halign:'center'
+			color: 1,1,1,1
+
+			on_release:
+				root.onPopUp(True)
+
+			size_hint: None, None
+			height: 50
+			width : 200
+
+			pos_hint: {"right":0.78,"top":0.94}
 			# width:150
 			background_normal:''
 			background_color: (0,0,0,0)
@@ -88,7 +114,7 @@
 			on_release:
 				root.next_flag_setup("after")
 				root.next_page_setup()
-				root.cnt_setup()
+				# root.cnt_setup()
 				app.root.current=root.next_page
 				root.manager.transition.direction="left"
 				print(root.manager.survey_ans)
@@ -110,7 +136,7 @@
 			on_release:
 				root.next_flag_setup("before")
 				root.next_page_setup()
-				root.cnt_setup()
+				# root.cnt_setup()
 				app.root.current=root.next_page
 				root.manager.transition.direction="right"
 				print(root.manager.survey_ans)
