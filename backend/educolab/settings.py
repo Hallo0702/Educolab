@@ -43,6 +43,7 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'mypage',
+    'quiz',
     'survey',
     'notice',
     'accounts',
