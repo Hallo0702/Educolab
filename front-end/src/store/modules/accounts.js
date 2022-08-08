@@ -155,7 +155,6 @@ export const accounts = {
       dispatch("removeToken")
       // 새로고침까지 (vuex 데이터 모두 제거하고 싶음)
       router.push({ name: "login" })
-      router.go(1)
     },
     setUserType({ commit }, userType) {
       // 로그인할 때
