@@ -4,7 +4,7 @@ from accounts.serializers import UserNameSerializer, HomeworkUserSerializer
 
 class TeacherHomeworkCreateSerializer(serializers.ModelSerializer):
     teacher = UserNameSerializer(read_only=True)
-    target = HomeworkUserSerializer(read_only=True,many=True)
+    target = UserNameSerializer(read_only=True,many=True)
 
     class Meta:
         model = TeacherHomework
@@ -25,7 +25,7 @@ class TeacherHomeworkMainSerializer(serializers.ModelSerializer):
         fields = ('id','title','deadline','grade','class_field')
 
 class StudentHomeworkMainSerializer(serializers.ModelSerializer):
-    student = UserNameSerializer(read_only=True)
+    student = HomeworkUserSerializer(read_only=True)
     class Meta:
         model = StudentHomework
         fields = ('id','title','deadline','student',)
