@@ -40,7 +40,7 @@ class Find_renew(Screen):
                 'password1': self.leftInput,
                 'password2': self.rightInput,
             }
-            self.res = requests.post('http://127.0.0.1:8000/accounts/change_pw/', data=self.data)
+            self.res = requests.post('https://i7c102.p.ssafy.io/api/accounts/change_pw/', data=self.data)
             self.next_page = "PW_result"
             self.ids.right_info.text = ""
         else:

@@ -8,3 +8,6 @@ class MyPopUp(Popup): #with No buttons
 
 class MyPopUp2(Popup): #with 2 buttons
 	pass
+
+class MyPopUp3(Popup): #with 2 buttons
+	pass

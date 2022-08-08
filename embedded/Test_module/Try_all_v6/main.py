@@ -18,6 +18,7 @@ from survey_word import Survey_Word_Screen
 from find_result import Find_result
 from find_renew import Find_renew
 from data.db_init import db_proc
+import requests, json
 
 ##### to remove warning message ######
 Builder.load_file('loading.kv')
@@ -58,9 +59,32 @@ class WindowManager(ScreenManager):
         self.DB.db_close()
         App.get_running_app().stop()
 
-    def survey_save(self): ##**# 팝업 종료시 Yes를 누르면 이 함수 호출 후 > 팝업 종료 및 페이지 이동
-        pass
-    
+    def access_api(self):
+        with open("./login_info.json", 'r', encoding='utf-8') as file:
+            data = json.load(file)
+            return data["access"]
+
+    def survey_save(self):
+        self.send_data = {}
+        self.send_data.update({'survey_num': self.content_number})
+        self.send_data.update({'answers': []})
+        for ans in self.survey_ans:
+            if len(self.survey_ans[ans]) == 1: 
+                self.send_data['answers'].append({
+                    'id': ans,
+                    'answer': self.survey_ans[ans][0]
+                })
+            else:
+                self.send_data['answers'].append({
+                    'id': ans,
+                    'answer': self.survey_ans[ans]
+                })
+
+        self.res = requests.post(
+            'https://i7c102.p.ssafy.io/api/survey/submit/',
+            headers={'Authorization' : 'Bearer ' + self.access_api()},
+            data=self.send_data
+        )
 
 class masterApp(App):
     def build(self):
