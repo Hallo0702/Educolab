@@ -34,12 +34,26 @@ class SurveyTeacherMainView(APIView) :
         ## 4. 가져온 목록 반환
         return Response(survey_serializer.data)
 
+class SurveyStudentMainView(APIView) :
+    def get(self,req):
+        if req.user.userflag:
+            return Response({"message" :"학생만 접근 가능합니다."})
+        my_survey = SurveyList.objects.filter(target=req.user)
+        
+        print(my_survey)
+        survey_serializer = SurveyMainSerializer(my_survey,many=True)
+        
+        return Response(survey_serializer.data)
+    
 class SurveyCreateView(APIView):
     def post(self, req):
 
         if not req.user.userflag:
             return Response({"message" :"선생님만 접근 가능합니다."})
+        
 
+        
+        # survey_serializer
         # 설문조사 등록하기 start
         survey_serializer = SurveySerializer(data=req.data['survey'])
         if req.data['survey']['grade'] == 0:
@@ -72,8 +86,9 @@ class SurveyDetailView(APIView):
         questions = survey.question_survey.all()
         ## 설문조사 시리얼라이저 생성
         question_serializer = QuestionDetailSerializer(questions, many=True)
-
-        return Response(question_serializer.data)
+        survey_name = [{"survey_name" : survey.title}]
+        print(question_serializer.data)
+        return Response(survey_name+question_serializer.data)
 
     def delete(self, req):
         survey_id = req.GET['survey_num']

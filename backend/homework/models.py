@@ -33,7 +33,7 @@ class Files(models.Model):
     atch_file = models.FileField(blank=True, upload_to='homework/create')  # Field name made lowercase.
 
 class SubmitHomework(models.Model):
-    student = models.ForeignKey(UserInfo, on_delete=models.CASCADE,null=True)
+    student = models.ForeignKey(UserInfo, on_delete=models.CASCADE,null=True,related_name='submit_homework')
     teacher_homework = models.ForeignKey(TeacherHomework, on_delete=models.CASCADE,null=True, related_name='student_submit')
     student_homework = models.ForeignKey(StudentHomework, on_delete=models.CASCADE,null=True, related_name='my_submit')
     content = models.TextField(null=True)
