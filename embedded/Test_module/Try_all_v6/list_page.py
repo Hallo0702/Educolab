@@ -126,15 +126,23 @@ class List_Screen(Screen):
 
 
     def content_btn(self, content_num): # List에서 각각의 게시물 들어갈때 페이지 구분 
+        if content_num > self.deact_flag: self.content_page=self.name
+        else:
+            self.manager.content_number = int(self.ids['num' + str(content_num)].text)
+
         if self.name=='Notice_list1' or self.name=='Notice_list2': 
             if content_num>self.deact_flag:
                 self.content_page=self.name
             else:
                 self.content_page="Notice_info"
         elif self.name=='Survey_list1' or self.name=='Survey_list2':
-            ##**# 설문조사 1번 문항 : 주관식? 객관식? type_flag
-            self.type_flag=True  #객관식
-            # self.type_flag=False #주관식
+            self.res = requests.get('https://i7c102.p.ssafy.io/api/survey/detail', params={'survey_num': self.manager.content_number}, headers={'Authorization' : 'Bearer ' + self.acc_token})
+            self.temp_data = json.loads(self.res.text)
+            self.manager.max_prob_num = len(self.temp_data) - 1
+            if self.temp_data[self.manager.prob_num]['multiple_bogi'] == None:
+                self.type_flag=False #주관식
+            else: self.type_flag=True  #객관식
+
             if self.type_flag:
                 self.content_page="Survey_select1"
             else:
@@ -144,13 +152,6 @@ class List_Screen(Screen):
         else:
             self.content_page=self.name
 
-        if content_num > self.deact_flag: self.content_page=self.name
-        else:
-            self.manager.content_number = int(self.ids['num' + str(content_num)].text)
-            if self.name=='Survey_list1' or self.name=='Survey_list2':
-                res = requests.get('https://i7c102.p.ssafy.io/api/survey/detail', params={'survey_num': self.manager.content_number}, headers={'Authorization' : 'Bearer ' + self.acc_token})
-                temp_data = json.loads(res.text)
-                self.manager.max_prob_num = len(temp_data) - 1
 
         # self.content_number = content_num
         # print("now"+self.content_page)

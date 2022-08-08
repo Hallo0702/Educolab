@@ -110,7 +110,7 @@ class Find_input2_button2(Screen):
                     'name': self.name_temp,
                     'email': self.leftInput,
                 }
-                self.res = requests.post('http://127.0.0.1:8000/accounts/find_username/', data=self.data)
+                self.res = requests.post('https://i7c102.p.ssafy.io/api/accounts/find_username/', data=self.data)
                 if self.res.json()['success']: self.username = self.res.json()['username']
             elif self.name == "PW_email":
                 self.data = {
@@ -118,9 +118,9 @@ class Find_input2_button2(Screen):
                     'email': self.leftInput,
                     'username': self.username_temp
                 }
-                self.res = requests.post('http://127.0.0.1:8000/accounts/send_pw_email/', data=self.data)
+                self.res = requests.post('https://i7c102.p.ssafy.io/api/accounts/send_pw_email/', data=self.data)
                 # debug
-                print(self.res.json()['auth_num'])
+                if self.res.json()['success']: print(self.res.json()['auth_num'])
             if self.res.json()['success']: self.left_next_flag = True
         #######################################################
             if self.left_next_flag:

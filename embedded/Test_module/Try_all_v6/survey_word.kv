@@ -46,7 +46,7 @@
 			color: 1,1,1,1
 
 			on_release:
-				root.onPopUp()
+				root.onPopUp(False)
 
 			size_hint: None, None
 			height: 50
@@ -62,8 +62,33 @@
 				RoundedRectangle:
 					size: self.size
 					pos: self.pos
-					radius:[10]	
+					radius:[10]
 
+		Button:
+			text:"설문 완료"
+			bold:True
+			font_size: 30
+			halign:'center'
+			color: 1,1,1,1
+
+			on_release:
+				root.onPopUp(True)
+
+			size_hint: None, None
+			height: 50
+			width : 200
+
+			pos_hint: {"right":0.78,"top":0.94}
+			# width:150
+			background_normal:''
+			background_color: (0,0,0,0)
+			canvas.before:
+				Color:
+					rgba :(54/255,54/255,54/255,1)
+				RoundedRectangle:
+					size: self.size
+					pos: self.pos
+					radius:[10]	
 		Label:
 			id:title
 			# text:"오늘 저녁 메뉴 선정"
@@ -88,10 +113,9 @@
 			on_release:
 				root.next_flag_setup("after")
 				root.next_page_setup()
-				root.cnt_setup()
+				# root.cnt_setup()
 				app.root.current=root.next_page
 				root.manager.transition.direction="left"
-				print(root.manager.survey_ans)
 
 			Image:
 				id:after
@@ -110,10 +134,9 @@
 			on_release:
 				root.next_flag_setup("before")
 				root.next_page_setup()
-				root.cnt_setup()
+				# root.cnt_setup()
 				app.root.current=root.next_page
 				root.manager.transition.direction="right"
-				print(root.manager.survey_ans)
 
 			Image:
 				id:before
@@ -149,7 +172,6 @@
 						rounded_rectangle: self.x, self.y, self.width, self.height, 40
 				Label:
 					id:prob
-					# text: "어제는 라면을 먹었고 오늘 점심에는 햇반을 먹었으며 오늘 저녁에는 치킨을 시켰다면 내일 점심으로 먹을 것은 무엇인가?"
 					size_hint: 1,None
 					text_size:self.width, None
 					height: self.texture_size[1]
@@ -160,11 +182,12 @@
 
 			limitedTextInput:
 				id:ans
+				on_text:root.calc(self.text)
 				# id: PW_input ### to get a string							
 				multiline: False
-				max_input_num :-1
-				size_hint : .8, .5
-				pos_hint : {"center_x":0.5, "top":1}
+				max_input_num:-1
+				size_hint: .8, .5
+				pos_hint: {"center_x":0.5, "top":1}
 				font_size: 30
 				# password:True
 				padding:10
