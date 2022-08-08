@@ -19,17 +19,25 @@ class HomeworkMainView(APIView):
             done_notcheck_homework = []
             all_done_homework = []
             for homework in homeworks:
+<<<<<<< HEAD
+=======
+                print(homework.deadline, today)
+>>>>>>> embed_notice
                 if homework.deadline >= today:
                     notdone_homework.append(homework)
                 elif homework.check_flag == False:
                     done_notcheck_homework.append(homework)
                 else:
                     all_done_homework.append(homework)
+<<<<<<< HEAD
         
+=======
+>>>>>>> embed_notice
             
             student_homeworks = teacher.homeroom_T.filter(submit_flag=True,agreement=False)
 
             notdone_homework_serializer = TeacherHomeworkMainSerializer(notdone_homework, many=True)
+<<<<<<< HEAD
             not_done = sorted(notdone_homework_serializer.data, key=lambda x:x['deadline'])
             done_notcheck_homework_serializer = TeacherHomeworkMainSerializer(done_notcheck_homework, many=True)
             all_done_homework_serializer = TeacherHomeworkMainSerializer(all_done_homework, many=True)
@@ -40,6 +48,16 @@ class HomeworkMainView(APIView):
                 "not_done" : not_done,
                 "done_notcheck" : done_notcheck_homework_serializer.data,
                 "all_done" : all_done,
+=======
+            done_notcheck_homework_serializer = TeacherHomeworkMainSerializer(done_notcheck_homework, many=True)
+            all_done_homework_serializer = TeacherHomeworkMainSerializer(all_done_homework, many=True)
+            student_homeworks_serizlizer = StudentHomeworkMainSerializer(student_homeworks, many=True)
+            
+            context = {
+                "not_done" : notdone_homework_serializer.data,
+                "done_notcheck" : done_notcheck_homework_serializer.data,
+                "all_done" : all_done_homework_serializer.data,
+>>>>>>> embed_notice
                 "students" : student_homeworks_serizlizer.data
             }
             return Response(context)
@@ -57,6 +75,7 @@ class HomeworkMainView(APIView):
                 else:
                     done_homework.append(homework)
             
+<<<<<<< HEAD
             my_submit_homework = student.S_homework.filter(submit_flag=True).order_by('-pk')
             my_homework = student.S_homework.filter(submit_flag=False).order_by('deadline')
 
@@ -71,6 +90,16 @@ class HomeworkMainView(APIView):
                 "notdone" : not_done,
                 "done" : done,
                 "my_submit_homework" : my_submit_homework_serializer.data,
+=======
+            my_homework = student.S_homework.all()
+
+            notdone_homework_serializer = TeacherHomeworkMainSerializer(notdone_homework, many=True)
+            done_homework_serialzier = TeacherHomeworkMainSerializer(done_homework, many=True)
+            my_homework_serializer = StudentHomeworkMainSerializer(my_homework, many=True)
+            context = {
+                "notdone" : notdone_homework_serializer.data,
+                "done" : done_homework_serialzier.data,
+>>>>>>> embed_notice
                 "my_homework" : my_homework_serializer.data
             }
             return Response(context)
@@ -129,6 +158,10 @@ class HomeworkDetailView(APIView):
             homework_serializer = TeacherHomeworkDetailSerializer(homework)
 
         else:
+<<<<<<< HEAD
+=======
+            print(2)
+>>>>>>> embed_notice
             homework = StudentHomework.objects.get(id=homework_pk)
             homework_serializer = StudentHomeworkDetailSerializer(homework)
         

@@ -61,6 +61,7 @@ class PointGrantView(APIView):
         if log_serializer.is_valid(raise_exception=True):
             log_serializer.save(teacher = req.user, student = student)
         return Response({"success":True})
+<<<<<<< HEAD
 
 class ProfilChangeView(APIView):
     def put(self,req):
@@ -73,3 +74,5 @@ class ProfilChangeView(APIView):
         return Response({
             "success" : True
         })
+=======
+>>>>>>> embed_notice

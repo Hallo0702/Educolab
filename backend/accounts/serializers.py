@@ -49,6 +49,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         data['access'] = str(refresh.access_token)
         data['userflag'] = self.user.userflag
         data['email'] = self.user.email
+<<<<<<< HEAD
         data['profil'] = self.user.profil.url
         data['schoolname']=self.user.school.name
         return data
@@ -59,6 +60,12 @@ class ProfilFileSerializer(serializers.ModelSerializer):
         model = models.UserInfo
         fields = 'profil'
 
+=======
+        data['profil'] = self.user.profil
+        data['schoolname']=self.user.school.name
+        return data
+
+>>>>>>> embed_notice
 class MyTokenRefershSerializer(TokenObtainPairSerializer):
         # response 커스텀 
     default_error_messages = {
@@ -72,12 +79,20 @@ class MyTokenRefershSerializer(TokenObtainPairSerializer):
         
         refresh = self.get_token(self.user)
         
+<<<<<<< HEAD
         # response에 추가하고 싶은 key값들 추가
+=======
+         # response에 추가하고 싶은 key값들 추가
+>>>>>>> embed_notice
         data['name'] = self.user.name
         data['access'] = str(refresh.access_token)
         data['userflag'] = self.user.userflag
         data['email'] = self.user.email
+<<<<<<< HEAD
         data['profil'] = self.user.profil.url
+=======
+        data['profil'] = self.user.profil
+>>>>>>> embed_notice
         data['schoolname']=self.user.school
         return data
 

@@ -413,10 +413,10 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+*.pem
 
 backend/my_settings.py
-<<<<<<< HEAD
-=======
 front-end/node_modules
 front-end/node_modules/*
->>>>>>> e1818b6d2deacd318c2af7954bcc9922945a1f93
+backend/educolab/my_settings.py
+login_info.json
