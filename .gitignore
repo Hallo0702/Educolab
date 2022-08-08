@@ -315,5 +315,9 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+*.pem
 
 backend/educolab/my_settings.py
+login_info.json
+./backend
+./front-end
