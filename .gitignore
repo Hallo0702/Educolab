@@ -319,3 +319,5 @@ $RECYCLE.BIN/
 
 backend/educolab/my_settings.py
 login_info.json
+./backend
+./front-end
