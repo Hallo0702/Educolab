@@ -3,7 +3,7 @@ from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen
 from kivy.uix.image import Image, AsyncImage
-import requests
+import requests, json
 from myTextInput import limitedTextInput
 from kivy.properties import NumericProperty
 from myPopup import MyPopUp2
@@ -30,15 +30,18 @@ class Survey_Select_Screen(Screen):
     
     def on_pre_enter(self):
         # 초기화
+        with open("./login_info.json", 'r', encoding='utf-8') as file:
+            data = json.load(file)
+            self.acc_token = data["access"]
+        self.res = requests.get('https://i7c102.p.ssafy.io/api/survey/detail', params={'survey_num': self.manager.content_number}, headers={'Authorization' : 'Bearer ' + self.acc_token})
+        self.data_full = json.loads(self.res.text)
         self.result=[]
         self.prob_num=self.manager.prob_num
 
         ##**# 문제 표기
-        self.ids.title.text="오늘 저녁 메뉴 선정 : "+str(self.prob_num)+"번"
-        self.ids.prob.text="어제는 라면을 먹었고 오늘 점심에는 햇반을 먹었으며 오늘 저녁에는 치킨을 시켰다면 내일 점심으로 먹을 것은 무엇인가?"
-
-        ##**# 보기 데이터 넣기
-        temp_list=["샤브샤브", "함박 스테이크", "민트초코", "파인애플 피자", "파스타"]
+        self.ids.title.text=self.data_full[0]['survey_name']
+        self.ids.prob.text = self.data_full[self.manager.prob_num]['survey_question']
+        temp_list = str(self.data_full[self.manager.prob_num]['multiple_bogi']).split('/')
 
         for i in range(5):
             self.ids['ex'+str(i+1)].text=temp_list[i]

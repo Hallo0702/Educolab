@@ -45,12 +45,14 @@ class WindowManager(ScreenManager):
         self.DB=db_proc()
         self.DB.create_db()
         self.before_page=''
+        self.start_page_num=0   #list 시작 게시물 index
         self.page_num=1     #list 현재 페이지
         self.max_page_num=5 #list 최대 페이지
         self.prob_num=1     #현재 문항 번호
         self.max_prob_num=5 #최대 문항 번호
         self.survey_ans={}  #설문 답안
         self.survey_cnt=0   #설문에 답변한 문항 수
+        self.content_number=0    #어떤 글?
 
     def onStop(self): # 창 종료 버튼
         self.DB.db_close()
