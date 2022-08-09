@@ -1,4 +1,4 @@
-<Quiz_Waiting_Screen>:
+<Quiz_Count_Screen>:
 	FloatLayout:
 		size: root.width, root.height
 		Button: # exit
@@ -60,34 +60,7 @@
 			on_release:
 				root.next()
 			pos_hint: {"right":0.85,"top":0.98}
-			text:"퀴즈시작"
-			font_size: 20
-			bold: True
-			color: 1,1,1,1
-			size_hint: None, None
-			halign:'center'
-			valign:'bottom'
-			size: 100,30
-			background_normal:''
-			background_color:0,0,0,0
-			canvas.before:
-				Color:
-					rgba: 66/255,75/255,90/255,1
-				RoundedRectangle:
-					size: self.size
-					pos : self.pos
-					radius:[10]
-				Color:
-					rgba: 0,0,0,1
-				Line:
-					width:1
-					rounded_rectangle: self.x, self.y, self.width, self.height, 10
-					
-		Button: # Home
-			on_release:
-				root.next2()
-			pos_hint: {"right":0.750,"top":0.98}
-			text:"결과발표"
+			text:"넘어가기"
 			font_size: 20
 			bold: True
 			color: 1,1,1,1
@@ -110,28 +83,7 @@
 					width:1
 					rounded_rectangle: self.x, self.y, self.width, self.height, 10
 
-		Button:
-			id: img
-			angle:0
-			size_hint: None, None
-			width:150
-			height:150
-			pos_hint: {'center_x': .5, 'center_y': .35}
-			on_release:
-				# root.test()
-			canvas.before:
-				PushMatrix
-				Rotate:
-					angle: self.angle
-					origin: self.center
-			canvas.after:
-				PopMatrix
-			Image:
-				id:loading
-				source: ''
-				size:self.parent.size
-				center_x:self.parent.center_x
-				center_y:self.parent.center_y	
+
 		# Button:
 		# 	angle:90
 		# 	text:"TESTSETSE--A"
@@ -175,7 +127,7 @@
 			orientation: "vertical"
 			size_hint: None, None
 			size: 960, 300
-			pos_hint: {"center_x":0.5, "center_y":0.7}
+			pos_hint: {"center_x":0.5, "center_y":0.5}
 			padding: 40
 			spacing: 20
 			halign:'center'
@@ -183,23 +135,13 @@
 
 			Label: # title
                 id:title
-				text:"대기하세요"
+				# text:"대기하세요"
 				size_hint_y: .8
 				color: 94/255,106/255,117/255,1
 				font_size: 90
 				bold: True
 				halign:'center'
 				valign:'middle'
-
-
-			Label: # sub_title
-				id:sub_title
-				pos_hint: {"center_x":0.5, "center_y":0.5}
-				size_hint: 1, None
-				height:50
-				font_size: 40
-				bold: True
-				color: 0,0,0,1
 
 
 
