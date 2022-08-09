@@ -143,6 +143,15 @@ const routes = [
     name: 'login',
     component: () => import ('@/views/LoginView')
   },
+  // 로그아웃
+  {
+    path: '/logout',
+    name: 'logout',
+    meta: {
+      reload:true,
+    },
+    redirect: '/'
+  },
   // 존재하지 않는 페이지
   {
     path: '/:pathMatch(.*)*',
