@@ -42,6 +42,8 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
+    'chat',
     'quiz',
     'survey',
     'notice',
@@ -65,6 +67,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+ASGI_APPLICATION = 'educolab.routing.application'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
