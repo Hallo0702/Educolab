@@ -42,7 +42,12 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+<<<<<<< HEAD
     'mypage',
+=======
+    'channels',
+    'chat',
+>>>>>>> back_channel
     'quiz',
     'survey',
     'notice',
@@ -67,6 +72,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+ASGI_APPLICATION = 'educolab.routing.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -100,7 +116,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'educolab.wsgi.application'
 
-
+os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
