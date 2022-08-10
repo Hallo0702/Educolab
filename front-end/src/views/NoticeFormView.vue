@@ -1,5 +1,5 @@
 <template>
-  <div class="q-px-xl">
+  <div class="baseStyle">
     <h1>공지 작성,수정 페이지</h1>
     <!-- {{credentials.classification}}
     <br>

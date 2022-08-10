@@ -33,7 +33,7 @@ export const accounts = {
       userType: null,
       access: localStorage.getItem("access") || "",
       currentUser: {
-        userflag : true
+        userflag : false
       },
       authError: null,
     };

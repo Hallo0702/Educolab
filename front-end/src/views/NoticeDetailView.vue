@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="center">
+    <div class="baseStyle">
       <h3>제목 : {{ noticeItem.notice.title }}</h3>
       <p>등록일 : {{ noticeItem.notice.updated_at }}</p>
       <p>작성자 : {{ noticeItem.notice.teacher.name }}</p>

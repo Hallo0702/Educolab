@@ -3,7 +3,7 @@
     <!-- 교사 navbar -->
     <div v-if="isLoggedIn && currentUser.userflag">
       <div class="bord-bt">
-        <div class="q-py-md q-px-xl row items-center jooa-font font-size2">
+        <div class="q-py-md q-px-xl row items-center jooa-font nav-size">
           <a href="/educolab"><img class="q-mx-lg" src="@/assets/educolab.png" alt="educolab" style="width:4rem; height:4rem;"></a>
           <router-link class="q-px-xl button color5" to="/notice">공지사항</router-link>
           <router-link class="q-px-xl button color5" to="/teacher/task">과제</router-link>
@@ -17,17 +17,15 @@
 
     <!-- 학생 navbar -->
     <div v-if="isLoggedIn && !currentUser.userflag">
-      <div class="q-pa-md q-gutter-sm">
-        <q-bar style="height:100px;" >
-          <a href="/"><img src="@/assets/educolab.png" alt="educolab" style="width:100px; height:100px;"></a>
-          <div class="cursor-pointer"><router-link to="/notice">공지사항</router-link></div>
-          <div class="cursor-pointer"><router-link to="/student/task">과제</router-link></div>
-          <div class="cursor-pointer"><router-link to="/student/writing">내 필기</router-link></div>
-          <div class="cursor-pointer"><router-link to="/student/store">포인트 상점</router-link></div>
-          <div class="cursor-pointer"><router-link to="/student">마이페이지</router-link></div>
+      <div class="bord-bt">
+        <div class="q-py-md q-px-xl row items-center jooa-font nav-size">
+          <a href="/educolab"><img class="q-mx-lg" src="@/assets/educolab.png" alt="educolab" style="width:4rem; height:4rem;"></a>
+          <router-link class="q-px-xl button color5" to="/notice">공지사항</router-link>
+          <router-link class="q-px-xl button color5" to="/student/task">과제</router-link>
+          <router-link class="q-px-xl button color5" to="/student/point">포인트 상점</router-link>
+          <router-link class="q-px-xl button color5" to="/student">마이페이지</router-link>
           <button @click="logoutBtn">로그아웃</button>
-        </q-bar>
-        <hr>
+        </div>
       </div>
     </div>
 
@@ -47,7 +45,6 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-
 
 export default {
   name: 'MainPage',
@@ -107,9 +104,8 @@ export default {
     font-family: "jooa";
   }
 
-  .font-size2 {
-    font-size: 1.1rem
-  }
+  .nav-size {font-size: 1.3rem}
+
   h3 {
     text-align: center;
   }
