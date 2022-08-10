@@ -37,12 +37,12 @@ class SurveyStudentMainView(APIView) :
         if req.user.userflag:
             return Response({"message" :"학생만 접근 가능합니다."})
         my_survey = SurveyList.objects.filter(target=req.user)
-        
+        my_survey = my_survey.exclude(done_target=req.user)
         print(my_survey)
         survey_serializer = SurveyMainSerializer(my_survey,many=True)
-        
+
         return Response(survey_serializer.data)
-    
+
 class SurveyCreateView(APIView):
     def post(self, req):
 
@@ -170,11 +170,8 @@ class SurveyStatDetailView(APIView):
 class SurveySubmitView(APIView):
     def post(self, req):
 
-        answers = req.POST.getlist('answers')
+        answers = req.data['answers']
         survey = SurveyList.objects.get(id=req.data['survey_num'])
-        print("answers:")
-        print(answers)
-        print(answers)
 
         userauth = survey.target.filter(username=req.user.username).exists()
         if not userauth:

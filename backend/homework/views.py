@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from accounts.serializers import UserinfoSerializer
 
 from .models import StudentHomework, TeacherHomework, Files, SubmitHomework
-from accounts.models import SchoolInfo, UserInfo, PointLog
+from accounts.models import  UserInfo, PointLog
 from .serializers import StudentHomeworkDetailSerializer, StudentHomeworkMainSerializer, SubmitHomeworkSerializer, SubmitHomeworksubmitSerializer, TeacherHomeworkCreateSerializer, StudentHomeworkCreateSerializer, TeacherHomeworkDetailSerializer, TeacherHomeworkMainSerializer
 
 from datetime import datetime
@@ -230,6 +230,20 @@ class HomeworkCheckView(APIView): # 채점
             student.save()
             students = UserinfoSerializer(student)
             return Response(students.data)
+
+class HomeworkCheckDoneView(APIView):
+    def post(self, request):
+        if request.user.userflag == True:
+            if request.data.get('teacher_flag') == '1':
+                homework = TeacherHomework.objects.get(id=request.data.get('pk'))
+                homework.check_flag = True
+                homework.save()
+            else:
+                homework = StudentHomework.objects.get(id=request.data.get('pk'))
+                homework.agreement = True
+                homework.save()
+            
+            return Response({"success" : True,"message" : "완료되었습니다"})
 
         
 class HomeworkSubmitView(APIView): # 제출
