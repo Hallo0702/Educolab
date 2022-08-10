@@ -226,6 +226,9 @@ class HomeworkDetailView(APIView):
 class HomeworkCheckView(APIView): # 채점
     def post(self, request):
         if request.user.userflag == True:
+            submit = SubmitHomework.objects.get(id=request.data.get('pk'))
+            if submit.check_flag == True:
+                return Response({"success" : False, "message" : "이미 채점된 제출입니다"})
             username = request.data.get('username')
             point = request.data.get('point')
             student = UserInfo.objects.get(username=username)
@@ -234,9 +237,10 @@ class HomeworkCheckView(APIView): # 채점
                 student.acc_point += point
             else:
                 student.minus_point += point
+            submit.check_flag=True
+            submit.save()
             PointLog.objects.create(teacher=request.user,student=student,content="과제 점수",point=point)
             student.save()
-            # students = UserinfoSerializer(student)
             return Response({"username" : username, "success" : True,"message" : "적용되었습니다"})
 
 class HomeworkCheckDoneView(APIView):
