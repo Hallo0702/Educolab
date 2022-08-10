@@ -32,10 +32,7 @@ export default {
     surveyUpdate: () => SURVEY + 'update/',
     surveyStat : () => SURVEY + 'stat/',
     surveyQuestion : () => SURVEY + 'stat/detail/'
-<<<<<<< HEAD
-  }
-}
-=======
+
   },
 
   quiz: {
@@ -44,4 +41,3 @@ export default {
     quizDetail: () => QUIZ + 'detail/',
   },
 }
->>>>>>> develop
