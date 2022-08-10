@@ -51,10 +51,7 @@ urlpatterns = [
     path('api/mypage/', include('mypage.urls')),
     path('api/mainpage/', include('mainpage.urls')),
     path('api/quiz/', include('quiz.urls')),
-<<<<<<< HEAD
     path('api/pointshop/', include('pointshop.urls')),
-=======
     path('api/chat/', include('chat.urls')),
->>>>>>> back_channel
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
