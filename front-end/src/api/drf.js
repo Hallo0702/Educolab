@@ -3,6 +3,7 @@ const ACCOUNTS = BASE_URL + '/accounts/'
 const NOTICE = BASE_URL + '/notice/'
 const SURVEY = BASE_URL + '/survey/'
 const QUIZ = BASE_URL + '/quiz/'
+const MainPage = BASE_URL + '/mainpage/'
 
 export default {
   accounts: {
@@ -38,4 +39,8 @@ export default {
     quizCreate: () => QUIZ + 'create/',
     quizDetail: () => QUIZ + 'detail/',
   },
+
+  mainpage: {
+    mainItem: () => MainPage
+  }
 }

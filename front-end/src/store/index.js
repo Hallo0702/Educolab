@@ -3,6 +3,7 @@ import { accounts } from './modules/accounts.js'
 import { notice } from './modules/notice.js'
 import { survey } from './modules/survey.js'
 import { quiz } from './modules/quiz.js'
+import { mainpage } from './modules/mainpage.js'
 
 export default createStore({
   state () {
@@ -18,6 +19,6 @@ export default createStore({
   actions() {
   },
   modules: {
-    accounts, notice, survey, quiz
+    accounts, notice, survey, quiz, mainpage
   }
 })
