@@ -13,10 +13,6 @@ class EventSerializer(serializers.ModelSerializer):
         model = Event
         fields = '__all__'
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/back
 class MainpageNoticeSerializer(serializers.ModelSerializer):
 
     class Meta:
