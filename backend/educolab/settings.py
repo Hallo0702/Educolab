@@ -42,12 +42,9 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-<<<<<<< HEAD
-    'mypage',
-=======
     'channels',
+    'mypage',
     'chat',
->>>>>>> back_channel
     'quiz',
     'survey',
     'notice',
