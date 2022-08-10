@@ -22,6 +22,7 @@
           v-model="credentials.password"
           label="Password"
           type="password"
+          @keyup.enter="login"
           lazy-rules
           :rules="[
             val => val !== null && val !== '' || '비밀번호를 입력해주세요',
