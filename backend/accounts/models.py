@@ -2,7 +2,7 @@ from asyncio.windows_events import NULL
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-from pointshop.models import PTitle
+from pointshop.models import PTitle, Icon
 
 # Create your models here.
 
@@ -28,6 +28,7 @@ class UserInfo(AbstractUser):
     acc_point = models.IntegerField(default=0, null=True)
     wear_title = models.ForeignKey(PTitle,null=True,on_delete=models.SET_NULL)
     own_title = models.ManyToManyField(PTitle,related_name='title_owner')
+    own_icon = models.ManyToManyField(Icon, related_name='icon_owner')
 
     
 class PointLog(models.Model):

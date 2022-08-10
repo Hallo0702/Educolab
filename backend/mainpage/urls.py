@@ -20,6 +20,5 @@ from . import views
 
 urlpatterns = [
     path('',views.MainpageView.as_view(), name='mainpage'),
-    path('event/', views.EventView.as_view(), name='event'),
-    path('timeline/', views.TimelineView.as_view(), name='timeline') 
+    path('event/', views.EventView.as_view(), name='event')
 ]
