@@ -413,3 +413,4 @@ $RECYCLE.BIN/
 
 backend/my_settings.py
 front-end/node_modules
+login_info.json
