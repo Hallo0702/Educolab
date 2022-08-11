@@ -34,7 +34,35 @@ export const accounts = {
       access: localStorage.getItem("access") || "",
       currentUser: {},
       authError: null,
-    };
+      subjectOptions : [
+        '국어', '수학', '사회', '과학', '보건', '기술가정', '기타'
+      ],
+      emailOptions: [
+        '@gmail.com', '@naver.com', '@hanmail.com', '@nate.com', '직접 입력'
+      ],
+      userInfo: {
+        username: null,
+        password1: null,
+        password2: null,
+        name: null,
+        school: null,
+        homeroom_teacher_flag: null,
+        grade: null,
+        class_field: null,
+        subject: null,
+        phone_number: null,
+        birthday: null,
+        email: null,
+        userflag: null,
+        plus_point: null,
+        minus_point: null,
+        profil: null,
+      },
+      findPw: {
+        name: null,
+        email: null,
+      }
+    }
   },
   getters: {
     isLoggedIn: state => !!state.access, 
@@ -42,7 +70,10 @@ export const accounts = {
     authError: state => state.authError,
     authHeader: state => ({ Authorization: `Bearer ${state.access}` }),
     getUserType: state => state.userType,
-    getSubject: state => state.teacherInfo.subject,
+    getSubject: state => state.subjectOptions,
+    getEmail: state => state.emailOptions,
+    getUserInfo: state => state.userInfo,
+    getInfo: state => state.findPw,
   },
   mutations: {
     SET_TOKEN: (state, access) => (state.access = access),
@@ -60,6 +91,16 @@ export const accounts = {
       }
     },
     SET_USER_TYPE: (state, userType) => (state.userType = userType),
+    CHANGE_INFO(state, data) {
+      for (let key in data) {
+        state.userInfo[key] = data[key]
+      }
+    },
+    CHANGE_PW_INFO(state, data) {
+      for (let key in data) {
+        state.findPw[key] = data[key]
+      }
+    }
   },
   actions: {
     saveToken({ commit }, access) {
@@ -69,29 +110,6 @@ export const accounts = {
     removeToken({ commit }) {
       commit("SET_TOKEN", "");
       localStorage.setItem("access", "")
-    },
-    initInfo({state, getters, dispatch}) {
-      if (getters.getUserType == "student") {
-        for (let key in state.studentInfo) {
-          if (key === 'userflag') {
-            dispatch('changeData', {'userflag':false})
-          } else if (key === 'birthday') {
-            dispatch('changeData', {'birthday':"2008-01-01"})
-          } else {
-            dispatch('changeData', {[key]:null})
-          }
-        }
-      } else {
-        for (let key in state.teacherInfo) {
-          if (key === 'userflag') {
-            dispatch('changeData', {'userflag':false})
-          } else if (key === 'birthday') {
-            dispatch('changeData', {'birthday':"1967-01-01"})
-          } else {
-            dispatch('changeData', {[key]:null})
-          }
-        }
-      }
     },
     login({ commit, dispatch }, credentials) {
       // 로그인 함수 구현
@@ -103,7 +121,9 @@ export const accounts = {
         .then((res) => {
           const access = res.data.access
           dispatch("saveToken", access)
-          commit("SET_CURRENT_USER", res.data)
+          console.log(res.data)
+          commit("SET_CURRENT_USER",res.data)
+          // 새로고침 -> 로그인 정보 날리기
           router.push({ name: "educolab" })
         })
         .catch((err) => {
@@ -120,8 +140,8 @@ export const accounts = {
       axios.post(drf.accounts.signup(), data)
         .then(() => {
           window.alert("회원가입이 완료되었습니다")
+          // 새로고침 -> vuex에 있는 정보 날려버리기 -> 이동
           router.push({ name: "login" })
-          this.initInfo()
         })
         .catch(({response}) => {
           if (response.data?.email) {
@@ -132,10 +152,9 @@ export const accounts = {
         })
     },
     logout({ dispatch }) {
-      dispatch("removeToken");
-      router.push({ name: "login" }).catch((err) => {
-        console.log(err.respone);
-      });
+      dispatch("removeToken")
+      // 새로고침까지 (vuex 데이터 모두 제거하고 싶음)
+      router.push({ name: "login" })
     },
     setUserType({ commit }, userType) {
       // 로그인할 때
@@ -145,5 +164,12 @@ export const accounts = {
     changeData({ commit }, data) {
       commit("CHANGE_DATA", data)
     },
+    changeInfo({commit}, data) {
+      commit("CHANGE_INFO", data)
+    },
+    changePwInfo({commit}, data) {
+      commit("CHANGE_PW_INFO", data)
+    }
+    // back에 현재 사용자 정보 요청 (토큰 보내면 )
   },
 };

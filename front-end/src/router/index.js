@@ -28,8 +28,8 @@ const routes = [
   },
   // 회원정보 조회
   {
-    path: '/myinfo',
-    name: 'ReadMyInfo',
+    path: '/my-info',
+    name: 'readMyInfo',
     component: () => import('@/views/FindView')
   },
   // 회원가입
@@ -65,22 +65,21 @@ const routes = [
     component: () => import('@/views/NoticeFormView')
   },
 
-  // 과제(교사)
+  // 과제 메인
   {
-    path: '/teacher/task',
-    name: 'TeacherTask',
-    component: () => import('@/views/TeacherTaskView')
+    path: '/:userType/task',
+    name: 'TaskListView',
+    component: () => import('@/views/TaskListView')
   },
-
-  // 과제(학생)
+  // 과제 검색
   {
-    path: '/student/task',
-    name: 'StudentTaskListView',
-    component: () => import('@/views/StudentTaskListView')
+    path: '/:userType/task/search',
+    name: 'SearchTaskView',
+    component: () => import('@/views/SearchTaskView')
   },
   // 과제 상세 
   {
-    path: '/:userType/task/detail/:taskPk',
+    path: '/:userType/task/detail/:taskType/:taskPk',
     name: 'TaskDetailView',
     component: () => import('@/views/TaskDetailView')
   },
@@ -88,13 +87,13 @@ const routes = [
   {
     path: '/:userType/task/create',
     name: 'TaskCreateView',
-    component: () => import('@/views/TaskCreateOrUpdateView')
+    component: () => import('@/views/TaskFormview')
   },
   // 과제 수정
   {
     path: '/:userType/task/update/:taskPk',
     name: 'TaskUpdateView',
-    component: () => import('@/views/TaskCreateOrUpdateView')
+    component: () => import('@/views/TaskFormview')
   },
   // 퀴즈(교사)
   {
@@ -149,9 +148,18 @@ const routes = [
     name: 'login',
     component: () => import ('@/views/LoginView')
   },
+  // 로그아웃
+  {
+    path: '/logout',
+    name: 'logout',
+    meta: {
+      reload:true,
+    },
+    redirect: '/'
+  },
   // 존재하지 않는 페이지
   {
-    path: '/:anything',
+    path: '/:pathMatch(.*)*',
     redirect: '/404'
   },
 ]

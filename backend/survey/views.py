@@ -11,9 +11,7 @@ from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from rest_framework.parsers import JSONParser
 from rest_framework.renderers import JSONRenderer
-import os, io
-
-
+import json
 class SurveyTeacherMainView(APIView) :
     ## 권한 설정 부분(View단위)
     # permission_classes = (IsAuthenticated,)
@@ -34,11 +32,26 @@ class SurveyTeacherMainView(APIView) :
         ## 4. 가져온 목록 반환
         return Response(survey_serializer.data)
 
+class SurveyStudentMainView(APIView) :
+    def get(self,req):
+        if req.user.userflag:
+            return Response({"message" :"학생만 접근 가능합니다."})
+        my_survey = SurveyList.objects.filter(target=req.user)
+        my_survey = my_survey.exclude(done_target=req.user)
+        print(my_survey)
+        survey_serializer = SurveyMainSerializer(my_survey,many=True)
+
+        return Response(survey_serializer.data)
+
 class SurveyCreateView(APIView):
     def post(self, req):
 
         if not req.user.userflag:
             return Response({"message" :"선생님만 접근 가능합니다."})
+        
+
+        
+        # survey_serializer
 
         # 설문조사 등록하기 start
         survey_serializer = SurveySerializer(data=req.data['survey'])
@@ -72,8 +85,9 @@ class SurveyDetailView(APIView):
         questions = survey.question_survey.all()
         ## 설문조사 시리얼라이저 생성
         question_serializer = QuestionDetailSerializer(questions, many=True)
-
-        return Response(question_serializer.data)
+        survey_name = [{"survey_name" : survey.title}]
+        print(question_serializer.data)
+        return Response(survey_name+question_serializer.data)
 
     def delete(self, req):
         survey_id = req.GET['survey_num']
@@ -158,20 +172,19 @@ class SurveySubmitView(APIView):
 
         answers = req.data['answers']
         survey = SurveyList.objects.get(id=req.data['survey_num'])
-        
+
         userauth = survey.target.filter(username=req.user.username).exists()
         if not userauth:
             return Response({"message" : "설문 제출 자격이 없습니다."})
 
         done =  survey.done_target.filter(username=req.user.username).exists()
-        print(done)
         if done:
             return Response({"message" : "이미 제출하셨습니다."})
-        for answer in answers:
-            print(answer)
-            question = SurveyQuestions.objects.get(id=answer['id'])
-            
 
+        for answer in answers:
+            print(answer['id'])
+            print(type(answer['id']))
+            question = SurveyQuestions.objects.get(id=answer['id'])
             
             if question.multiple_bogi is not None:
                 if answer['answer'] == 1:

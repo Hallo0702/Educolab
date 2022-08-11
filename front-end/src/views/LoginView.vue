@@ -22,6 +22,7 @@
           v-model="credentials.password"
           label="Password"
           type="password"
+          @keyup.enter="login"
           lazy-rules
           :rules="[
             val => val !== null && val !== '' || '비밀번호를 입력해주세요',
@@ -54,7 +55,9 @@
 
 <script>
 // import { reactive } from '@vue/reactivity'
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions, useStore } from 'vuex'
+import {onBeforeMount} from 'vue'
+import {useRouter, useRoute} from 'vue-router'
 import AccountErrorList from '@/components/AccountErrorList.vue'
 import ButtonGroup from '@/components/ButtonGroup.vue'
 
@@ -79,5 +82,18 @@ export default {
   methods: {
     ...mapActions(['login'])
   },
+  setup () {
+    const store = useStore()
+    const router = useRouter()
+    const route = useRoute()
+    onBeforeMount(() => {
+      if (store.getters.isLoggedIn) {
+        console.log(router)
+        console.log(route)
+        // 메인 페이지로 이동
+        // router.push('/signup')
+      }
+    })
+  }
 }
 </script>

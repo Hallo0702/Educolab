@@ -1,4 +1,3 @@
-from sre_constants import SUCCESS
 from django.shortcuts import render
 from django.core.mail import send_mail
 from rest_framework.views import APIView
@@ -9,7 +8,7 @@ from rest_framework import status
 from .serializers import SchoolInfoSerializer
 from .models import SchoolInfo, UserInfo
 from .helper import email_auth_num
-from my_settings import EMAIL_HOST_USER
+from educolab.settings import EMAIL_HOST_USER
 
 # Create your views here.
 
@@ -46,7 +45,6 @@ class SendSignupEmailView(APIView):
     def post(self,request):
         email = request.data.get('email')
         auth_num = email_auth_num()
-        print(email)
         send_mail(subject='educolab 회원가입 이메일 인증 메일입니다',message=auth_num,recipient_list=[email],from_email=EMAIL_HOST_USER)
         context = {
             'auth_num' : auth_num,
@@ -85,12 +83,10 @@ class SendPWEmailView(APIView):
         name = request.data.get('name')
         email = request.data.get('email')
         username = request.data.get('username')
-        
         try:
             userinfo = UserInfo.objects.get(name=name,username=username)
         except:
             userinfo = None
-        
         if userinfo == None:
             context = {
                 "success" : False,
@@ -133,7 +129,6 @@ class ChangePWView(APIView):
         userinfo = UserInfo.objects.get(name=name,email=email,username=username)
         userinfo.set_password(password1)
         userinfo.save()
-        print(userinfo)
 
         context = {
             "success" : True,

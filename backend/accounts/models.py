@@ -1,5 +1,8 @@
+from asyncio.windows_events import NULL
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+
+from pointshop.models import PTitle, Icon
 
 # Create your models here.
 
@@ -13,7 +16,7 @@ class UserInfo(AbstractUser):
     userflag = models.BooleanField(default=False, blank=True)
     name = models.CharField(max_length=30,default=None,blank=True)
     birthday = models.DateField(default=None,blank=True)
-    school = models.ForeignKey(SchoolInfo,on_delete=models.CASCADE,db_column='school', related_name='school')
+    school = models.ForeignKey(SchoolInfo,on_delete=models.CASCADE,db_column='school', related_name='school_student')
     phone_number = models.CharField(max_length=11,blank=True)
     grade = models.IntegerField(blank=True,null=True)
     class_field = models.IntegerField(blank=True, null=True)
@@ -21,4 +24,16 @@ class UserInfo(AbstractUser):
     homeroom_teacher_flag = models.IntegerField(null=True)
     plus_point = models.IntegerField(default=0)
     minus_point = models.IntegerField(default=0)
-    profil = models.CharField(max_length=45,null=True,blank=True)
+    profil = models.ImageField(blank=True, upload_to='accounts/profils' ,default='accounts/profils/test01.jpg')
+    acc_point = models.IntegerField(default=0, null=True)
+    wear_title = models.ForeignKey(PTitle,null=True,on_delete=models.SET_NULL)
+    own_title = models.ManyToManyField(PTitle,related_name='title_owner')
+    own_icon = models.ManyToManyField(Icon, related_name='icon_owner')
+
+    
+class PointLog(models.Model):
+    teacher = models.ForeignKey(UserInfo, on_delete=models.DO_NOTHING, related_name="point_teacher")
+    student = models.ForeignKey(UserInfo, on_delete=models.CASCADE, related_name="point_student")
+    content = models.CharField(max_length=45)
+    point = models.IntegerField()
+    created_at = models.DateField(auto_now=True)

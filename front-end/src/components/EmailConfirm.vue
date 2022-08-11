@@ -2,16 +2,16 @@
   <div>
     <div class="row justify-between">
       <q-input
-      color="teal"
-      v-model="email.username"
-      input-class="text-right"
-      class="col-5"
-      label-slot
-      clearable
-      stack-label
-      lazy-rules
-      :rules="[ val => val && val.length > 0 || '이메일을 입력해주세요']"
-      required
+        color="teal"
+        v-model="email.username"
+        input-class="text-right"
+        class="col-5"
+        label-slot
+        clearable
+        stack-label
+        lazy-rules
+        :rules="[ val => val && val.length > 0 || '이메일을 입력해주세요']"
+        required
       >
         <template v-slot:label>
           <div class="row items-center all-pointer-events">
