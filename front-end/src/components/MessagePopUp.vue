@@ -1,19 +1,19 @@
 <template>
   <q-dialog persistant v-model="prompt">
-      <q-card style="min-width: 350px">
-        <q-card-section v-if="title">
-          <div class="text-h6">{{title}}</div>
-        </q-card-section>
-        <q-card-section>
-          <div class="text-h6 center">{{message}}</div>
-        </q-card-section >
-        <q-card-actions align="center">
-          <q-btn color="primary" v-if="!button" label="확인" @click="move" v-close-popup/>
-          <button-group v-else :currentUrl="currentUrl"/>
-          <q-btn color="primary" v-if="cancel" label="취소" @click="doNothing" v-close-popup/>
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
+    <q-card style="min-width: 350px">
+      <q-card-section v-if="title">
+        <div class="text-h6">{{title}}</div>
+      </q-card-section>
+      <q-card-section>
+        <div class="text-h6 center">{{message}}</div>
+      </q-card-section >
+      <q-card-actions align="center">
+        <q-btn color="primary" v-if="!button" label="확인" @click="move" v-close-popup/>
+        <button-group v-else :currentUrl="currentUrl"/>
+        <q-btn color="primary" v-if="cancel" label="취소" @click="doNothing" v-close-popup/>
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script>

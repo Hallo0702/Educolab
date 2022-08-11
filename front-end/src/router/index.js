@@ -177,7 +177,11 @@ const routes = [
     meta: {
       reload:true,
     },
-    redirect: '/'
+    redirect: '/educolab/login'
+  },
+  {
+    path: '/',
+    redirect: '/educolab/login'
   },
   // 존재하지 않는 페이지
   {

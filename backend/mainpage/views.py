@@ -8,10 +8,6 @@ from homework.models import TeacherHomework
 from .models import Event
 from notice.models import Notice
 from .serializers import AccRankSerializer, EventSerializer, MainpageNoticeSerializer, MainpageTHomeworkSerializer, MainpageTeacherhomeworkSerializer
-<<<<<<< HEAD
-from notice.serializers import NoticeMainSerializer
-=======
->>>>>>> front_task
 
 from datetime import datetime
 from django.db.models import Sum

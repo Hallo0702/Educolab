@@ -42,12 +42,6 @@ export default {
     quizCreate: () => QUIZ + 'create/',
     quizDetail: () => QUIZ + 'detail/',
   },
-  myPage: {
-    main: () => MY_PAGE + 'main/',
-    point: () => MY_PAGE + 'grant/',
-    changeProfil: () => MY_PAGE + 'profil/',
-    changeTitle: () => MY_PAGE + 'title/',
-  },
   task: {
     list: () => HOMEWORK + 'main/',
     create: () => HOMEWORK + 'create/',
@@ -58,5 +52,11 @@ export default {
   },
   file: {
     path: () => BASE_URL,
-  }
+  },
+  myPage: {
+    main: () => MY_PAGE + 'main/',
+    point: () => MY_PAGE + 'grant/',
+    changeProfil: () => MY_PAGE + 'profil/',
+    changeTitle: () => MY_PAGE + 'title/',
+  },
 }
