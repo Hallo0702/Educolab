@@ -1,5 +1,5 @@
 <template>
-  <div class="center">
+  <div id="notice" class="center">
     <h1>공지사항</h1>
     <router-link to="/notice/create"><button>글쓰기</button></router-link>
     <table class="center">
@@ -16,7 +16,7 @@
       <tbody>
         <tr v-for="notice in notice2" :key="notice.id">
           <td>{{ notice.pk }}</td>  
-          <td>{{ notice.classification}}</td>
+          <td>{{ notice.classification }}</td>
           <router-link :to="{ name: 'NoticeDetail', params: {noticePk: `${notice.pk}`}}">
             <td @click="noticeDetail(notice.pk)">{{ notice.title }}</td>
           </router-link>
@@ -76,6 +76,11 @@ export default {
 </script>
 
 <style>
+  #notice {
+    margin: auto;
+    width: 80%;
+    font-family: "jooa";
+  }
   .searchWrap{border-radius:5px; text-align:center; padding:20px 0; margin-bottom:10px;}
   .tbList th{border-top:1px solid #888;}
 	.tbList th, .tbList td{border-bottom:1px solid #eee; padding:5px 0;}

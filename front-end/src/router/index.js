@@ -2,17 +2,17 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
-  // 검색 공지사항
+  // 로그인
   {
-    path: '/search',
-    name: 'searchNotice',
-    component: () => import ('@/components/SearchNotice')
+    path: '/educolab/login',
+    name: 'login',
+    component: () => import ('@/views/LoginView')
   },
   // 메인페이지 
   {
     path: '/educolab',
     name: 'educolab',
-    component: () => import('@/views/MainPageView')
+    component: () => import('@/components/MainPage')
   },
   // 아이디 & 비밀번호 찾기
   {
@@ -95,20 +95,34 @@ const routes = [
     name: 'TaskUpdateView',
     component: () => import('@/views/TaskFormview')
   },
-  // 퀴즈(교사)
-  {
-    path: '/quiz',
-    name: 'Quiz',
-    component: () => import('@/views/QuizView')
-  },
 
   // 설문조사(교사)
   {
-    path: '/search',
-    name: 'Search',
-    component: () => import('@/views/SearchView')
+    path: '/survey/',
+    name: 'Survey',
+    component: () => import('@/views/SurveyView')
   },
 
+  // 설문조사 상세
+  {
+    path: '/survey/detail/:surveyPk',
+    name: 'SurveyDetail',
+    component: () => import('@/views/SurveyDetailView')
+  },
+
+  // 설문조사 등록
+  {
+    path: '/survey/create/:surveyPk?',
+    name: 'SurveyCreate',
+    component: () => import('@/views/SurveyCreateView')
+  },
+
+  // 설문조사 통계
+  {
+    path: '/survey/stat/:surveyPk',
+    name: 'SurveyStat',
+    component: () => import('@/views/SurveyStatView')
+  },
   // 마이페이지(교사)
   {
     path: '/teacher',
@@ -142,11 +156,26 @@ const routes = [
     name: 'notFound',
     component: () => import ('@/views/NotFoundView')
   },
-  // 로그인
+
+  // 퀴즈 메인 
   {
-    path: '/',
-    name: 'login',
-    component: () => import ('@/views/LoginView')
+    path: '/quiz',
+    name: 'Quiz',
+    component: () => import('@/views/QuizView')
+  },
+
+  // 퀴즈 등록
+  {
+    path: '/quiz/create/:quizPk?',
+    name: 'QuizCreate',
+    component: () => import('@/views/QuizCreateView')
+  },
+
+  // 퀴즈 상세
+  {
+    path: '/quiz/detail/:quizPk',
+    name: 'QuizDetail',
+    component: () => import('@/views/QuizDetailView')
   },
   // 로그아웃
   {
