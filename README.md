@@ -1,107 +1,140 @@
-## Front
+# 목차
 
-#### 원래 App.vue 내용
-```
-<template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated class="glossy">
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          @click="leftDrawerOpen = !leftDrawerOpen"
-          aria-label="Menu"
-          icon="mdi-menu"
-        />
+## [Front 진행 상황](#front-진행-상황)
 
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
+[a. 과제](#a.-과제)
 
-        <div>Quasar v{{ $q.version }}</div>
-      </q-toolbar>
-    </q-header>
+[b. 팝업](#b.-팝업)
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-      class="bg-grey-2"
-    >
-      <q-list>
-        <q-item-label header>Essential Links</q-item-label>
-        <q-item clickable tag="a" target="_blank" href="https://quasar.dev">
-          <q-item-section avatar>
-            <q-icon name="mdi-school" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Docs</q-item-label>
-            <q-item-label caption>quasar.dev</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://github.com/quasarframework/">
-          <q-item-section avatar>
-            <q-icon name="mdi-code-tags" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Github</q-item-label>
-            <q-item-label caption>github.com/quasarframework</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://chat.quasar.dev">
-          <q-item-section avatar>
-            <q-icon name="mdi-message-text" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Discord Chat Channel</q-item-label>
-            <q-item-label caption>chat.quasar.dev</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://forum.quasar.dev">
-          <q-item-section avatar>
-            <q-icon name="mdi-forum" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Forum</q-item-label>
-            <q-item-label caption>forum.quasar.dev</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://twitter.com/quasarframework">
-          <q-item-section avatar>
-            <q-icon name="mdi-twitter" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Twitter</q-item-label>
-            <q-item-label caption>@quasarframework</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
-    </q-drawer>
+[c. 회원가입](#c.-회원가입)
 
-    <q-page-container>
-      <HelloWorld />
-    </q-page-container>
-  </q-layout>
-</template>
+[d. 로그인&로그아웃](#d.-로그인-&-로그아웃)
 
-<script>
-import { ref } from 'vue'
-import HelloWorld from './components/HelloWorld.vue'
+[e. 페이지 접근 제한](#e.-페이지-접근-제한)
 
-export default {
-  name: 'LayoutDefault',
+[f. 리프레시 토큰 발급](f.-리프레시-토큰-발급)
 
-  components: {
-    HelloWorld
-  },
+[g. 공통](g.-공통)
 
-  setup () {
-    return {
-      leftDrawerOpen: ref(false)
-    }
-  }
-}
-</script>
+
+
+---
+
+
+
+
+
+## Front 진행 상황
+
+#### a. 과제
 
 ```
+* 문제 : 새로고침 시 사용자 정보가 없어지기 때문에 백에서 데이터를 불러와야 함
+* 문제 : 학생과 교사 연결이 제대로 되어있지 않음 - 회원 가입 시 특정 학교, 특정 학년, 특정 반에 대해서 계정을 만들어놓아야 할 것 같음
+* 필요 -> 학교 / 학년 / 반 (학생) (교사 - 담임 & 다른 과목 교사)
+(적어도 반 두 개는 있어야 하지 않을까 - 최소 4명은 필요)
+정신중 2학년 3반 -> 최소 학생 1명, 담임 교사(A) 1명, 교사(B) 1명
+정신중 2학년 1반 -> 최소 학생 1명, 담임 교사(B) 1명, 다른 과목 교사(A) 1명
+(컨설턴트님, 코치님께 보여드릴 때는 학생 수 늘려서 보여드려야)
+* 교사 담임 여부가 필요하므로 회원 정보 조회 수정 페이지 먼저 구현해야 함
+
+과제 목록
+- 전체적인 틀은 잡아놓음
+- pagination과 데이터 연결 필요
+- 현재 데이터가 교사 페이지의 제출기한이 지나지 않은 과제뿐이므로 다른 데이터도 시도해볼 필요 있음
+- 전체적으로 틀은 비슷하므로 큰 오류가 없을 것으로 예상됨
+
+과제 생성/수정
+- 교사 쪽에서 과제 생성하는 것은 기능 구현 완료
+- 학생 아이디로 시도해봐야 함 (담임 교사 정보가 필요한데 없으므로 오류)
+- 수정 시 데이터를 불러오는 것은 과제 상세 페이지에 들어갔을 때와 같은 url로 보낼 예정
+(상세 url 데이터에 학년 반 과목 추가해 보내달라고 요청)
+
+과제 상세
+- 전체적인 틀은 잡아놓음
+- 교사 페이지에서는 아코디언으로 학생 정보가 보임 (현재 학생 정보가 없어서 볼 수 없음)
+- 학생 페이지에서는 과제 제출 입력창과 파일 선택이 보임
+- 첨부파일 부분 확인 완료
+- 삭제 아직 미완료
+
+과제 검색
+- url 설정 완료
+- 새로고침 시 과제 목록 페이지에 들어갔을 때와 같은 url로 요청 보냄
+- 전체 과제 중에서 어떤 부분을 검색할 것인지(제목, 내용, 학년, 반 등), 검색한 단어를 포함하면 검색 결과에 노출시키는 것을 구현해야 함
+```
+
+
+
+### b. 팝업
+
+```
+한 번 팝업이 뜨고 다음에는 뜨지 않는 오류 수정해야 함
+confirm과 alert v-if로 나누기
+```
+
+
+
+### c. 회원 가입
+
+```
+인증번호가 확인되었습니다 팝업이 뜨지 않는 오류 수정
+회원가입 후 새로고침 구현
+```
+
+
+
+### d. 로그인 & 로그아웃
+
+```
+로그인, 로그아웃 후 새로고침 구현
+```
+
+
+
+### e. 페이지 접근 제한
+
+```
+로그인 여부, 사용자 유형에 따라 들어갈 수 있는 페이지 접근 제한
+```
+
+
+
+### f. 리프레시 토큰 발급
+
+```
+페이지가 새로고침될 때마다, 토큰 유효기간이 다가올 때마다 토큰 발급 구현 필요
+```
+
+
+
+### g. 공통
+
+```
+로딩이 길어질 경우에 로딩중임을 표시
+```
+
+
+
+(리스트 보낼 때 - 학생 정보 - 학년 반 이름)
+
+학생 출제 문제와 교사 출제 문제 구별방법?
+
+제출번호는 과제 pk?
+
+
+
+
+
+교사
+
+teacher01
+
+asdfqwe2
+
+
+
+학생
+
+stu01
+
+asdfqwe2

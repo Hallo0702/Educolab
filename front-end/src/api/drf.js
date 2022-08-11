@@ -5,6 +5,7 @@ const NOTICE = BASE_URL + '/notice/'
 const SURVEY = BASE_URL + '/survey/'
 const QUIZ = BASE_URL + '/quiz/'
 const MY_PAGE = BASE_URL + '/mypage/'
+const HOMEWORK = BASE_URL + '/homework/'
 
 export default {
   accounts: {
@@ -17,6 +18,7 @@ export default {
     sendEmail: () => ACCOUNTS + 'send_signup_email/',
     sendPwEmail: () => ACCOUNTS + 'send_pw_email/',
     changePw: () => ACCOUNTS + 'change_pw/',
+    // changeInfo: () => ACCOUNTS + 
   },
 
   notice: {
@@ -46,4 +48,15 @@ export default {
     changeProfil: () => MY_PAGE + 'profil/',
     changeTitle: () => MY_PAGE + 'title/',
   },
+  task: {
+    list: () => HOMEWORK + 'main/',
+    create: () => HOMEWORK + 'create/',
+    detail: () => HOMEWORK + 'detail/',
+    check: () => HOMEWORK + 'check/',
+    checkDone: () => HOMEWORK + 'check/done/',
+    submit: () => HOMEWORK + 'submit/',
+  },
+  file: {
+    path: () => BASE_URL,
+  }
 }
