@@ -1,8 +1,10 @@
-const BASE_URL = 'https://i7c102.p.ssafy.io/api'
+// const BASE_URL = 'https://i7c102.p.ssafy.io/api'
+const BASE_URL = 'http://127.0.0.1:8000/api'
 const ACCOUNTS = BASE_URL + '/accounts/'
 const NOTICE = BASE_URL + '/notice/'
 const SURVEY = BASE_URL + '/survey/'
 const QUIZ = BASE_URL + '/quiz/'
+const MY_PAGE = BASE_URL + '/mypage/'
 
 export default {
   accounts: {
@@ -37,5 +39,11 @@ export default {
     quizList: () => QUIZ + 'main/',
     quizCreate: () => QUIZ + 'create/',
     quizDetail: () => QUIZ + 'detail/',
+  },
+  myPage: {
+    main: () => MY_PAGE + 'main/',
+    point: () => MY_PAGE + 'grant/',
+    changeProfil: () => MY_PAGE + 'profil/',
+    changeTitle: () => MY_PAGE + 'title/',
   },
 }

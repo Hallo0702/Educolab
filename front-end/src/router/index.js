@@ -123,11 +123,11 @@ const routes = [
     name: 'SurveyStat',
     component: () => import('@/views/SurveyStatView')
   },
-  // 마이페이지(교사)
+  // 마이페이지
   {
-    path: '/teacher',
-    name: 'TeacherPage',
-    component: () => import('@/views/TeacherPageView')
+    path: '/:userType',
+    name: 'MyPage',
+    component: () => import('@/views/MyPageView')
   },
 
   // 내 필기(학생)
@@ -142,13 +142,6 @@ const routes = [
     path: '/student/store',
     name: 'StudentStoreView.vue',
     component: () => import('@/views/StudentStoreView')
-  },
-  
-  // 마이 페이지(학생)
-  {
-    path: '/student',
-    name: 'StudentPageView',
-    component: () => import('@/views/StudentPageView')
   },
   // 404 에러
   {
