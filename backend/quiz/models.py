@@ -12,10 +12,3 @@ class QuizQuestions(models.Model):
     quiz_question = models.CharField(max_length=500)
     multiple_bogi = models.CharField(max_length=500)
     answer = models.IntegerField()
-
-class QuizQuestions(models.Model):
-    quiz = models.ForeignKey(QuizList, on_delete=models.CASCADE, related_name="question_quiz")
-    question_number = models.IntegerField()
-    quiz_question = models.CharField(max_length=500)
-    multiple_bogi = models.CharField(max_length=500)
-    answer = models.IntegerField()
