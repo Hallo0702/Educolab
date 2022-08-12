@@ -52,5 +52,6 @@ urlpatterns = [
     path('api/mainpage/', include('mainpage.urls')),
     path('api/quiz/', include('quiz.urls')),
     path('api/pointshop/', include('pointshop.urls')),
+    path('api/chat/', include('chat.urls')),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
