@@ -13,13 +13,6 @@ class EventSerializer(serializers.ModelSerializer):
         model = Event
         fields = '__all__'
 
-class TimelineSerializer(serializers.ModelSerializer):
-    user = UserNameSerializer(read_only=True)
-    
-    class Meta:
-        model = TimeLine
-        fields = '__all__'
-
 class MainpageNoticeSerializer(serializers.ModelSerializer):
 
     class Meta:
