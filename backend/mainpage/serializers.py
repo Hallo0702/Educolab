@@ -3,7 +3,7 @@ from accounts.models import UserInfo
 
 from accounts.serializers import SchoolInfoSerializer, UserNameSerializer
 from homework.models import StudentHomework, SubmitHomework, TeacherHomework
-from .models import Event, TimeLine
+from .models import Event
 from notice.models import Notice
 
 class EventSerializer(serializers.ModelSerializer):
