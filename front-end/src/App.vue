@@ -79,11 +79,11 @@ export default {
       this.isHovering = false
     }
   },
-  created() {
-    if (this.isLoggedIn === false) {
-      this.$router.push({name:'login'})
-    }
-  }
+  // created() {
+  //   if (this.isLoggedIn === false) {
+  //     this.$router.push({name:'login'})
+  //   }
+  // }
 }
 </script>
 
@@ -150,5 +150,8 @@ export default {
   .hidden {
     visibility: hidden;
   }
-
+  .active {
+    color: blue;
+    font-weight: bold;
+  }
 </style>

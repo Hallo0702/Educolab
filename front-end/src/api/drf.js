@@ -1,5 +1,7 @@
 // const BASE_URL = 'https://i7c102.p.ssafy.io/api'
 const BASE_URL = 'http://127.0.0.1:8000/api'
+const PROFIL = 'http://127.0.0.1:8000'
+// const PROFIL = 'https://i7c102.p.ssafy.io'
 const ACCOUNTS = BASE_URL + '/accounts/'
 const NOTICE = BASE_URL + '/notice/'
 const SURVEY = BASE_URL + '/survey/'
@@ -56,6 +58,7 @@ export default {
   myPage: {
     main: () => MY_PAGE + 'main/',
     point: () => MY_PAGE + 'grant/',
+    profil: () => PROFIL,
     changeProfil: () => MY_PAGE + 'profil/',
     changeTitle: () => MY_PAGE + 'title/',
   },
