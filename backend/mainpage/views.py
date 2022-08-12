@@ -7,7 +7,7 @@ from homework.models import TeacherHomework
 
 from .models import Event
 from notice.models import Notice
-from .serializers import AccRankSerializer, EventSerializer, MainpageNoticeSerializer, MainpageTHomeworkSerializer, MainpageTeacherhomeworkSerializer, TimelineSerializer
+from .serializers import AccRankSerializer, EventSerializer, MainpageNoticeSerializer, MainpageTHomeworkSerializer, MainpageTeacherhomeworkSerializer
 from notice.serializers import NoticeMainSerializer
 
 from datetime import datetime
