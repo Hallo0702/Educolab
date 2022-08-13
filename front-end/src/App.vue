@@ -1,7 +1,7 @@
 <template>
-  <div style="height:1200px">
+  <div>
       <!-- 교사 navbar -->
-      <div v-if="isLoggedIn && currentUser.userflag" class="jooa-font">
+    <div v-if="isLoggedIn && currentUser.userflag" class="jooa-font">
         <div class="navBar q-px-xl q-py-md bord-bt">
           <a href="/educolab"><img src="@/assets/educolab.png" alt="educolab" style="width:4rem; height:4rem;"></a>
           <div class="navBarUi nav-size">
@@ -24,11 +24,11 @@
             </div>
             <q-icon @click="activeNav" class="cursor-pointer" name="mdi-menu" />
           </div>
-        </div>
-      </div>
-  
-      <!-- 학생 navbar -->
-      <div class="jooa-font" v-if="isLoggedIn && !currentUser.userflag">
+        </div>  
+    </div>
+
+    <!-- 학생 navbar -->
+    <div class="jooa-font" v-if="isLoggedIn && !currentUser.userflag">
         <div class="navBar q-px-xl q-py-md bord-bt">
           <a href="/educolab"><img src="@/assets/educolab.png" alt="educolab" style="width:4rem; height:4rem;"></a>
           <div class="navBarUi nav-size">
@@ -38,7 +38,7 @@
             <router-link class="q-ml-xl button color5 navBarLi" to="/student">마이페이지</router-link>
             <button @click="logoutBtn" class="q-ml-xl">로그아웃</button>
           </div>
- 
+  
           <div class="navBar_tool">
             <div v-if="onNavList">
               <div @click="activeNav" class="column items-center q-px-md bg-grey-13">
@@ -51,19 +51,8 @@
             <q-icon @click="activeNav" class="cursor-pointer" name="mdi-menu" />
           </div>
         </div>
-      </div>
+    </div>
 
-      <!-- <footer class="bord-top bg-blue-grey-12 q-py-sm">
-        <div class="row justify-start items-center">
-          <img class="q-mx-xl" src="@/assets/footerlogo.png" alt="educolab" style="width:5rem; height:5rem;">
-          <div class="ftr-size">
-            <span class="text-bold">"교육과 서비스의 조화" edu colab!!</span><hr>
-            <span>edu colab는 학습 역량 증진 / 교육 연계 보조 / 수업의 질 향상을 목표로 합니다.</span>
-            <p>교사에게는 편리한, 학생에게는 학습욕구를 팽창시켜드립니다!!</p>
-          </div>
-        </div>
-    </footer> -->
-    
   <router-view />
   </div>
 </template>
@@ -76,7 +65,7 @@
     font-family: "jooa";
     src: url("@/assets/fonts/BMJUA_ttf.ttf");
   }
-
+  
   .jooa-font {
     font-family: "jooa"
   }
@@ -97,6 +86,13 @@
     margin: auto;
     font-family: "jooa";
     min-width: 450px;
+    height:1200px;
+  }
+  .surveyStyle {
+    width: 80%;
+    margin: auto;
+    min-width: 450px;
+    height:1200px;
   }
 
   .nav-size {font-size: 1.3rem}

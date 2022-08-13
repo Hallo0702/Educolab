@@ -14,7 +14,7 @@
       </div>
     </div>
     <!-- 퀴즈 답 -->
-    <div class="">
+    <div>
       <p class="title-size q-mt-xl q-mx-lg">제출답안 </p>
       <div class="row title-size ">
         <div v-for="quizItem in quizDetail" :key="quizItem">
@@ -60,7 +60,6 @@ export default {
 
 <style scoped>
 .bogi-border {
-  /* border: 1px inset #FFC000; */
   border-style: inset;
 }
 .question-border {

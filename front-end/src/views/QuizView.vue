@@ -65,7 +65,7 @@ export default({
 
 <style scoped>
   .text-size {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
   }
   .text-nodec {
     text-decoration: none;

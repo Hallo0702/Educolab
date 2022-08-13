@@ -1,20 +1,24 @@
 <template>
   <div class="row justify-center q-my-xl">
     <div class="notice_form">
-        <div class="row start items-center">
-          <p class="title-size">[{{ noticeDetail.notice.classification }}]</p>
-          <p class="title-size">{{ noticeDetail.notice.title }}</p>
+        <hr>
+        <div class="row justify-between items-center">
+          <div class="row start items-center">
+            <p class="title-size">[{{ noticeDetail.notice.classification }}]</p>
+            <p class="title-size">{{ noticeDetail.notice.title }}</p>
+          </div>
+          <p class="item-size text-right q-px-md">{{ timeInfo(noticeDetail.notice.updated_at) }}</p>
         </div>
         <p class="item-size text-start q-pl-sm text-grey-13">{{ noticeDetail.notice.teacher.name }}</p>
+        <hr>
 
-        <q-card class="bg-green-13">
-          <q-card-section>
-            <p class="item-size text-right">{{ timeInfo(noticeDetail.notice.updated_at) }}</p>
-          </q-card-section>
-          <q-card-section>
-            <p class="content-size bg-white text-center" style="min-height:500px">{{ noticeDetail.notice.content }}</p>
-          </q-card-section>
-        </q-card>
+        <div>
+          <q-card class="bord">
+            <q-card-section>
+              <p class="content-size bg-white" style="min-height:500px">{{ noticeDetail.notice.content }}</p>
+            </q-card-section>
+          </q-card>
+        </div>
       <hr>
 
       <div class="q-py-sm q-pl-sm">
@@ -118,5 +122,8 @@ export default {
   }
   .btn-mag {
     margin-top: 100px;
+  }
+  .bord {
+    border: 1px solid ;
   }
 </style>
