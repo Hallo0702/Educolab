@@ -40,7 +40,6 @@ class NoticeCreateView(APIView):
 
         files = req.FILES.getlist("files")
 
-        print(files)
         for file in files:
             fp = Files.objects.create(notice=notice, atch_file=file, atch_file_name=file)
             fp.save()
