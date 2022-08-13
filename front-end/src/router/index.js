@@ -180,29 +180,19 @@ const routes = [
   /////////////////////테스트 뷰////////////////////////////////////
   // 퀴즈 실시간
   { //대기
-    path: '/quiz/online01/',
-    name: 'Quiz-online-wait',
-    component: () => import('@/views/Quiz01-wait')
-  },
-  { //문제만 띄우기
-    path: '/quiz/online02/',
-    name: 'Quiz-online-title',
-    component: () => import('@/views/Quiz02-title')
+    path: '/quiz/:quizPk/wait',
+    name: 'QuizWait',
+    component: () => import('@/views/Quizwait')
   },
   { //문제, 보기 띄우기
-    path: '/quiz/online03/',
-    name: 'Quiz-online-prob',
-    component: () => import('@/views/Quiz03-problem')
-  },
-  { //문제 답안 띄우기
-    path: '/quiz/online04/',
-    name: 'Quiz-online-ans',
-    component: () => import('@/views/Quiz04-answer')
+    path: '/quiz/:quizPk/prob/:probNum',
+    name: 'QuizProb',
+    component: () => import('@/views/Quizproblem')
   },
   { //랭킹 결과 띄우기
-    path: '/quiz/online05/',
-    name: 'Quiz-online-result',
-    component: () => import('@/views/Quiz05-result')
+    path: '/quiz/:quizPk/result',
+    name: 'QuizResult',
+    component: () => import('@/views/Quizresult')
   },
   //////////////////////////////////////////////////////////////////
   // 존재하지 않는 페이지

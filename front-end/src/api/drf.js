@@ -3,6 +3,7 @@ const ACCOUNTS = BASE_URL + '/accounts/'
 const NOTICE = BASE_URL + '/notice/'
 const SURVEY = BASE_URL + '/survey/'
 const QUIZ = BASE_URL + '/quiz/'
+const CHAT = BASE_URL + '/chat/'
 
 export default {
   accounts: {
@@ -37,5 +38,7 @@ export default {
     quizList: () => QUIZ + 'main/',
     quizCreate: () => QUIZ + 'create/',
     quizDetail: () => QUIZ + 'detail/',
+    quizScore: ()=>CHAT +'req/scoreadd/',
+    quizRank:()=>CHAT+'req/rank/',
   },
 }

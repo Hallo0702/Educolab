@@ -45,6 +45,7 @@ export const accounts = {
     authHeader: state => ({ Authorization: `Bearer ${state.access}` }),
     getUserType: state => state.userType,
     getSubject: state => state.teacherInfo.subject,
+    getUsername: state => state.currentUser.username,
   },
   mutations: {
     SET_TOKEN: (state, access) => (state.access = access),
@@ -105,7 +106,7 @@ export const accounts = {
         .then((res) => {
           const access = res.data.access
           dispatch("saveToken", access)
-          // commit("SET_CURRENT_USER", res.data)
+          commit("SET_CURRENT_USER", res.data)
           router.push({ name: "educolab" })
         })
         .catch((err) => {
