@@ -98,7 +98,7 @@ class NoticeUpdateView(APIView):
         notice_id = req.GET['notice_num']
 
         ## 공지사항 번호로 공지사항 인스턴스 가져오기
-        notice = Notice.objects.get(pk=self.notice_id)
+        notice = Notice.objects.get(pk=notice_id)
 
         notice.save()
 

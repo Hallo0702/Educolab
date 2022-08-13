@@ -86,3 +86,4 @@ class TitleChangeView(APIView):
         return Response({
             "success" : True
         })
+
