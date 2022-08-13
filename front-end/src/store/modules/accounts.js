@@ -44,25 +44,25 @@ export const accounts = {
       ],
       userInfo: {
         username: null,
-        password1: null,
-        password2: null,
         name: null,
         school: null,
-        homeroom_teacher_flag: null,
         grade: null,
-        class_field: null,
-        subject: null,
-        phone_number: null,
-        birthday: null,
         email: null,
-        userflag: null,
+        class_field: null,
+        phone_number: null,
+        own_title: null,
         plus_point: null,
         minus_point: null,
-        profil: null,
+        acc_point: null,
+        wear_title: null,
+        birthday: null,
+        homeroom_teacher_flag: null,
+        userflag: null,
       },
       findPw: {
         name: null,
         email: null,
+        username: null
       }
     }
   },
@@ -102,7 +102,7 @@ export const accounts = {
       for (let key in data) {
         state.findPw[key] = data[key]
       }
-    }
+    },
   },
   actions: {
     saveToken({ commit }, access) {
@@ -171,7 +171,7 @@ export const accounts = {
     },
     changePwInfo({commit}, data) {
       commit("CHANGE_PW_INFO", data)
-    }
+    },
     // back에 현재 사용자 정보 요청 (토큰 보내면 )
   },
 };

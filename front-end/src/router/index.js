@@ -12,7 +12,7 @@ const routes = [
   {
     path: '/change/:userData',
     name: 'changeInfo',
-    component: () => import('@/views/FindView')
+    component: () => import('@/views/ChangeView')
   },
   // 로그인
   {

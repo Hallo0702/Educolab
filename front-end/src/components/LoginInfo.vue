@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="row justify-between">
+    <div class="row justify-between" v-if="!changeMode">
       <q-input
         color="teal"
         label="아이디"
@@ -13,25 +13,12 @@
         ]"
       />
       <q-btn label="중복 확인" color="teal" @click="confirmUsername" class="col-2" />
+      <message-pop-up
+        v-if="computedData.confirm"
+        :message="computedData.message"
+        @reverse="userData.confirm = false"
+      />
     </div>
-
-    <q-dialog v-model="userData.confirm" class="dialog">
-      <q-card>
-        <q-card-section>
-          <b>
-            {{computedData.message}}
-          </b>
-          <br>
-          <q-btn
-          v-close-popup
-          label="확인"
-          color="primary"
-          class="submitButton"
-          @click="userData.confirm = false"
-          />
-        </q-card-section>
-      </q-card>
-    </q-dialog>
     <q-input
       color="teal"
       label="비밀번호"
@@ -71,8 +58,15 @@ import {computed} from 'vue'
 import axios from 'axios'
 import drf from '@/api/drf.js'
 import {useStore} from 'vuex'
+import MessagePopUp from './MessagePopUp.vue'
 export default {
   name: 'LoginInfo',
+  props: {
+    changeMode: Boolean,
+  },
+  components: {
+    MessagePopUp
+  },
   setup () {
     const store = useStore()
     const userData = reactive({
@@ -86,6 +80,7 @@ export default {
     const computedData = reactive({
       samePassword: computed(() => userData.correct),
       validUsername: computed(() => userData.valid),
+      confirm: computed(() => userData.confirm),
       message: computed(() => computedData.validUsername? '사용 가능한 아이디입니다':'중복된 아이디입니다. 다른 아이디를 입력해주세요')
     })
     const confirmUsername = () => {
@@ -105,7 +100,11 @@ export default {
       if (userData.password1 === userData.password2) {
         userData.correct = true
         if (userData.password1.length > 5) {
-          store.dispatch('changeData', {password1: userData.password1, password2: userData.password2})
+          if (!props?.changeMode) {
+            store.dispatch('changeData', {password1: userData.password1, password2: userData.password2})
+          } else {
+            store.dispatch('changePw', {password1: userData.password1, password2: userData.password2})
+          }
         }
       } else {
         userData.correct = false
