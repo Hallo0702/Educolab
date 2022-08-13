@@ -62,7 +62,7 @@ const routes = [
   {
     path: '/notice/create/:noticePk?',
     name: 'NoticeCreate',
-    component: () => import('@/views/NoticeFormView')
+    component: () => import('@/views/NoticeCreateView')
   },
   // 과제(교사)
   {
@@ -74,7 +74,7 @@ const routes = [
   // 과제(학생)
   {
     path: '/student/task',
-    name: 'StudentTaskListView',
+    name: 'StudentTask',
     component: () => import('@/views/StudentTaskListView')
   },
   // 과제 상세 

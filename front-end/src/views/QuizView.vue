@@ -35,6 +35,7 @@
 import { mapActions, mapGetters } from "vuex";
 
 export default({
+  name: 'QuizView',
   computed: { 
     ...mapGetters(['quiz'])
   },
