@@ -78,7 +78,6 @@
       </q-form>
     </section>
   </main>
-  </main>
 </template>
 
 <script>
