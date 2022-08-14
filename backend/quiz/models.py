@@ -6,7 +6,6 @@ class QuizList(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-
 class QuizQuestions(models.Model):
     quiz = models.ForeignKey(QuizList, on_delete=models.CASCADE, related_name="question_quiz")
     question_number = models.IntegerField()

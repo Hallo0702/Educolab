@@ -39,7 +39,6 @@ class NoticeCreateView(APIView):
             notice = notice_serializer.save(teacher=req.user, school=SchoolInfo.objects.get(code=req.user.school.code))
 
         files = req.FILES.getlist("files")
-        print(req.data['files'])
 
         print(files)
         for file in files:
@@ -87,7 +86,7 @@ class NoticeDetailView(APIView):
 
         ## 공지사항 번호로 공지사항 인스턴스 가져오기
         notice = Notice.objects.get(pk=notice_id)
-
+#
         notice.delete()
         return Response("success")
 

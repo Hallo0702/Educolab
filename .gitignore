@@ -1,3 +1,6 @@
+# Created by https://www.toptal.com/developers/gitignore/api/windows,python,django,venv,visualstudiocode
+# Edit at https://www.toptal.com/developers/gitignore?templates=windows,python,django,venv,visualstudiocode
+
 .DS_Store
 node_modules
 /dist
@@ -410,6 +413,9 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+*.pem
 
 backend/my_settings.py
 front-end/node_modules
+front-end/node_modules/*
+login_info.json

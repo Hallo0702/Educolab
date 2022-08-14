@@ -75,9 +75,9 @@ class QuizDetailView(APIView):
         quiz_id = req.GET['quiz_num']
 
         ## 설문조사 번호로 설문조사 인스턴스 가져오기
-        survey = QuizList.objects.get(pk=quiz_id)
+        quiz = QuizList.objects.get(pk=quiz_id)
 
-        survey.delete()
+        quiz.delete()
         return Response({"success":True})
 
 
