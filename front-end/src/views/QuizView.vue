@@ -2,7 +2,7 @@
   <div class="baseStyle">
     <img src="@/assets/퀴즈.png" alt="quiz" style="height:150px;">
       <div class="row justify-end">
-        <q-btn @click="QuizCreate" class="text-size" 
+        <q-btn @click="QuizCreate" class="button-size" 
         color="green-13 q-mx-lg q-py-sm" label="퀴즈 등록" />
       </div>
     <div class="q-pa-md">
@@ -66,6 +66,9 @@ export default({
 <style scoped>
   .text-size {
     font-size: 1.4rem;
+  }
+  .button-size {
+    font-size: 1rem;
   }
   .text-nodec {
     text-decoration: none;
