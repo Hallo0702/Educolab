@@ -4,6 +4,7 @@ import { notice } from './modules/notice.js'
 import { task } from './modules/task.js'
 import { survey } from './modules/survey.js'
 import { quiz } from './modules/quiz.js'
+import { mainpage } from './modules/mainpage.js'
 
 export default createStore({
   state () {
@@ -19,6 +20,7 @@ export default createStore({
     notice,
     task,
     survey,
-    quiz
+    quiz,
+    mainpage
   }
 })

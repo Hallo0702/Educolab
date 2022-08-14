@@ -3,12 +3,12 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from accounts.models import UserInfo, PointLog
-from homework.models import TeacherHomework
 
 from .models import Event
 from notice.models import Notice
 from .serializers import AccRankSerializer, EventSerializer, MainpageNoticeSerializer, MainpageTHomeworkSerializer, MainpageTeacherhomeworkSerializer
 from notice.serializers import NoticeMainSerializer
+
 
 from datetime import datetime
 from django.db.models import Sum

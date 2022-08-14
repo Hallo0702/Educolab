@@ -49,7 +49,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         data['refresh'] = str(refresh)
         data['access'] = str(refresh.access_token)
         data['userflag'] = self.user.userflag
-        data['email'] = self.user.email
+        data['username'] = self.user.username
         data['profil'] = self.user.profil.url
         data['schoolname']=self.user.school.name
         return data
@@ -78,7 +78,7 @@ class MyTokenRefershSerializer(TokenRefreshSerializer):
         user = models.UserInfo.objects.get(username=decode_data['user_id'])
         data['name'] = user.name
         data['userflag'] = user.userflag
-        data['email'] = user.email
+        data['username'] = user.username
         data['profil'] = user.profil.url
         data['schoolname']=user.school.name
         return data

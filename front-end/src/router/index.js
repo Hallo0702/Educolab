@@ -55,8 +55,8 @@ const routes = [
   // 공지사항 작성
   {
     path: '/notice/create/:noticePk?',
-    name: 'NoticeForm',
-    component: () => import('@/views/NoticeFormView')
+    name: 'NoticeCreate',
+    component: () => import('@/views/NoticeCreateView')
   },
 
   // 과제 메인
@@ -133,7 +133,7 @@ const routes = [
 
   // 포인트 상점(학생)
   {
-    path: '/student/store',
+    path: '/student/point',
     name: 'StudentStoreView.vue',
     component: () => import('@/views/StudentStoreView')
   },

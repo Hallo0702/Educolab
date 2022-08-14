@@ -12,7 +12,8 @@ export const notice = {
   
   getters: {
     notice2 : state => state.notice1,
-    noticeItem : state => state.noticeDetail
+    noticeLenth : state => Math.ceil(state.notice1.length/10),
+    noticeDetail : state => state.noticeDetail
   },
 
   mutations: {
@@ -36,17 +37,16 @@ export const notice = {
         })
     },
 
-    noticeDetail({ getters, commit }, noticeId) {
+    getNoticeDetail({ getters, commit }, noticePk) {
       axios({
         url: drf.notice.noticeDetail(),
         method: 'get',
         headers: getters.authHeader,
         params: {
-          notice_num : noticeId
+          notice_num : noticePk
         }
       })
         .then(res => {
-          console.log(res.data)
           commit('NOTICE_DETAIL', res.data)
         })
         .catch(err => {
@@ -54,8 +54,17 @@ export const notice = {
         })
     },
 
-    submitNotice({ getters }, info) {
-      console.log('ㅋㅋㅋㅋㅋㅋㅋㅋ')
+    createNotice({ getters } , credentials) {
+      let form = new FormData()
+      for (let key in credentials) {
+        if (key === 'files' && credentials[key]) {
+          for (let i=0; i<credentials.files.length; i++) {
+            form.append(key, credentials[key][i])
+          }
+        } else {
+          form.append(key, credentials[key])
+        }
+      }
       axios({
         url: drf.notice.noticeCreate(),
         method: 'post',
@@ -63,7 +72,7 @@ export const notice = {
           ...getters.authHeader,
           'Content-Type': 'multipart/form-data'
         },
-        data : info,
+        data : form,
       })
       .then(res => {
           console.log(res.data)
@@ -89,16 +98,25 @@ export const notice = {
           router.push({ name : 'Notice'})
         })
     },
-    updateNotice({ getters }, credentials, noticePk) {
-      console.log(credentials)
+    updateNotice({ getters }, credentials) {
+      let form = new FormData()
+      for (let key in credentials) {
+        if (key === 'files' && credentials[key]) {
+          for (let i=0; i<credentials.files.length; i++) {
+            form.append(key, credentials[key][i])
+          }
+        } else {
+          form.append(key, credentials[key])
+        }
+      }      
       axios({
         url: drf.notice.noticeUpdate(),
         method: 'put',
-        headers: getters.authHeader,
-        data : credentials,
-        params: {
-          notice_num : noticePk
-        }
+        headers: {
+          ...getters.authHeader,
+          'Content-Type': 'multipart/form-data'
+        },
+        data : form,
       })
         .then(res => {
           console.log(res)
@@ -108,19 +126,3 @@ export const notice = {
     },
   }
 }
-
-// updateArticle({ commit, getters }, { pk, title, content}) {
-//   axios({
-//     url: drf.articles.article(pk),
-//     method: 'put',
-//     data: { title, content },
-//     headers: getters.authHeader,
-//   })
-//     .then(res => {
-//       commit('SET_ARTICLE', res.data)
-//       router.push({
-//         name: 'article',
-//         params: { articlePk: getters.article.pk }
-//       })
-//     })
-// },

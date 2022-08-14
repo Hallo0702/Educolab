@@ -7,6 +7,7 @@ const SURVEY = BASE_URL + 'survey/'
 const QUIZ = BASE_URL + 'quiz/'
 const MY_PAGE = BASE_URL + 'mypage/'
 const HOMEWORK = BASE_URL + 'homework/'
+const MainPage = BASE_URL + 'mainpage/'
 
 export default {
   accounts: {
@@ -19,7 +20,7 @@ export default {
     sendEmail: () => ACCOUNTS + 'send_signup_email/',
     sendPwEmail: () => ACCOUNTS + 'send_pw_email/',
     changePw: () => ACCOUNTS + 'change_pw/',
-
+  },
   notice: {
     noticeList: () => NOTICE + "main/",
     noticeDetail: () => NOTICE + "detail/",
@@ -42,6 +43,9 @@ export default {
     quizDetail: () => QUIZ + 'detail/',
   },
 
+  mainpage: {
+    mainItem: () => MainPage
+  },
   task: {
     list: () => HOMEWORK + 'main/',
     create: () => HOMEWORK + 'create/',
@@ -61,5 +65,4 @@ export default {
     changeProfil: () => MY_PAGE + 'profil/',
     changeTitle: () => MY_PAGE + 'title/',
   },
-}
 }
