@@ -41,6 +41,7 @@ export default {
       })
       .then((res) => {
         data.my = res.data
+        console.log(res.data)
         store.dispatch('changeInfo', res.data.userinfo)
       })
     }
