@@ -46,7 +46,6 @@ class SendSignupEmailView(APIView):
     def post(self,request):
         email = request.data.get('email')
         auth_num = email_auth_num()
-        print(email)
         send_mail(subject='educolab 회원가입 이메일 인증 메일입니다',message=auth_num,recipient_list=[email],from_email=EMAIL_HOST_USER)
         context = {
             'auth_num' : auth_num,
@@ -82,15 +81,14 @@ class SendPWEmailView(APIView):
     permission_classes = (AllowAny,)
 
     def post(self,request):
+        print(request.data)
         name = request.data.get('name')
         email = request.data.get('email')
         username = request.data.get('username')
-        
         try:
             userinfo = UserInfo.objects.get(name=name,username=username)
         except:
             userinfo = None
-        
         if userinfo == None:
             context = {
                 "success" : False,

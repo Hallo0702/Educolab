@@ -11,18 +11,30 @@
 </template>
 
 <script>
-import {ref} from '@vue/reactivity'
+import {ref, onBeforeMount} from 'vue'
 import {useStore} from 'vuex'
 export default {
   name: 'UserBirthday',
   props: {
+    date: String,
     userType: String,
+    type: String,
   },
   setup(props) {
-    let birthday = ref(props.userType === 'student'?'2008-01-01':'1972-01-01')
     const store = useStore()
+    let birthday = ref(props.userType === 'student'?'2008-01-01':'1972-01-01')
+    onBeforeMount(() => {
+      if (props.date) {
+        birthday.value = props.date
+      }
+    })
     const sendData = () => {
-      store.dispatch('changeData', {birthday:birthday.value})
+      const data = {birthday:birthday.value}
+      if (props.type === 'change') {
+        store.dispatch('changeInfo', data)
+      } else {
+        store.dispatch('changeData', data)
+      }
     }
     return {
       birthday,

@@ -1,11 +1,10 @@
 <template>
   <div class="baseStyle">
-    <img src="@/assets/quiz.png" alt="quiz">
+    <img src="@/assets/퀴즈.png" alt="quiz" style="height:150px;">
       <div class="row justify-end">
-        <q-btn @click="QuizCreate" color="green-13 q-mx-lg q-py-sm text-bold text-size" 
-        label="퀴즈 등록" />
+        <q-btn @click="QuizCreate" class="button-size" 
+        color="green-13 q-mx-lg q-py-sm" label="퀴즈 등록" />
       </div>
-
     <div class="q-pa-md">
       <q-markup-table>
         <thead>
@@ -36,9 +35,7 @@
 import { mapActions, mapGetters } from "vuex";
 
 export default({
-  setup() {
-
-  },
+  name: 'QuizView',
   computed: { 
     ...mapGetters(['quiz'])
   },
@@ -67,13 +64,11 @@ export default({
 </script>
 
 <style scoped>
-  /* #quiz {
-    margin: auto;
-    width: 80%;
-    font-family: "jooa";
-  } */
   .text-size {
-    font-size: 1.1rem;
+    font-size: 1.4rem;
+  }
+  .button-size {
+    font-size: 1rem;
   }
   .text-nodec {
     text-decoration: none;

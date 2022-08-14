@@ -5,12 +5,11 @@ from accounts.models import UserInfo
 from pointshop.models import PTitle, Icon
 from accounts.serializers import UserinfoSerializer
 from .serializers import PointlogSerializer,TeacherSerializer, StudentSerializer,SearchStudentSerializer
-# Create your views here.
-
 
 class MypageMainView(APIView):
     def get(self,req):
         ## 학생일 경우
+        print(1, req.data)
         if req.user.userflag == 0:
             score_logs = req.user.point_student.all().order_by('-id')
             userinfo_serializer = StudentSerializer(req.user)
@@ -24,11 +23,15 @@ class MypageMainView(APIView):
 
     ## 회원정보수정(담임등록 포함)
     def put(self,req):
+        print(req.data)
         if req.user.userflag:
+            print(1)
             userinfo_serializer = TeacherSerializer(req.user, data=req.data)
+            print(userinfo_serializer)
         else:
             userinfo_serializer = StudentSerializer(req.user, data=req.data)
         if userinfo_serializer.is_valid(raise_exception=True):
+            print('valid')
             userinfo_serializer.save(school = req.user.school, password = req.user.password)
         return Response({
             "success":True,
@@ -77,7 +80,15 @@ class ProfilChangeView(APIView):
         user.save()
 
         return Response({
-            "success" : True
+            "success" : True,
+        })
+
+    def delete(self, req):
+        user = req.user
+        user.profil = 'accounts/profils/profile1.jpg'
+        user.save()
+        return Response({
+            "success" : True,
         })
 
 class TitleChangeView(APIView):

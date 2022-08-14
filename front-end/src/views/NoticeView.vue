@@ -1,89 +1,127 @@
 <template>
-  <div id="notice" class="center">
-    <h1>공지사항</h1>
-    <router-link to="/notice/create"><button>글쓰기</button></router-link>
-    <table class="center">
-      <thead>
-        <tr>
-          <th>글 번호</th>
-          <th>분류</th>
-          <th>제목</th>
-          <th>작성자</th>
-          <th>등록일</th>
-          <th>조회수</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="notice in notice2" :key="notice.id">
-          <td>{{ notice.pk }}</td>  
-          <td>{{ notice.classification }}</td>
-          <router-link :to="{ name: 'NoticeDetail', params: {noticePk: `${notice.pk}`}}">
-            <td @click="noticeDetail(notice.pk)">{{ notice.title }}</td>
-          </router-link>
-          <td>{{ notice.teacher.name }}</td>
-          <td>{{ timeInfo(notice.updated_at) }}</td>
-          <td>{{ notice.views }}</td>
-        </tr>
-      </tbody>
-    </table>
-    <!-- <div v-if="notice2">
-      <div v-for="notice in notice2"
-      :key="notice.pk">>
-        {{ notice.title}}
-      </div>
-    </div> -->
+  <div class="baseStyle">
+    <!-- <img src="@/assets/공지사항.png" alt="notice" style="height:150px;"> -->
+      <h4 class="text-center">공지사항</h4>
+      <hr>
+    <div class="row justify-end q-mt-lg">
+      <q-btn @click="noticeCreate" class="text-size q-mx-lg q-py-sm" 
+      color="blue-6" label="글 쓰기" />
+    </div>
 
+    <div class="q-pa-md">
+      <q-markup-table class="notice-full">
+        <thead>
+          <tr class="text-center text-size">
+            <th class="text-size">번호</th>
+            <th class="text-size">분류</th>
+            <th class="text-size">제목</th>
+            <th class="text-size">작성자</th>
+            <th class="text-size">등록(수정)일</th>
+            <th class="text-size">조회수</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(notice, index) in notice2.slice((page-1)*10, page*10)" :key="index"
+          class="text-center">
+            <td class="text-size">{{ index+1+((page-1)*10) }}</td>
+
+            <td v-if="notice.classification === '변경'" class="text-size text-pink-13">{{ notice.classification }}</td>
+            <td v-else-if="notice.classification === '공지'" class="text-size text-indigo-13">{{ notice.classification }}</td>
+            <td v-else-if="notice.classification === '행사'" class="text-size text-green-13">{{ notice.classification }}</td>
+
+            <td @click="noticeDetail(notice.pk)" class="cursor-pointer text-left text-size">{{ notice.title }}</td>
+            <td class="text-size">{{ notice.teacher.name }}</td>
+            <td class="text-size">{{ timeInfo(notice.updated_at) }}</td>
+            <td class="text-size">{{ notice.views }}</td>
+          </tr>
+        </tbody>
+      </q-markup-table>
+
+      <q-markup-table class="notice-small">
+        <thead>
+          <tr>
+            <th class="text-center text-size">분류</th>
+            <th class="text-center text-size">제목</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(notice, index) in notice2.slice((page-1)*10, page*10)" :key="index">
+            <td v-if="notice.classification === '변경'" class="text-size text-center text-pink-13">{{ notice.classification }}</td>
+            <td v-else-if="notice.classification === '공지'" class="text-size text-center text-indigo-13">{{ notice.classification }}</td>
+            <td v-else-if="notice.classification === '행사'" class="text-size text-center text-green-13">{{ notice.classification }}</td>
+
+            <td @click="noticeDetail(notice.pk)" class="cursor-pointer text-size">{{ notice.title }}</td>
+          </tr>
+        </tbody>
+      </q-markup-table>
+    </div>
+
+    <div>
+      <the-pagi-nation v-if="noticeLenth" :limit="noticeLenth" @change-page="changePage">
+      </the-pagi-nation>
+    </div>   
 
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-// import NoticeItem from '@/components/NoticeItem.vue'
+import { ref } from 'vue'
+import ThePagiNation from '@/components/ThePagination.vue'
 
 export default {
   name: "NoticeView",
-  data() {
+  components: {ThePagiNation},
+  setup() {
+    let page = ref(1)
+    const changePage = (value) => {
+      page.value = value
+    }
     return {
-      // content: noticeList.Content,
-      // searchTitle: '',
-      // searchNoticeList : [],
+      page,
+      changePage
     }
   },
-  // components: {
-  //   NoticeItem
-  // },
   computed: {
-    ...mapGetters(['notice2', 'noticeItem'])
+    ...mapGetters(['notice2', 'noticeLenth'])
   },
   methods: {
-    ...mapActions(['noticeList', 'noticeDetail']),
+    ...mapActions(['noticeList']),
     timeInfo(time) {
       const d = new Date(time)
       return d.getFullYear() + ". " + (d.getMonth()+1) + ". " + d.getDate()
     },
-    // rowClicked(row) {
-    //   this.$router.push({
-    //     path: `/board/detail/${row.id}`
-    //   })
-    // }
+    noticeCreate() {
+      this.$router.push({name : 'NoticeCreate'})
+    },
+    noticeDetail(noticePk) {
+      this.$router.push({name: 'NoticeDetail', params:{ noticePk:noticePk }})
+    }
   },
-  mounted() {
+  created() {
     this.noticeList()
   }
 }
 
 </script>
 
-<style>
-  #notice {
-    margin: auto;
-    width: 80%;
-    font-family: "jooa";
-  }
+<style scoped>
+  .text-size{font-size: 1rem;}
   .searchWrap{border-radius:5px; text-align:center; padding:20px 0; margin-bottom:10px;}
   .tbList th{border-top:1px solid #888;}
 	.tbList th, .tbList td{border-bottom:1px solid #eee; padding:5px 0;}
 	.tbList td.txt_left{text-align:left;}
   .btn{margin-bottom:40px;}
+  .notice-small {
+    display: none;
+  }
+
+  @media screen and (max-width: 950px) {
+    .notice-full {
+      display: none;
+    }
+    .notice-small {
+      display: block;
+    }
+  }
 </style>

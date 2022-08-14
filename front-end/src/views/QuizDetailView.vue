@@ -14,7 +14,7 @@
       </div>
     </div>
     <!-- 퀴즈 답 -->
-    <div class="">
+    <div>
       <p class="title-size q-mt-xl q-mx-lg">제출답안 </p>
       <div class="row title-size ">
         <div v-for="quizItem in quizDetail" :key="quizItem">
@@ -27,8 +27,8 @@
     </div>
     
     <div class="row justify-center q-my-lg">
+      <q-btn @click="updateQuiz(quizPk)" class="q-mx-lg" color="orange-6">퀴즈 수정</q-btn>
       <q-btn @click="deleteQuiz(quizPk)" class="q-mx-lg" color="orange-6">퀴즈 삭제</q-btn>
-      <q-btn @click="updateQuizx(quizPk)" class="q-mx-lg" color="orange-6">퀴즈 수정</q-btn>
     </div>
   </div>
 </template>
@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     ...mapActions(['getQuizDetail', 'deleteQuiz']),
-    updateQuizx(quizPk) {
+    updateQuiz(quizPk) {
       this.$router.push({name:'QuizCreate', params: {quizPk : quizPk}})
     }
   },
@@ -60,7 +60,6 @@ export default {
 
 <style scoped>
 .bogi-border {
-  /* border: 1px inset #FFC000; */
   border-style: inset;
 }
 .question-border {
