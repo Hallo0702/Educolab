@@ -3,17 +3,11 @@
     <h5 class="text-center">내 정보</h5>
     <q-card-section horizontal>
       <label for="profil">
-        <!-- 프로필 이미지 있을 때 -->
         <img
           :src="profil.change"
           class="cursor-pointer"
           width="100"
           oncontextmenu="return false">
-        <!-- <q-img
-          :src="profil"
-          size="100px"
-          class="cursor-pointer"
-        /> -->
       </label>
       <input
         type="file"
@@ -45,9 +39,9 @@
         </span>
         <span v-if="!info.userflag">
           <q-btn color="black" class="text-bold" flat @click="myTitle(true)">
-            {{info.wear_title.title}}
+            {{computedTitle}}
           </q-btn>
-          | 상점/벌점 +{{info.plus_point}} ({{info.acc_point}}) /-{{info.minus_point}}
+          | 현재 상점(누적 상점)/벌점 +{{info.plus_point}} ({{info.acc_point}}) /-{{info.minus_point}}
         </span>
         <br>
         이메일과 전화번호는 데이터 값에 포함되지만 출력하지 않음
@@ -58,21 +52,13 @@
 
     <q-card-actions>
       <q-btn flat @click="deleteProfil">프로필 삭제</q-btn>
-      <q-btn color="primary" flat @click="confirmPassword('info')">
+      <q-btn color="primary" flat @click="toChangePage('info')">
         정보 수정
       </q-btn>
-      <q-btn color="primary" flat @click="confirmPassword('password')">
+      <q-btn color="primary" flat @click="toChangePage('password')">
         비밀번호 변경
       </q-btn>
     </q-card-actions>
-    <!-- 비밀번호 입력 창 -->
-    <my-page-pop-up
-      v-if="change.mode"
-      :title="change.title"
-      :path="change.path"
-      :changeMode="true"
-      @reverse="change.prompt = false"
-    />
     <!-- 업적/칭호 적용 창 -->
     <my-page-pop-up
       v-if="apply.mode && !info.userflag"
@@ -88,6 +74,7 @@
 <script>
 import {useStore} from 'vuex'
 import { computed, reactive, ref } from 'vue'
+import {useRouter} from 'vue-router'
 import dayjs from 'dayjs'
 import axios from 'axios'
 import drf from '@/api/drf.js'
@@ -102,8 +89,10 @@ export default {
   },
   setup(props) {
     const store = useStore()
+    const router = useRouter()
     const school = store.getters.currentUser.schoolname
     let title = ref(props.info.wear_title?.title)
+    let computedTitle = computed(() => title.value)
     const date = dayjs(props.info.birthday)
     const birthday = `${date.get('y')}년 ${date.get('M')+1}월 ${date.get('D')}일생`
     let profil = reactive({
@@ -112,22 +101,11 @@ export default {
       })
     let computedProfil = computed(() => profil.value)
     let files = null
-    const change = reactive({
-      prompt: false,
-      title: null,
-      path: null,
-      mode: computed(() => change.prompt),
-    })
     const apply = reactive({
       prompt: false,
       title: null,
       mode: computed(() => apply.prompt),
     })
-    const confirmPassword = (path) => {
-      change.path = '/change/' + path
-      change.title = path === 'info'?'회원정보 수정':'비밀번호 변경'
-      change.prompt = true
-    }
     let type = ref(null)
     const myTitle = (title) => {
       type.value = title
@@ -135,7 +113,9 @@ export default {
       apply.prompt = true
     }
     const applyTitle = (val, pk, name) => {
+      console.log(val, pk, name)
       if (val && name !== title.value ) {
+        console.log('신호 보낼 것')
         axios({
           url: drf.myPage.changeTitle(),
           method: 'put',
@@ -144,6 +124,7 @@ export default {
         })
           .then(() => {
             title.value = name
+            console.log('성공')
           })
       }
       apply.prompt = false
@@ -165,6 +146,7 @@ export default {
         .then(() => {
           // 프로필 적용
           profil.path = drf.file.change() + photo.files[0].name
+          
           console.log(profil.path)
           console.log('적용되었습니다')
         })
@@ -183,9 +165,18 @@ export default {
           console.log('적용되었습니다')
         })
     }
+    const toChangePage = (path) => {
+      if (path === 'password') {
+        store.dispatch('changePwInfo', {name: props.info.name, email: props.info.email, username: props.info.username})
+        router.push('/change/password')
+      } else {
+        store.dispatch('changeInfo', props.info)
+        router.push('/change/info')
+
+      }
+    }
     return {
       school,
-      change,
       apply,
       title,
       type,
@@ -193,11 +184,12 @@ export default {
       files,
       profil,
       computedProfil,
-      confirmPassword,
       myTitle,
       applyTitle,
       changeProfil,
-      deleteProfil
+      deleteProfil,
+      toChangePage,
+      computedTitle
     }
   },
 }

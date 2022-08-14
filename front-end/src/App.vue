@@ -45,7 +45,9 @@
                 <router-link class="text-subtitle2 button color5 navBarLi" to="/notice" flat>공지사항</router-link>
                 <router-link class="text-subtitle2 button color5 navBarLi" to="/student/task" flat>과제</router-link>
                 <router-link class="text-subtitle2 button color5 navBarLi" to="/student/point" flat>포인트 상점</router-link>
-                <router-link class="text-subtitle2 button color5 navBarLi" to="/student">마이페이지</router-link>
+          <a href="/">
+                  <router-link class="text-subtitle2 button color5 navBarLi" to="/student">마이페이지</router-link>
+          </a>
               </div>
             </div>
             <q-icon @click="activeNav" class="cursor-pointer" name="mdi-menu" />

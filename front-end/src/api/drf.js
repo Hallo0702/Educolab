@@ -18,7 +18,6 @@ const SURVEY = BASE_URL + 'survey/'
 const QUIZ = BASE_URL + 'quiz/'
 const MY_PAGE = BASE_URL + 'mypage/'
 const HOMEWORK = BASE_URL + 'homework/'
->>>>>>> front_mypage
 
 export default {
   accounts: {
@@ -38,8 +37,6 @@ export default {
     noticeCreate: () => NOTICE + "create/",
     noticeUpdate: () => NOTICE + "update/",
   },
-<<<<<<< HEAD
-=======
 
   survey: {
     surveyList: () => SURVEY + 'main/',    

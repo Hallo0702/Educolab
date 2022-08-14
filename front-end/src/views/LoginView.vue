@@ -4,7 +4,7 @@
     <account-error-list></account-error-list>
     <!-- form 부분 -->
     <q-form
-      @submit="login"
+      @submit="login(credentials)"
       class="q-gutter row"
     >
     <!-- 여기에 아이디, 비밀번호 입력 창 -->
@@ -22,7 +22,7 @@
           v-model="credentials.password"
           label="Password"
           type="password"
-          @keyup.enter="login"
+          @keyup.enter="login(credentials)"
           lazy-rules
           :rules="[
             val => val !== null && val !== '' || '비밀번호를 입력해주세요',
@@ -34,7 +34,7 @@
         color="secondary"
         label="LOGIN"
         class="col-8 offset-2 col-md-1 offset-md-1"
-        @click="login(credentials)"/>
+        type="submit"/>
     </q-form>
 
     <!-- 여기에 회원가입 / ID 찾기 / 비밀번호 찾기 -->

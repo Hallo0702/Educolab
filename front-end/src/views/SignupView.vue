@@ -20,8 +20,17 @@
         <!-- 이메일 -->
         <email-confirm />
         <!-- 회원가입 버튼 -->
-        <q-btn color="primary" label="SIGN UP" class="submitButton" @click="submitData"/>
+        <q-btn
+          color="primary"
+          label="SIGN UP"
+          class="submitButton"
+          @click="submitData"/>
       </div>
+      <message-pop-up
+        v-if="prompt.computedConfirm"
+        message="이메일 인증을 진행해주세요"
+        @reverse="prompt.confirm = false"
+      />
     </q-form>
   </div>
 </template>
@@ -43,7 +52,7 @@
 <script>
 import {useRoute, useRouter} from 'vue-router'
 import {useStore} from 'vuex'
-import {onBeforeMount} from 'vue'
+import {computed, onBeforeMount, reactive} from 'vue'
 import LoginInfo from '@/components/LoginInfo.vue'
 import SearchSchool from '@/components/SearchSchool.vue'
 import EmailConfirm from '@/components/EmailConfirm.vue'
@@ -51,8 +60,8 @@ import TeacherOrStudent from '@/components/TeacherOrStudent.vue'
 import UserBirthday from '@/components/UserBirthday.vue'
 import UserPhoneNumber from '@/components/UserPhoneNumber.vue'
 import UserName from '@/components/UserName.vue'
+import MessagePopUp from '@/components/MessagePopUp.vue'
 
-// import { onMounted } from '@vue/runtime-core'
 export default {
   name: "SignupView",
   components: {
@@ -63,14 +72,25 @@ export default {
     UserBirthday,
     UserPhoneNumber,
     UserName,
+    MessagePopUp,
   },
   setup () {
     const store = useStore()
     const route = useRoute()
     const router = useRouter()
     const userType = route.params.userType
+    const prompt = reactive({
+      confirm: false,
+      computedConfirm: computed(() => prompt.confirm)
+    })
     const submitData = () => {
-      store.dispatch('signup')
+      // 모든 항목이 다 채워져 있을 경우에만 회원 가입
+      if (store.getters.isValidEmail) {
+        store.dispatch('signup')
+      } else {
+        // 이메일 인증을 진행해주세요 팝업
+        prompt.confirm = true
+      }
     }
     onBeforeMount(() => {
       if (userType !== 'student' && userType !== 'teacher') {
@@ -82,6 +102,7 @@ export default {
     return {
       userType,
       router,
+      prompt,
       submitData
     }
   },
