@@ -28,32 +28,47 @@
 </template>
 
 <script>
-import {reactive} from '@vue/reactivity'
-import {computed} from 'vue'
+import {computed, onMounted, reactive} from 'vue'
+import { useStore } from 'vuex'
 import ConfirmAuthNumber from '@/components/ConfirmAuthNumber.vue'
 export default {
   name: 'EmailConfirm',
+  props: {
+    fullEmail: String,
+    type: String,
+  },
   components: {
     ConfirmAuthNumber,
   },
-  setup () {
-    const emailOptions = [
-      '@gmail.com', '@naver.com', '@hanmail.com', '@nate.com', '직접 입력'
-    ]
+  setup (props) {
+    const store = useStore()
+    const emailOptions = store.getters.getEmail
+    let mail = computed(() => props.fullEmail?.split('@'))
     const email = reactive({
       address: null,
       username: '',
       fullEmail: computed(() => {
-        if (email.address) {
-          if (email.address === '직접 입력') {
-            return email.username
-          } else {
+        if (email.address && email.username) {
+          if (email.address.startsWith('@')) {
             return email.username+email.address
+          } else {
+            return email.username
           }
         } else {
           return null
         }
       }),
+    })
+    onMounted(() => {
+      if (props.type === 'change') {
+        if (emailOptions.indexOf(`@${mail.value[1]}`) !== -1) {
+          email.address = `@${mail.value[1]}`
+          email.username = mail.value[0]
+        } else {
+          email.address = '직접 입력'
+          email.username = props.fullEmail
+        }
+      }
     })
     
     return {

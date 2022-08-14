@@ -10,7 +10,9 @@
           <router-link class="q-px-xl button color5" to="/quiz">퀴즈</router-link>
           <router-link class="q-px-xl button color5" to="/survey">설문조사</router-link>
           <router-link class="q-px-xl button color5" to="/teacher">마이페이지</router-link>
-          <button class="q-px-lg" @click="logoutBtn">로그아웃</button>
+          <a href="/">
+            <button class="q-px-lg" @click="logoutBtn">로그아웃</button>
+          </a>
         </div>
       </div>
     </div>
@@ -25,7 +27,9 @@
           <div class="cursor-pointer"><router-link to="/student/writing">내 필기</router-link></div>
           <div class="cursor-pointer"><router-link to="/student/store">포인트 상점</router-link></div>
           <div class="cursor-pointer"><router-link to="/student">마이페이지</router-link></div>
-          <button @click="logoutBtn">로그아웃</button>
+          <a href="/">
+            <button @click="logoutBtn">로그아웃</button>
+          </a>
         </q-bar>
         <hr>
       </div>

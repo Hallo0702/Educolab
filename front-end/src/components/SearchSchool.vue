@@ -47,7 +47,11 @@ import axios from 'axios'
 import drf from '@/api/drf.js'
 export default {
   name: 'searchSchool',
-  setup() {
+  props: {
+    schoolname: String,
+    type: String,
+  },
+  setup(props) {
     const store = useStore()
     const prompt = reactive({
       prompt: false,
@@ -56,7 +60,7 @@ export default {
       searchResults: computed(() => prompt.search),
     })
     const school = reactive({
-      name: null,
+      name: props?.schoolname || null,
       code: null,
       selectedName: null,
       list: [],
@@ -77,7 +81,11 @@ export default {
     }
     const applySchool = () => {
       school.name = school.selectedName
-      store.dispatch('changeData', {school:school.code})
+      if (props.type !== 'change') {
+        store.dispatch('changeData', {school:school.code})
+      } else  {
+        store.dispatch('changeInfo', {school:school.code})
+      }
     }
     return {
       prompt,

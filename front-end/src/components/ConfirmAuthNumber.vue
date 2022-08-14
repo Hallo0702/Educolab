@@ -2,9 +2,9 @@
   <div>
     <!-- 인증 버튼 -->
     <q-btn
-      v-if="params.userType"
+      v-if="params.userType || params.userData === 'info'"
       color="teal"
-      label="이메일 인증"
+      :label="params.userType? '이메일 인증':'이메일 변경'"
       class="col-2"
       @click="isValidEmail"/>
     <q-btn
@@ -14,21 +14,14 @@
       label="FIND PW"
       class="col-8 offset-2 col-md-1 offset-md-1"
       @click="isValidEmail"/>
-    <!-- 인증 실패 팝업 (일치하는 회원정보가 없음) -->
+    <!-- 인증 번호 보냈음을 알림 & 인증 실패 팝업 (일치하는 회원정보가 없음) -->
     <message-pop-up 
-      v-if="email.prompt && email.isFail"
-      title="인증 실패"
+      v-if="email.confirm"
       :message="email.message"
       @reverse="email.prompt = false"
     />
-    <!-- 인증 번호를 보냈음을 알림 -->
-    <message-pop-up
-      v-if="email.prompt && !email.isFail"
-      message="인증번호가 전송되었습니다"
-      @reverse="email.prompt = false"
-    />
     <!-- 인증 번호 입력 창 -->
-    <div v-if="email.prompt && !email.isFail" class="row justify-between">
+    <div v-if="!email.isFail" class="row justify-between">
       <q-input
         color="teal"
         v-model="number.inputNum"
@@ -44,10 +37,11 @@
       </p>
       <!-- 인증 번호 일치 여부 팝업-->
       <message-pop-up
-        v-if="alert"
+        v-if="alert.computedState"
         title="인증 번호 확인"
         message="인증되었습니다"
-        @reverse="alert = false"
+        path="/change/password"
+        @reverse="alert.state = false"
       />
     </div>
   </div>
@@ -56,7 +50,7 @@
 
 <script>
 import {reactive, ref} from '@vue/reactivity'
-import {useRoute, useRouter} from 'vue-router'
+import {useRoute} from 'vue-router'
 import {computed, onBeforeMount} from 'vue'
 import {useStore} from 'vuex'
 import axios from 'axios'
@@ -75,50 +69,54 @@ export default {
   },
   setup (props) {
     const route = useRoute()
-    const router = useRouter()
     const store = useStore()
     const params = reactive({
-      info: route.params.info? route.params.info : null,
-      userType: route.params.userType? route.params.userType : null,
+      userData: route.params.userData || null,
+      info: route.params.info || null,
+      userType: route.params.userType || null,
     })
     const email = reactive({
       authNum: null,
       valid: false,
       message: null,
       prompt: false,
-      isFail: computed(() => !!email.message)
+      isFail: computed(() => !email.valid),
+      confirm: computed(() => email.prompt),
     })
     const isValidEmail = () => {
-      // if는 find, else는 signup
+      // if는 find pw, else는 signup, change info
+      let url = null
+      // find
       if (params.info) {
         if (props.data.email && props.data.name && props.data.username) {
-          axios.post(drf.accounts.sendPwEmail(), props.data)
-            .then(res => {
-              if (res.data.success) {
-                email.authNum = res.data['auth_num']
-                email.valid = true
-                start()
-              } else {
-                email.message = res.data.message
-              }
-            })
-            .catch(err => console.dir(err))
-        } else {
-          email.message = '비어있는 항목을 채워주세요'
-        }
-        email.prompt = true
+          url = drf.accounts.sendPwEmail()
+        } 
+      } else if (props.data.email) {
+        url = drf.accounts.sendEmail()
       } else {
-          if (props.data.email) {
-            start()
-            axios.post(drf.accounts.sendEmail(), props.data)
-              .then(res => {
-                email.authNum = res.data['auth_num']
-                email.valid = true
-              })
-          } else {
-            email.message = '비어있는 항목을 채워주세요'
-          }
-          email.prompt = true
+        email.message = '비어있는 항목을 채워주세요'
+        email.prompt =  true
+      }
+      if (url) {
+        axios({
+          url,
+          method: 'post',
+          data: props.data
+        })
+          .then(res => {
+            if ( (params.info && res.data.success) || props.data.email) {
+              start()
+              console.log(res.data)
+              console.log(res.data['auth_num'])
+              email.authNum = res.data['auth_num']
+              email.message = "인증번호가 전송되었습니다"
+              email.valid = true
+            } else {
+              email.message = res.data.message
+            }
+            email.prompt =  true
+          })
+          .catch(err => console.dir(err))
       }
     }
     const number = reactive({
@@ -128,7 +126,10 @@ export default {
       isValidNumber: computed(() => email.authNum === number.inputNum),
       isAuthNum: computed(() => !!email.authNum),
     }) 
-    let alert = ref(false)
+    const alert = reactive({
+      state: false,
+      computedState: computed(() => alert.state)
+      })
     let limit = ref(180)
     const start = () => {
       limit.value = 180
@@ -148,19 +149,18 @@ export default {
     const sendData = () => {
       if (number.isValidNumber) {
         if (route.params.info === 'password') {
-          alert = true
-          email.valid = false
-          router.push('/change/password')
+          alert.state = true
           } else {
-            store.dispatch('changeData', props.data)
+          store.dispatch('changeData', props.data)
         }
+        store.dispatch('changeValid', true)
       }
-      alert = true
+      alert.state = true
     }
     onBeforeMount (() => {
-      if (!params.userType && params.info !== 'password') {
-        router.push('/404')
-      }
+      // if (!params.userType && params.info !== 'password') {
+      //   router.push('/404')
+      // }
     })
     return {
       params,

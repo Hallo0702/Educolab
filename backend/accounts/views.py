@@ -80,6 +80,7 @@ class SendPWEmailView(APIView):
     permission_classes = (AllowAny,)
 
     def post(self,request):
+        print(request.data)
         name = request.data.get('name')
         email = request.data.get('email')
         username = request.data.get('username')
