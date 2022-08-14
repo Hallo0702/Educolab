@@ -23,5 +23,5 @@ urlpatterns = [
     path('grant/', views.PointGrantView.as_view(), name='mypage_point'),
     path('profil/', views.ProfilChangeView.as_view(), name='profil_change'),
     path('title/', views.TitleChangeView.as_view(), name='title_change'),
-    
+    path('icon/', views.IconChangeView.as_view(), name='icon_change'),
 ]

@@ -2,7 +2,7 @@ from django.urls import is_valid_path
 from rest_framework.decorators import APIView
 from rest_framework.response import Response
 from accounts.models import UserInfo
-from pointshop.models import PTitle
+from pointshop.models import PTitle, Icon
 from accounts.serializers import UserinfoSerializer
 from .serializers import PointlogSerializer,TeacherSerializer, StudentSerializer,SearchStudentSerializer
 # Create your views here.
@@ -80,6 +80,18 @@ class TitleChangeView(APIView):
         user = request.user
 
         user.wear_title = PTitle.objects.get(id=request.data.get('pk'))
+
+        user.save()
+
+        return Response({
+            "success" : True
+        })
+
+class IconChangeView(APIView):
+    def put(self,request):
+        user = request.user
+
+        user.wear_icon = Icon.objects.get(id=request.data.get('pk'))
 
         user.save()
 
