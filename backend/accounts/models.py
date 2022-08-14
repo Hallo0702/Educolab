@@ -36,4 +36,6 @@ class PointLog(models.Model):
     student = models.ForeignKey(UserInfo, on_delete=models.CASCADE, related_name="point_student")
     content = models.CharField(max_length=45)
     point = models.IntegerField()
+    acc_point = models.IntegerField(null=True)
+    acc_minus = models.IntegerField(null=True)
     created_at = models.DateField(auto_now=True)
