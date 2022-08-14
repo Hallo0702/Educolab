@@ -2,6 +2,18 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
+  // 아이디 & 비밀번호 찾기
+  {
+    path: '/find/:info',
+    name: 'findInfo',
+    component: () => import('@/views/FindView')
+  },
+  // 비밀번호 & 회원정보 변경
+  {
+    path: '/change/:userData',
+    name: 'changeInfo',
+    component: () => import('@/views/ChangeView')
+  },
   // 로그인
   {
     path: '/educolab/login',
@@ -13,24 +25,6 @@ const routes = [
     path: '/educolab',
     name: 'educolab',
     component: () => import('@/components/MainPage')
-  },
-  // 아이디 & 비밀번호 찾기
-  {
-    path: '/find/:info',
-    name: 'findInfo',
-    component: () => import('@/views/FindView')
-  },
-  // 비밀번호 & 회원정보 변경
-  {
-    path: '/change/:userData',
-    name: 'changeInfo',
-    component: () => import('@/views/FindView')
-  },
-  // 회원정보 조회
-  {
-    path: '/myinfo',
-    name: 'ReadMyInfo',
-    component: () => import('@/views/FindView')
   },
   // 회원가입
   {
@@ -61,25 +55,25 @@ const routes = [
   // 공지사항 작성
   {
     path: '/notice/create/:noticePk?',
-    name: 'NoticeForm',
-    component: () => import('@/views/NoticeFormView')
-  },
-  // 과제(교사)
-  {
-    path: '/teacher/task',
-    name: 'TeacherTask',
-    component: () => import('@/views/TeacherTaskView')
+    name: 'NoticeCreate',
+    component: () => import('@/views/NoticeCreateView')
   },
 
-  // 과제(학생)
+  // 과제 메인
   {
-    path: '/student/task',
-    name: 'StudentTaskListView',
-    component: () => import('@/views/StudentTaskListView')
+    path: '/:userType/task',
+    name: 'TaskListView',
+    component: () => import('@/views/TaskListView')
+  },
+  // 과제 검색
+  {
+    path: '/:userType/task/search',
+    name: 'SearchTaskView',
+    component: () => import('@/views/SearchTaskView')
   },
   // 과제 상세 
   {
-    path: '/:userType/task/detail/:taskPk',
+    path: '/:userType/task/detail/:taskType/:taskPk',
     name: 'TaskDetailView',
     component: () => import('@/views/TaskDetailView')
   },
@@ -87,13 +81,13 @@ const routes = [
   {
     path: '/:userType/task/create',
     name: 'TaskCreateView',
-    component: () => import('@/views/TaskCreateOrUpdateView')
+    component: () => import('@/views/TaskFormview')
   },
   // 과제 수정
   {
     path: '/:userType/task/update/:taskPk',
     name: 'TaskUpdateView',
-    component: () => import('@/views/TaskCreateOrUpdateView')
+    component: () => import('@/views/TaskFormview')
   },
 
   // 설문조사(교사)
@@ -123,11 +117,11 @@ const routes = [
     name: 'SurveyStat',
     component: () => import('@/views/SurveyStatView')
   },
-  // 마이페이지(교사)
+  // 마이페이지
   {
-    path: '/teacher',
-    name: 'TeacherPage',
-    component: () => import('@/views/TeacherPageView')
+    path: '/:userType',
+    name: 'MyPage',
+    component: () => import('@/views/MyPageView')
   },
 
   // 내 필기(학생)
@@ -139,16 +133,9 @@ const routes = [
 
   // 포인트 상점(학생)
   {
-    path: '/student/store',
+    path: '/student/point',
     name: 'StudentStoreView.vue',
     component: () => import('@/views/StudentStoreView')
-  },
-  
-  // 마이 페이지(학생)
-  {
-    path: '/student',
-    name: 'StudentPageView',
-    component: () => import('@/views/StudentPageView')
   },
   // 404 에러
   {
@@ -177,10 +164,24 @@ const routes = [
     name: 'QuizDetail',
     component: () => import('@/views/QuizDetailView')
   },
+  // 로그아웃
+  {
+    path: '/logout',
+    name: 'logout',
+    // meta: {
+    //   reload:true,
+    // },
+    redirect: '/educolab/login'
+  },
   // 존재하지 않는 페이지
   {
-    path: '/:anything',
+    path: '/:pathMatch(.*)*',
     redirect: '/404'
+  },
+  // 로그인 페이지로 이동
+  {
+    path: '/',
+    redirect: '/educolab/login'
   },
 ]
 

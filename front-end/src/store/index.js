@@ -1,15 +1,13 @@
 import { createStore } from 'vuex'
 import { accounts } from './modules/accounts.js'
 import { notice } from './modules/notice.js'
+import { task } from './modules/task.js'
 import { survey } from './modules/survey.js'
 import { quiz } from './modules/quiz.js'
+import { mainpage } from './modules/mainpage.js'
 
 export default createStore({
   state () {
-    return {
-      // 서버 기본 주소
-      URL: ''
-    }
   },
   getters() {
   },
@@ -18,6 +16,11 @@ export default createStore({
   actions() {
   },
   modules: {
-    accounts, notice, survey, quiz
+    accounts,
+    notice,
+    task,
+    survey,
+    quiz,
+    mainpage
   }
 })

@@ -1,15 +1,31 @@
 <template>
   <div>
     <!-- 과목 (교사) -->
-    <q-select v-if="userType === 'teacher'"
+    <q-select v-if="isTeacher"
       color="teal"
       v-model="subject"
       label="과목"
       :options="subjectOptions"
       :value="subject.value"
     />
+    <div v-if="isTeacher && changeType">
+      교사 유형
+      <q-radio
+        dense
+        v-model="homeroom.type"
+        :val="true"
+        label="담임"
+        @click="sendData({homeroom_teacher_flag: true})"/>
+      <q-radio
+        dense
+        v-model="homeroom.type"
+        :val="false"
+        label="담임 아님"
+        @click="sendData({homeroom_teacher_flag: false})" />
+    </div>
+    
     <!-- 학년/반 (학생) -->
-    <div v-else>
+    <div v-if="!isTeacher || homeroom.computedType">
       <q-select
         color="teal"
         v-model="grade"
@@ -33,22 +49,28 @@
 </template>
 
 <script>
-import {ref} from '@vue/reactivity'
 import {useStore} from 'vuex'
-import {watch} from 'vue'
+import {computed, ref, watch, reactive} from 'vue'
 export default {
   name: 'TeacherOrStudent',
   props: {
     userType: String,
+    data: Object,
+    type: String,
+    homeroomFlag: Boolean,
   },
-  setup() {
+  setup(props) {
     const store = useStore()
-    const subjectOptions = [
-    '국어', '수학', '사회', '과학', '보건', '기술가정', '기타'
-    ]
-    let subject = ref('')
-    let grade = ref('')
-    let classField = ref('')
+    const subjectOptions = store.getters.getSubject
+    const isTeacher = computed(() => props.userType === 'teacher')
+    const changeType = computed(() => props.type === 'change')
+    let subject = ref(props.data?.subject || '')
+    let grade = ref(props.data?.grade || '')
+    let classField = ref(props.data?.classField || '')
+    let homeroom = reactive({
+      type: changeType.value? props.homeroomFlag: null,
+      computedType: computed(() => homeroom.type)
+    })
     watch(subject, () => {
       sendData({subject:subject.value})
     })
@@ -56,11 +78,18 @@ export default {
       sendData({grade:grade.value})
     })
     const sendData = (data) => {
-      store.dispatch('changeData', data)
+      if (changeType.value) {
+        store.dispatch('changeInfo', data)
+      } else {
+        store.dispatch('changeData', data)
+      }
     }
     return {
       subjectOptions,
       sendData,
+      isTeacher,
+      homeroom,
+      changeType,
       subject,
       grade,
       classField
