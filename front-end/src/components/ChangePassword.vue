@@ -32,10 +32,9 @@
         @click="changePw"
       />
       <message-pop-up
-        v-if="password.prompt"
+        v-if="password.popUpFlag"
         :message="password.message"
         :path="'/'"
-        :success="password.success"
         />
     </q-form>
   </div>
@@ -69,7 +68,14 @@ export default {
       samePassword: computed(() => password.one === password.two)
     })
     const changePw = () => {
-      axios.post(drf.accounts.changePw(), {...props.data, password1:password.one, password2:password.two})
+      axios({
+        url: drf.accounts.changePw(),
+        metthod: 'post',
+        data: {
+          ...props.data,
+          password1:password.one,
+          password2:password.two
+        })
       .then(({data}) => {
         console.log(data)
         password.message = data.message

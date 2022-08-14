@@ -18,12 +18,10 @@ import {computed} from 'vue'
 import {useStore} from 'vuex'
 import {useRoute} from 'vue-router'
 import ConfirmAuthNumber from '@/components/ConfirmAuthNumber.vue'
-// import ChangePassword from '@/components/ChangePassword.vue'
 export default {
   name: 'SendPwEmail',
   components: {
     ConfirmAuthNumber,
-    // ChangePassword
     },
   setup(){
     const route = useRoute()

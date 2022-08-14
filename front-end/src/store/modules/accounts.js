@@ -31,6 +31,7 @@ export const accounts = {
         userflag: true,
       },
       userType: null,
+      validEmail: false,
       access: localStorage.getItem("access") || "",
       currentUser: {
         userflag : true
@@ -40,7 +41,7 @@ export const accounts = {
         '국어', '수학', '사회', '과학', '보건', '기술가정', '기타'
       ],
       emailOptions: [
-        '@gmail.com', '@naver.com', '@hanmail.com', '@nate.com', '직접 입력'
+        '@gmail.com', '@naver.com', '@hanmail.com', '@nate.com', '직접 입력',
       ],
       userInfo: {
         username: null,
@@ -62,7 +63,7 @@ export const accounts = {
       findPw: {
         name: null,
         email: null,
-        username: null
+        username: null,
       }
     }
   },
@@ -74,6 +75,7 @@ export const accounts = {
     getUserType: state => state.userType,
     getSubject: state => state.subjectOptions,
     getEmail: state => state.emailOptions,
+    isValidEmail: state => state.validEmail,
     getUserInfo: state => state.userInfo,
     getInfo: state => state.findPw,
   },
@@ -93,16 +95,19 @@ export const accounts = {
       }
     },
     SET_USER_TYPE: (state, userType) => (state.userType = userType),
-    CHANGE_INFO(state, data) {
+    CHANGE_INFO: (state, data) => {
       for (let key in data) {
         state.userInfo[key] = data[key]
       }
     },
-    CHANGE_PW_INFO(state, data) {
+    CHANGE_PW_INFO: (state, data) => {
       for (let key in data) {
         state.findPw[key] = data[key]
       }
     },
+    CHANGE_VALID: (state, data) => {
+      state.validEmail = data
+    }
   },
   actions: {
     saveToken({ commit }, access) {
@@ -114,7 +119,6 @@ export const accounts = {
       localStorage.setItem("access", "")
     },
     login({ commit, dispatch }, credentials) {
-      // 로그인 함수 구현
       axios({
         url: drf.accounts.login(),
         method: "post",
@@ -132,7 +136,10 @@ export const accounts = {
           commit("SET_AUTH_ERROR", err.response.data)
         });
     },
-    signup({state, getters}) {
+    changeValid({commit}, data) {
+      commit("CHANGE_VALID", data)
+    },
+    signup({state, getters, dispatch}) {
       let data = null
       if (getters.getUserType == "student") {
         data = state.studentInfo
@@ -148,6 +155,7 @@ export const accounts = {
         .catch(({response}) => {
           if (response.data?.email) {
             window.alert(response.data.email[0])
+            dispatch('changeValid', false)
           } else {
             window.alert('필수 항목이 빠져 있거나, 올바르지 않습니다')
           }

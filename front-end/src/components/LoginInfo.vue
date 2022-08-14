@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="row justify-between" v-if="!changeMode">
+  <section>
+    <article class="row justify-between" v-if="!changeMode">
       <q-input
         color="teal"
         label="아이디"
@@ -18,7 +18,7 @@
         :message="computedData.message"
         @reverse="userData.confirm = false"
       />
-    </div>
+    </article>
     <q-input
       color="teal"
       label="비밀번호"
@@ -49,7 +49,16 @@
       <span v-show="computedData.samePassword">비밀번호가 일치합니다</span>
       <span v-show="!computedData.samePassword">비밀번호가 일치하지 않습니다</span>
     </p>
-  </div>
+    <article v-if="changeMode">
+      <q-btn label="비밀번호 변경" color="amber" @click="changePw"/>
+      <message-pop-up
+        v-if="password.popUpFlag"
+        :message="password.message"
+        path="/"
+        :reload="true"
+      />
+    </article>
+  </section>
 </template>
 
 <script>
@@ -67,7 +76,7 @@ export default {
   components: {
     MessagePopUp
   },
-  setup () {
+  setup (props) {
     const store = useStore()
     const userData = reactive({
       username: null,
@@ -83,10 +92,21 @@ export default {
       confirm: computed(() => userData.confirm),
       message: computed(() => computedData.validUsername? '사용 가능한 아이디입니다':'중복된 아이디입니다. 다른 아이디를 입력해주세요')
     })
+    const password = reactive({
+      message: null,
+      success: false,
+      prompt: false,
+      popUpFlag:computed(() => password?.prompt),
+      samePassword: computed(() => password.one === password.two)
+    })
     const confirmUsername = () => {
       // 아이디 중복 여부 확인
       if (userData.username && userData.username.length > 4) {
-        axios.get(drf.accounts.checkUsername(), {params : {username: userData.username}})
+        axios({
+          url: drf.accounts.checkUsername(),
+          method: 'get',
+          params : {username: userData.username}
+        })
           .then((res) => {
             userData.confirm = true
             userData.valid = res.data.dup === 'success'
@@ -102,19 +122,40 @@ export default {
         if (userData.password1.length > 5) {
           if (!props?.changeMode) {
             store.dispatch('changeData', {password1: userData.password1, password2: userData.password2})
-          } else {
-            store.dispatch('changePw', {password1: userData.password1, password2: userData.password2})
           }
         }
       } else {
         userData.correct = false
       }
     }
+    const changePw = () => {
+      axios({
+        url: drf.accounts.changePw(),
+        method: 'post',
+        data: {
+          ...store.getters.getInfo,
+          password1: userData.password1,
+          password2: userData.password2
+          }
+      })
+      .then(({data}) => {
+        console.log(data)
+        password.message = data.message
+      })
+      .catch(({response}) => {
+        password.message = response.data.message
+      })
+      .finally(() => {
+        password.prompt = true
+      })
+    }
     return {
       userData,
       computedData,
       confirmUsername,
-      isCorrect
+      isCorrect,
+      password,
+      changePw,
     }
   }
 }
