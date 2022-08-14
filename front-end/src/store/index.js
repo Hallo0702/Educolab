@@ -20,6 +20,7 @@ export default createStore({
     notice,
     task,
     survey,
-    quiz
+    quiz,
+    mainpage
   }
 })

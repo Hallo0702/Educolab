@@ -1,14 +1,3 @@
-<<<<<<< HEAD
-const BASE_URL = 'https://i7c102.p.ssafy.io/api'
-// const BASE_URL = 'http://127.0.0.1:8000/api'
-const ACCOUNTS = BASE_URL + '/accounts/'
-const NOTICE = BASE_URL + '/notice/'
-const HOMEWORK = BASE_URL + '/homework/'
-const SURVEY = BASE_URL + '/survey/'
-const QUIZ = BASE_URL + '/quiz/'
-const MainPage = BASE_URL + '/mainpage/'
-
-=======
 const FILE = 'http://127.0.0.1:8000'
 // const FILE = 'https://i7c102.p.ssafy.io'
 const BASE_URL = FILE + '/api/'
@@ -18,6 +7,7 @@ const SURVEY = BASE_URL + 'survey/'
 const QUIZ = BASE_URL + 'quiz/'
 const MY_PAGE = BASE_URL + 'mypage/'
 const HOMEWORK = BASE_URL + 'homework/'
+const MainPage = BASE_URL + 'mainpage/'
 
 export default {
   accounts: {
@@ -30,7 +20,7 @@ export default {
     sendEmail: () => ACCOUNTS + 'send_signup_email/',
     sendPwEmail: () => ACCOUNTS + 'send_pw_email/',
     changePw: () => ACCOUNTS + 'change_pw/',
-
+  },
   notice: {
     noticeList: () => NOTICE + "main/",
     noticeDetail: () => NOTICE + "detail/",
@@ -55,8 +45,7 @@ export default {
 
   mainpage: {
     mainItem: () => MainPage
-  }
->>>>>>> front_mypage
+  },
   task: {
     list: () => HOMEWORK + 'main/',
     create: () => HOMEWORK + 'create/',
@@ -66,26 +55,6 @@ export default {
     submit: () => HOMEWORK + 'submit/',
   },
   file: {
-<<<<<<< HEAD
-    path: () => BASE_URL,
-  },
-  survey: {
-    surveyList: () => SURVEY + "main/",
-    surveyCreate: () => SURVEY + "create/",
-    surveyDetail: () => SURVEY + "detail/",
-    surveyUpdate: () => SURVEY + "update/",
-    surveyStat: () => SURVEY + "stat/",
-    surveyQuestion: () => SURVEY + "stat/detail/",
-  },
-
-  quiz: {
-    quizList: () => QUIZ + "main/",
-    quizCreate: () => QUIZ + "create/",
-    quizDetail: () => QUIZ + "detail/",
-  },
-  };
-}
-=======
     path: () => FILE,
     change: () => '/api/media/accounts/profils/',
     default: () => '/api/media/accounts/profils/profile1.jpg'
@@ -97,4 +66,3 @@ export default {
     changeTitle: () => MY_PAGE + 'title/',
   },
 }
->>>>>>> front_mypage
