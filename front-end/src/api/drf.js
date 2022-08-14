@@ -20,6 +20,7 @@ export default {
     sendEmail: () => ACCOUNTS + 'send_signup_email/',
     sendPwEmail: () => ACCOUNTS + 'send_pw_email/',
     changePw: () => ACCOUNTS + 'change_pw/',
+    checkePw: () => ACCOUNTS + 'check_pw/',
   },
   notice: {
     noticeList: () => NOTICE + "main/",
