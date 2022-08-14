@@ -13,6 +13,17 @@
         <change-user-info />
       </section>
     </q-form>
+    <q-dialog v-model="confirm.prompt" persistent>
+      <q-card style="min-width: 350px">
+        <q-card-section>
+          <div class="text-h6 center">{{confirm.message}}</div>
+        </q-card-section >
+        <q-card-actions text-align="center">
+          <button-group v-if="confirm.isSuccess" :currentUrl="type.currentUrl" @click="initInfo"/>
+          <q-btn v-else color="primary" label="확인" v-close-popup/>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
     <!-- 여기에 회원가입 로그인 비밀번호 찾기 -->
     <button-group v-if="type.type" :currentUrl="type.currentUrl"/>
   </main>

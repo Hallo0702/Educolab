@@ -6,6 +6,7 @@ const NOTICE = BASE_URL + '/notice/'
 const HOMEWORK = BASE_URL + '/homework/'
 const SURVEY = BASE_URL + '/survey/'
 const QUIZ = BASE_URL + '/quiz/'
+const MainPage = BASE_URL + '/mainpage/'
 
 =======
 const FILE = 'http://127.0.0.1:8000'
@@ -54,6 +55,10 @@ export default {
     quizCreate: () => QUIZ + 'create/',
     quizDetail: () => QUIZ + 'detail/',
   },
+
+  mainpage: {
+    mainItem: () => MainPage
+  }
 >>>>>>> front_mypage
   task: {
     list: () => HOMEWORK + 'main/',
