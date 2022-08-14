@@ -27,6 +27,7 @@ class UserInfo(AbstractUser):
     acc_point = models.IntegerField(default=0, null=True)
     wear_title = models.ForeignKey(PTitle,null=True,on_delete=models.SET_NULL)
     own_title = models.ManyToManyField(PTitle,related_name='title_owner')
+    wear_icon = models.ForeignKey(Icon,null=True,on_delete=models.SET_NULL)
     own_icon = models.ManyToManyField(Icon, related_name='icon_owner')
 
     

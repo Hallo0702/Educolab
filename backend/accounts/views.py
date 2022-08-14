@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.core.mail import send_mail
+from django.contrib.auth.hashers import check_password
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
@@ -136,3 +137,10 @@ class ChangePWView(APIView):
             "message" : "비밀번호가 성공적으로 변경되었습니다"
         }
         return Response(context)
+
+class CheckPasswordView(APIView):
+
+    def post(self, request):
+        input_password = request.data.get('password')
+        check = check_password(input_password,request.user.password)
+        return Response({"success" : check})
