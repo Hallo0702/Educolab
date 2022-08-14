@@ -3,12 +3,11 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from accounts.models import UserInfo, PointLog
-from homework.models import TeacherHomework
 
 from .models import Event
 from notice.models import Notice
 from .serializers import AccRankSerializer, EventSerializer, MainpageNoticeSerializer, MainpageTHomeworkSerializer, MainpageTeacherhomeworkSerializer
-from notice.serializers import NoticeMainSerializer
+
 
 from datetime import datetime
 from django.db.models import Sum
@@ -21,7 +20,7 @@ class MainpageView(APIView): # 메인페이지 정보 전달 (과제,공지,행�
         event_serializer = EventSerializer(event, many=True)
 
         # 공지
-        notice = Notice.objects.filter(school=request.user.school)[:5]
+        notice = Notice.objects.filter(school=request.user.school).order_by('-pk')[:5]
         notice_serializer = MainpageNoticeSerializer(notice, many=True)
 
         # 누적랭킹
