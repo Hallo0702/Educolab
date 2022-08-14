@@ -123,13 +123,9 @@ export const accounts = {
         .then((res) => {
           const access = res.data.access
           dispatch("saveToken", access)
-<<<<<<< HEAD
           console.log(res.data)
           commit("SET_CURRENT_USER",res.data)
           // 새로고침 -> 로그인 정보 날리기
-=======
-          // commit("SET_CURRENT_USER", res.data)
->>>>>>> 43e34fd66ffc80f02b32e7d26e85587966336999
           router.push({ name: "educolab" })
         })
         .catch((err) => {

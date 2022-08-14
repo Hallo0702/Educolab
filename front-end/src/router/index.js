@@ -2,18 +2,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
-  // 로그인
-  {
-    path: '/educolab/login',
-    name: 'login',
-    component: () => import ('@/views/LoginView')
-  },
-  // 메인페이지 
-  {
-    path: '/educolab',
-    name: 'educolab',
-    component: () => import('@/components/MainPage')
-  },
   // 아이디 & 비밀번호 찾기
   {
     path: '/find/:info',
@@ -26,11 +14,17 @@ const routes = [
     name: 'changeInfo',
     component: () => import('@/views/FindView')
   },
-  // 회원정보 조회
+  // 로그인
   {
-    path: '/my-info',
-    name: 'readMyInfo',
-    component: () => import('@/views/FindView')
+    path: '/educolab/login',
+    name: 'login',
+    component: () => import ('@/views/LoginView')
+  },
+  // 메인페이지 
+  {
+    path: '/educolab',
+    name: 'educolab',
+    component: () => import('@/components/MainPage')
   },
   // 회원가입
   {
@@ -123,11 +117,11 @@ const routes = [
     name: 'SurveyStat',
     component: () => import('@/views/SurveyStatView')
   },
-  // 마이페이지(교사)
+  // 마이페이지
   {
-    path: '/teacher',
-    name: 'TeacherPage',
-    component: () => import('@/views/TeacherPageView')
+    path: '/:userType',
+    name: 'MyPage',
+    component: () => import('@/views/MyPageView')
   },
 
   // 내 필기(학생)
@@ -142,13 +136,6 @@ const routes = [
     path: '/student/store',
     name: 'StudentStoreView.vue',
     component: () => import('@/views/StudentStoreView')
-  },
-  
-  // 마이 페이지(학생)
-  {
-    path: '/student',
-    name: 'StudentPageView',
-    component: () => import('@/views/StudentPageView')
   },
   // 404 에러
   {
@@ -181,15 +168,20 @@ const routes = [
   {
     path: '/logout',
     name: 'logout',
-    meta: {
-      reload:true,
-    },
-    redirect: '/'
+    // meta: {
+    //   reload:true,
+    // },
+    redirect: '/educolab/login'
   },
   // 존재하지 않는 페이지
   {
     path: '/:pathMatch(.*)*',
     redirect: '/404'
+  },
+  // 로그인 페이지로 이동
+  {
+    path: '/',
+    redirect: '/educolab/login'
   },
 ]
 
