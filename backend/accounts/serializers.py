@@ -60,7 +60,7 @@ class ProfilFileSerializer(serializers.ModelSerializer):
         model = models.UserInfo
         fields = 'profil'
 
-class MyTokenRefershSerializer(TokenRefreshSerializer):
+class MyTokenRefreshSerializer(TokenRefreshSerializer):
         # response 커스텀 
     default_error_messages = {
         'no_active_account': {'message':'username or password is incorrect!',
@@ -86,8 +86,8 @@ class MyTokenRefershSerializer(TokenRefreshSerializer):
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
     
-class MyTokenRefershView(TokenRefreshView):
-    serializer_class = MyTokenRefershSerializer
+class MyTokenRefreshView(TokenRefreshView):
+    serializer_class = MyTokenRefreshSerializer
 
 class CustomRegisterSerializer(RegisterSerializer):
     userflag =serializers.BooleanField()

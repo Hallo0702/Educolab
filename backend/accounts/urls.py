@@ -21,14 +21,14 @@ from . import views
 from rest_framework_simplejwt.views import (
     TokenVerifyView,
 )
-from .serializers import MyTokenObtainPairView, MyTokenRefershView
+from .serializers import MyTokenObtainPairView, MyTokenRefreshView
 ##aaadd
 urlpatterns = [
     path('login/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('login_web/', views.LoginView.as_view()),
 	path('login/verify/', TokenVerifyView.as_view(), name='token_verify'),
-    path('login/refresh/', MyTokenRefershView.as_view(), name='token_refresh'),
-    path('schoolinfo/', views.SchoolInfoView.as_view(), name='schoolinfo'),
+    path('login/refresh/', MyTokenRefreshView.as_view(), name='token_refresh'),
+    path('schoolinfo/', views.SchoolInfoView.as_view(), name='schoolinfo'), 
     path('check_username/', views.CheckUsernameView.as_view(), name='checkusername'), 
     path('find_username/', views.FindUsernameView.as_view(), name='findusername'),
     path('send_signup_email/', views.SendSignupEmailView.as_view(), name='sendsignupemail'),
