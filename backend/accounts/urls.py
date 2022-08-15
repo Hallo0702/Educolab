@@ -24,7 +24,8 @@ from rest_framework_simplejwt.views import (
 from .serializers import MyTokenObtainPairView, MyTokenRefershView
 ##aaadd
 urlpatterns = [
-    path('login/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('login_1/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('login/', views.LoginView.as_view()),
 	path('login/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path('login/refresh/', MyTokenRefershView.as_view(), name='token_refresh'),
     path('schoolinfo/', views.SchoolInfoView.as_view(), name='schoolinfo'),

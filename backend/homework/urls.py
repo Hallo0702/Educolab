@@ -23,6 +23,6 @@ urlpatterns = [
     path('create/', views.HomeworkCreateView.as_view(), name="homework_create"),
     path('detail/', views.HomeworkDetailView.as_view(), name='homework_detail_delete_put'),
     path('check/', views.HomeworkCheckView.as_view(), name='homework_check'),
-    path('checkdone/', views.HomeworkCheckDoneView.as_view()),
+    path('check/done/', views.HomeworkCheckDoneView.as_view()),
     path('submit/', views.HomeworkSubmitView.as_view(), name='homework_submit'),
 ]

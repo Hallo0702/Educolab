@@ -32,8 +32,8 @@ class UserInfo(AbstractUser):
 
     
 class PointLog(models.Model):
-    teacher = models.ForeignKey(UserInfo, on_delete=models.DO_NOTHING, related_name="point_teacher")
-    student = models.ForeignKey(UserInfo, on_delete=models.CASCADE, related_name="point_student")
+    teacher = models.ForeignKey(UserInfo, on_delete=models.DO_NOTHING, related_name="point_teacher", null=True)
+    student = models.ForeignKey(UserInfo, on_delete=models.CASCADE, related_name="point_student", null=True)
     content = models.CharField(max_length=45)
     point = models.IntegerField()
     created_at = models.DateField(auto_now=True)
