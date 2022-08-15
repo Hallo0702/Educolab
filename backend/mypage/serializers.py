@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from pointshop.serializers import TitleSerializer
+from pointshop.serializers import TitleSerializer, IconSerializer
 from . import models
 from accounts.models import PointLog
 from django.contrib.auth import get_user_model
@@ -22,12 +22,13 @@ class PointlogSerializer(serializers.ModelSerializer):
 class TeacherSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ['username','email','userflag','name','birthday','phone_number','subject','homeroom_teacher_flag','grade','class_field','profil']
+        fields = ['username','email','userflag','name','birthday','phone_number','subject','homeroom_teacher_flag','grade','class_field', 'profil']
         
 class StudentSerializer(serializers.ModelSerializer):
     wear_title = TitleSerializer(read_only=True)
     own_title = TitleSerializer(read_only=True,many=True)
-
+    wear_icon = IconSerializer(read_only=True)
+    own_icon = IconSerializer(read_only=True,many=True)
     class Meta:
         model = get_user_model()
         fields = ['username','email','userflag','name','birthday','phone_number','grade','class_field','profil','plus_point','minus_point','acc_point','wear_title','own_title',]
@@ -41,11 +42,13 @@ class TeacherUpdateSerializer(serializers.ModelSerializer):
 class StudentUpdateSerializer(serializers.ModelSerializer):
     wear_title = TitleSerializer(read_only=True)
     own_title = TitleSerializer(read_only=True,many=True)
+    wear_icon = IconSerializer(read_only=True)
+    own_icon = IconSerializer(read_only=True,many=True)
     profil = ProfilSerializer(read_only=True)
 
     class Meta:
         model = get_user_model()
-        fields = ['username','email','userflag','name','birthday','phone_number','grade','class_field','profil','plus_point','minus_point','acc_point','wear_title','own_title',]
+        fields = ['username','email','userflag','name','birthday','phone_number','grade','class_field','profil','plus_point','minus_point','acc_point','wear_title','own_title','wear_icon', 'own_icon']
         
 
 class SearchStudentSerializer(serializers.ModelSerializer):

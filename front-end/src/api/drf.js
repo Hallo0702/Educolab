@@ -8,10 +8,11 @@ const QUIZ = BASE_URL + 'quiz/'
 const MY_PAGE = BASE_URL + 'mypage/'
 const HOMEWORK = BASE_URL + 'homework/'
 const MainPage = BASE_URL + 'mainpage/'
+const POINT_SHOP = BASE_URL + 'pointshop/'
 
 export default {
   accounts: {
-    login: () => ACCOUNTS + 'login/',
+    login: () => ACCOUNTS + 'login_web/',
     logout: () => ACCOUNTS + 'logout/',
     signup: () => ACCOUNTS + 'registration/',
     schoolInfo: () => ACCOUNTS + 'schoolinfo/',
@@ -20,6 +21,7 @@ export default {
     sendEmail: () => ACCOUNTS + 'send_signup_email/',
     sendPwEmail: () => ACCOUNTS + 'send_pw_email/',
     changePw: () => ACCOUNTS + 'change_pw/',
+    checkePw: () => ACCOUNTS + 'check_pw/',
   },
   notice: {
     noticeList: () => NOTICE + "main/",
@@ -64,5 +66,12 @@ export default {
     point: () => MY_PAGE + 'grant/',
     changeProfil: () => MY_PAGE + 'profil/',
     changeTitle: () => MY_PAGE + 'title/',
+    changeIcon: () => MY_PAGE + 'icon/',
+  },
+  pointShop: {
+    main: () => POINT_SHOP,
+    buyTitle: () => POINT_SHOP + 'title/',
+    buyIcon: () => POINT_SHOP + 'icon/',
+    // registerIcon: () => POINT_SHOP + 'icon/register/',
   },
 }

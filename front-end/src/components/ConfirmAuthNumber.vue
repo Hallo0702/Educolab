@@ -40,7 +40,7 @@
         v-if="alert.computedState"
         title="인증 번호 확인"
         message="인증되었습니다"
-        path="/change/password"
+        :path="params.info?'/change/password':''"
         @reverse="alert.state = false"
       />
     </div>
@@ -148,8 +148,11 @@ export default {
     })
     const sendData = () => {
       if (number.isValidNumber) {
-        if (route.params.info === 'password') {
+        // 비밀번호 찾기
+        if (params.info === 'password') {
           alert.state = true
+          } else if (params.userData === 'info') {
+            store.dispatch('changeInfo', props.data)
           } else {
           store.dispatch('changeData', props.data)
         }

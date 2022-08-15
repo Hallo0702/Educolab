@@ -22,15 +22,11 @@ class MypageMainView(APIView):
 
     ## 회원정보수정(담임등록 포함)
     def put(self,req):
-        print(req.data)
         if req.user.userflag:
-            print(1)
             userinfo_serializer = TeacherUpdateSerializer(req.user, data=req.data)
-            print(userinfo_serializer)
         else:
             userinfo_serializer = StudentUpdateSerializer(req.user, data=req.data)
         if userinfo_serializer.is_valid(raise_exception=True):
-            print('valid')
             userinfo_serializer.save(school = req.user.school, password = req.user.password)
         return Response({
             "success":True,
@@ -101,7 +97,6 @@ class TitleChangeView(APIView):
         return Response({
             "success" : True
         })
-
 class IconChangeView(APIView):
     def put(self,request):
         user = request.user
