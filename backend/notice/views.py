@@ -16,7 +16,7 @@ class NoticeMainView(APIView) :
 
         ## 2. 쿼리로 학교 코드가 req에서 받은 학교 코드인 사람이 작성자인 공지사항 목록을 가져온다.
         school = SchoolInfo.objects.get(code=req.user.school.code)
-        notices = school.notice_school.all()
+        notices = school.notice_school.all().order_by('-updated_at')
         # notices = Notice.objects.select_related('school').filter(school_id=schoolCode)
         
         ## 3. 시리얼라이저 변환
@@ -125,8 +125,9 @@ class NoticeUpdateView(APIView):
         notice = Notice.objects.get(pk=notice_id)
         notice_serializer = NoticeSerializer(notice, data=req.data)
         if notice_serializer.is_valid(raise_exception=True):
-            notice = notice_serializer.save(teacher=req.user, school=SchoolInfo.objects.get(code=req.data['school']))
-
+            print('valid')
+            notice = notice_serializer.save(teacher=req.user, school=req.user.school)
+            print(notice)
         notice_files = notice.notice_file.all()
         notice_files.delete()
 

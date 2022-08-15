@@ -24,12 +24,13 @@ def room(request, room_name):
     
 class AnswerSubmitView(APIView):
     def post(self, req):
-        answer = req.data['answer']
+        answer = int(req.data['answer'])
         quiz_num = req.data['quiz_question_id']
         room_num = req.data['room_num']
         question = QuizQuestions.objects.get(id=quiz_num)
         answerflag = False
         if question.answer == answer:
+            print("kkk")
             answerflag = True
             quiz_answer_serializer = QuizAnswerSerializer(data = {"answerflag":answerflag})
             room = QuizRoom.objects.get(roomnum=room_num)
@@ -86,8 +87,20 @@ class StudentResultView(APIView):
         for answer in answers:
             data.append(answer.question.question_number)
         print(answers)
+        room = QuizRoom.objects.get(roomnum=room_num)
+        students = room.getuser_byroom.order_by('-score')
+        rank = 1
+        print(students)
+        for student in students:
+            print("lll")
+            if student.student == req.user:
+                print("kkk")
+                break;
+            rank+=1
+        print(rank)
         
         return Response({
             "question_cnt" : cnt,
+            "rank" : rank,
             "answers" : data,
         })

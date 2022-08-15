@@ -7,6 +7,7 @@ from accounts.models import UserInfo, PointLog
 from .models import Event
 from notice.models import Notice
 from .serializers import AccRankSerializer, EventSerializer, MainpageNoticeSerializer, MainpageTHomeworkSerializer, MainpageTeacherhomeworkSerializer
+from notice.serializers import NoticeMainSerializer
 
 
 from datetime import datetime

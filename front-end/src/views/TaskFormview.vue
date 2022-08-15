@@ -1,9 +1,8 @@
 <template>
   <main>
-    <h1>{{userType}} 과제 작성, 수정 페이지 {{taskPk}}</h1>
+    <h1>{{userType}} 과제 {{type}} 페이지 {{taskPk}}</h1>
     <section class="q-pa-md" style="max-width: 400px">
       <q-form
-        @submit="onSubmit"
         @reset="onReset"
         class="q-gutter-md"
       >
@@ -20,22 +19,21 @@
           label="내용"
           v-model="task.content"
         />
-        <q-select
-          outlined
-          v-model="task.subject"
-          label="과목"
-          :options="subjectOptions"
-        />
-
         <!-- 교사에게만 보임 -->
         <div v-if="isTeacher">
+          <q-select
+            outlined
+            v-model="task.subject"
+            label="과목"
+            :options="subjectOptions"
+          />
           <q-input
             outlined
             type="number"
             :min="1"
             :max="3"
             label="학년"
-            v-model="task.targetGrade"
+            v-model="task.grade"
             lazy-rules
             :rules="[
             val => val === '' || val === null || val > 0 && val < 4 || '값이 올바르지 않습니다'
@@ -47,20 +45,20 @@
             label="반"
             :min="1"
             :max="20"
-            v-model="task.targetClass"
+            v-model="task.class_field"
             lazy-rules
             :rules="[
             val => val === '' || val === null || val > 0 && val < 21 || '값이 올바르지 않습니다'
             ]"
           />
-          <q-input
-            outlined
-            stack-label
-            type="date"
-            label="제출기한"
-            v-model="task.deadline"
-          />
         </div>
+        <q-input
+          outlined
+          stack-label
+          type="date"
+          label="제출기한"
+          v-model="task.deadline"
+        />
         <q-input
           label="첨부파일"
           stack-label
@@ -70,8 +68,12 @@
           type="file"
         />
         <div>
-          <q-btn label="등록" type="submit" color="primary"/>
           <q-btn label="초기화" type="reset" color="primary" flat class="q-ml-sm" />
+          <q-btn :label="type" color="primary" @click="onSubmit(false)" />
+          <q-btn v-if="!isTeacher" label="제출" color="primary" @click="onSubmit(true)"/>
+          <router-link class="button" :to="{name:'TaskListView', params: {userType,}}">
+            <q-btn label="목록" color="primary"/>
+          </router-link>
         </div>
       </q-form>
     </section>
@@ -79,7 +81,7 @@
 </template>
 
 <script>
-import { ref, reactive, computed } from 'vue'
+import { reactive, computed, onBeforeMount} from 'vue'
 import { useRoute } from 'vue-router'
 import {useStore} from 'vuex'
 export default {
@@ -87,47 +89,90 @@ export default {
   setup () {
     const route = useRoute()
     const store = useStore()
-    const subjectOptions = store.getters.getSubject
-    let userType = route.params.userType
-    let isTeacher = computed(() => userType === 'teacher')
-    let taskPk = route.params.taskPk
-    const task = reactive({
-      teacher: store.getters.currentUser.username,
-      subject: store.getters.currentUser.subject,
-      title: null,
-      content: null,
-      grade: null,
-      class_field: null,
-      files: null,
-      deadline: null,
+    let {userType, taskPk} = route.params
+    onBeforeMount(() => {
+      if (taskPk) {
+        store.dispatch('initTask')
+        store.dispatch('taskDetail', {pk: taskPk, teacher_flag: userType === 'teacher'? 1:0})
+    }
     })
-    const accept = ref(false)
-    const onSubmit = (event) => {
-      event.preventDefault()
-      store.dispatch('createTask', task)
+    const subjectOptions = store.getters.getSubject
+    let isTeacher = computed(() => userType === 'teacher')
+    let type = computed(() => taskPk? '수정':'등록')
+    const storeTask = computed(() => store.getters.getTask)
+    const computedTask = reactive({
+      subject: computed(() => storeTask.value.homework?.subject),
+      title: computed(() => storeTask.value.homework?.title || storeTask.value.title),
+      content: computed(() => storeTask.value.homework?.content || storeTask.value.content),
+      grade: computed(() => storeTask.value.homework?.grade),
+      class_field: computed(() => storeTask.value.homework?.class_field),
+      files: computed(() => storeTask.value.homework?.files || storeTask.value['student_file']),
+      deadline: computed(() => storeTask.value.homework?.deadline || storeTask.value.deadline),
+    })
+    const task = reactive({
+      teacher_flag: isTeacher.value? 1:0,
+      subject: taskPk? computedTask.subject: '',
+      title: taskPk? computedTask.title: '',
+      content: taskPk? computedTask.content : '',
+      grade: taskPk? computedTask.grade : '',
+      class_field: taskPk? computedTask.class_field : '',
+      files: taskPk? computedTask.files : '',
+      deadline: taskPk? computedTask.deadline : '',
+    })
+    const onSubmit = (arg) => {
+      let form = new FormData()
+      for (let key in task) {
+        if (key === 'files' && task[key]) {
+          for (let i=0; i < task.files.length; i++) {
+            form.append(key, task[key][i])
+          }
+        } else {
+          form.append(key, task[key])
+        }
+      }
+      if (arg) {
+        form.append('submit_pk', storeTask.value['my_submit'][0].id)
+        store.dispatch('submitTask', form)
+      } else if (taskPk) {
+        form.append('pk', taskPk)
+        store.dispatch('taskUpdate', form)
+        console.log('update')
+      } else {
+        store.dispatch('createTask', form)
+        console.log('create')
+      }
     }
     const onReset = (event) => {
       event.preventDefault()
-      for (let key in task) {
-        task[key] = null
+      if (taskPk) {
+        for (let key in task) {
+          if (key === 'teacher') {
+              task[key] = store.getters.currentUser.username
+            } else if (key === 'subject') {
+              task[key] = store.getters.currentUser.subject
+            } else {
+            task[key] = storeTask.value[key]
+          }
+        }
+      } else {
+        for (let key in task) {
+          task[key] = ''
+        }
       }
     }
-
     return {
       task,
-      accept,
+      storeTask,
       userType,
       taskPk,
+      type,
       isTeacher,
       onSubmit,
       onReset,
-      subjectOptions
+      subjectOptions,
+      computedTask
     }
   }
 }
 </script>
 
-import {reactive} from 'vue'
-setup() {
-  credential
-}

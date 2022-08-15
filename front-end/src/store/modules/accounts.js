@@ -31,12 +31,26 @@ export const accounts = {
         userflag: true,
       },
       userType: null,
+      validEmail: false,
       access: localStorage.getItem("access") || "",
       currentUser: {
         userflag : true
       },
       authError: null,
-    };
+      subjectOptions : [
+        '국어', '수학', '사회', '과학', '보건', '기술가정', '기타'
+      ],
+      emailOptions: [
+        '@gmail.com', '@naver.com', '@hanmail.com', '@nate.com', '직접 입력',
+      ],
+      userInfo: {},
+      profil: null,
+      findPw: {
+        name: null,
+        email: null,
+        username: null,
+      }
+    }
   },
   getters: {
     isLoggedIn: state => !!state.access, 
@@ -44,7 +58,12 @@ export const accounts = {
     authError: state => state.authError,
     authHeader: state => ({ Authorization: `Bearer ${state.access}` }),
     getUserType: state => state.userType,
-    getSubject: state => state.teacherInfo.subject,
+    getSubject: state => state.subjectOptions,
+    getEmail: state => state.emailOptions,
+    isValidEmail: state => state.validEmail,
+    getUserInfo: state => state.userInfo,
+    getProfil: state => state.profil,
+    getInfo: state => state.findPw,
   },
   mutations: {
     SET_TOKEN: (state, access) => (state.access = access),
@@ -62,6 +81,23 @@ export const accounts = {
       }
     },
     SET_USER_TYPE: (state, userType) => (state.userType = userType),
+    CHANGE_INFO: (state, data) => {
+      for (let key in data) {
+        if (key !== 'profil') {
+          state.userInfo[key] = data[key]
+        } else {
+          state.profil = data[key]
+        }
+      }
+    },
+    CHANGE_PW_INFO: (state, data) => {
+      for (let key in data) {
+        state.findPw[key] = data[key]
+      }
+    },
+    CHANGE_VALID: (state, data) => {
+      state.validEmail = data
+    }
   },
   actions: {
     saveToken({ commit }, access) {
@@ -72,31 +108,7 @@ export const accounts = {
       commit("SET_TOKEN", "");
       localStorage.setItem("access", "")
     },
-    initInfo({state, getters, dispatch}) {
-      if (getters.getUserType == "student") {
-        for (let key in state.studentInfo) {
-          if (key === 'userflag') {
-            dispatch('changeData', {'userflag':false})
-          } else if (key === 'birthday') {
-            dispatch('changeData', {'birthday':"2008-01-01"})
-          } else {
-            dispatch('changeData', {[key]:null})
-          }
-        }
-      } else {
-        for (let key in state.teacherInfo) {
-          if (key === 'userflag') {
-            dispatch('changeData', {'userflag':false})
-          } else if (key === 'birthday') {
-            dispatch('changeData', {'birthday':"1967-01-01"})
-          } else {
-            dispatch('changeData', {[key]:null})
-          }
-        }
-      }
-    },
     login({ commit, dispatch }, credentials) {
-      // 로그인 함수 구현
       axios({
         url: drf.accounts.login(),
         method: "post",
@@ -105,14 +117,17 @@ export const accounts = {
         .then((res) => {
           const access = res.data.access
           dispatch("saveToken", access)
-          // commit("SET_CURRENT_USER", res.data)
+          commit("SET_CURRENT_USER", res.data)
           router.push({ name: "educolab" })
         })
         .catch((err) => {
           commit("SET_AUTH_ERROR", err.response.data)
         });
     },
-    signup({state, getters}) {
+    changeValid({commit}, data) {
+      commit("CHANGE_VALID", data)
+    },
+    signup({state, getters, dispatch}) {
       let data = null
       if (getters.getUserType == "student") {
         data = state.studentInfo
@@ -122,22 +137,22 @@ export const accounts = {
       axios.post(drf.accounts.signup(), data)
         .then(() => {
           window.alert("회원가입이 완료되었습니다")
+          // 새로고침 -> vuex에 있는 정보 날려버리기 -> 이동
           router.push({ name: "login" })
-          this.initInfo()
         })
         .catch(({response}) => {
           if (response.data?.email) {
             window.alert(response.data.email[0])
+            dispatch('changeValid', false)
           } else {
             window.alert('필수 항목이 빠져 있거나, 올바르지 않습니다')
           }
         })
     },
     logout({ dispatch }) {
-      dispatch("removeToken");
-      router.push({ name: "login" }).catch((err) => {
-        console.log(err.respone);
-      });
+      dispatch("removeToken")
+      // 새로고침까지 (vuex 데이터 모두 제거하고 싶음)
+      router.push({ name: "login" })
     },
     setUserType({ commit }, userType) {
       // 로그인할 때
@@ -147,5 +162,12 @@ export const accounts = {
     changeData({ commit }, data) {
       commit("CHANGE_DATA", data)
     },
+    changeInfo({commit}, data) {
+      commit("CHANGE_INFO", data)
+    },
+    changePwInfo({commit}, data) {
+      commit("CHANGE_PW_INFO", data)
+    },
+    // back에 현재 사용자 정보 요청 (토큰 보내면 )
   },
 };

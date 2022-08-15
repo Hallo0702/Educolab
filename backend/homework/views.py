@@ -1,3 +1,4 @@
+from re import sub
 from django.shortcuts import render
 from rest_framework.views import APIView 
 from rest_framework.response import Response
@@ -78,19 +79,17 @@ class HomeworkMainView(APIView):
             return Response(context)
 
             
-            
-
-
 class HomeworkCreateView(APIView):
     
     def post(self, request):
         if request.user.userflag == 0:
+            print(0)
+            print(request.data)
             homework_serializer = StudentHomeworkCreateSerializer(data=request.data)
             
             if homework_serializer.is_valid(raise_exception=True):
                 teacher = UserInfo.objects.get(school=request.user.school,class_field=request.user.class_field,grade=request.user.grade,userflag=True)
                 homework = homework_serializer.save(student=request.user,teacher=teacher)
-
                 files = request.FILES.getlist("files")
                 for file in files:
                     fp = Files.objects.create(student_homework=homework,atch_file=file,atch_file_name=file)
@@ -100,20 +99,29 @@ class HomeworkCreateView(APIView):
                 submit.save()
 
         elif request.user.userflag == 1:
+            print(1)
+            print(request.data)
             homework_serializer = TeacherHomeworkCreateSerializer(data=request.data)
             if homework_serializer.is_valid(raise_exception=True):
+                print('valid')
                 school = request.user.school
+                print(school)
                 school_student= school.school_student.all()
+                print(school_student)
                 students = school_student.filter(grade=homework_serializer.validated_data['grade'],class_field=homework_serializer.validated_data['class_field'],userflag=False)
+                print(students)
                 homework = homework_serializer.save(teacher=request.user,target=students)
-                
+                print(homework)
                 files = request.FILES.getlist("files")
+                print(files)
                 for file in files:
                     fp = Files.objects.create(teacher_homework=homework,atch_file=file,atch_file_name=file)
                     fp.save()
-                
+                print('file')
                 for student in students:
+                    print(student)
                     submit = SubmitHomework.objects.create(student=student,teacher_homework=homework)
+                    print(submit)
                     submit.save()
 
         context = {
@@ -133,7 +141,6 @@ class HomeworkDetailView(APIView):
                 homework_serializer = TeacherHomeworkDetailSerializer(homework)
                 student_submit = homework.student_submit.all()
                 student_submit_serializer = SubmitHomeworkSerializer(student_submit, many=True)
-                print(1)
                 context = {
                     "homework" : homework_serializer.data,
                     "student_submit" : student_submit_serializer.data
@@ -153,6 +160,7 @@ class HomeworkDetailView(APIView):
             return Response(context)
                 
         else:
+            print('student')
             homework = StudentHomework.objects.get(id=homework_pk)
             homework_serializer = StudentHomeworkDetailSerializer(homework)
 
@@ -217,9 +225,13 @@ class HomeworkDetailView(APIView):
 
 class HomeworkCheckView(APIView): # 채점
     def post(self, request):
+        print(request.data)
         if request.user.userflag == True:
+            print('true')
             submit = SubmitHomework.objects.get(id=request.data.get('pk'))
+            print(submit)
             if submit.check_flag == True:
+                print('true')
                 return Response({"success" : False, "message" : "이미 채점된 제출입니다"})
             username = request.data.get('username')
             point = request.data.get('point')
@@ -233,7 +245,7 @@ class HomeworkCheckView(APIView): # 채점
             submit.save()
             PointLog.objects.create(teacher=request.user,student=student,content="과제 점수",point=point)
             student.save()
-            return Response({"success": True, "message" : "채점이 완료되었습니다"})
+            return Response({"username" : username, "success" : True,"message" : "적용되었습니다"})
 
 class HomeworkCheckDoneView(APIView):
     def post(self, request):
@@ -252,6 +264,7 @@ class HomeworkCheckDoneView(APIView):
         
 class HomeworkSubmitView(APIView): # 제출
     def post(self, request):
+        print(request.data)
         submit_pk = request.data.get('submit_pk') # 제출번호
 
         if request.data.get('teacher_flag') == '1':
@@ -260,7 +273,7 @@ class HomeworkSubmitView(APIView): # 제출
 
             if submit_serializer.is_valid(raise_exception=True):
                 file = request.FILES.get('files')
-                submit_serializer.save(atch_file=file,atch_file_name=file)
+                submit_serializer.save(atch_file=file,atch_file_name=file, submit_flag=True)
                 context = {
                     "success" : True,
                     "message" : "제출되었습니다"
@@ -269,10 +282,9 @@ class HomeworkSubmitView(APIView): # 제출
         else:
             submit = SubmitHomework.objects.get(id=submit_pk)
             submit_serializer = SubmitHomeworksubmitSerializer(submit,data=request.data)
-
             if submit_serializer.is_valid(raise_exception=True):
                 file = request.FILES.get('files')
-                submit_serializer.save(atch_file=file,atch_file_name=file,submit_flag=True)
+                submit_serializer.save(atch_file=file,atch_file_name=file, submit_flag=True)
                 homework = StudentHomework.objects.get(id=submit.student_homework.id)
                 homework.submit_flag = True
                 homework.save()
