@@ -119,9 +119,6 @@
     gap: 10px;
     margin: 100px 0px;
     }
-  .center {
-    text-align: center;
-  }
   .bord-bt {
     border-bottom: 1px solid #99DFF9;
   }

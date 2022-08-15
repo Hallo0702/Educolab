@@ -1,5 +1,5 @@
-const FILE = 'http://127.0.0.1:8000'
-// const FILE = 'https://i7c102.p.ssafy.io'
+// const FILE = 'http://127.0.0.1:8000'
+const FILE = 'https://i7c102.p.ssafy.io'
 const BASE_URL = FILE + '/api/'
 const ACCOUNTS = BASE_URL + 'accounts/'
 const NOTICE = BASE_URL + 'notice/'
@@ -8,6 +8,7 @@ const QUIZ = BASE_URL + 'quiz/'
 const MY_PAGE = BASE_URL + 'mypage/'
 const HOMEWORK = BASE_URL + 'homework/'
 const MainPage = BASE_URL + 'mainpage/'
+const POINT_SHOP = BASE_URL + 'pointshop/'
 
 export default {
   accounts: {
@@ -66,5 +67,11 @@ export default {
     changeProfil: () => MY_PAGE + 'profil/',
     changeTitle: () => MY_PAGE + 'title/',
     changeIcon: () => MY_PAGE + 'icon/',
+  },
+  pointShop: {
+    main: () => POINT_SHOP + '',
+    buyTitle: () => POINT_SHOP + 'title/',
+    buyIcon: () => POINT_SHOP + 'icon/',
+    // registerIcon: () => POINT_SHOP + 'icon/register/',
   },
 }
