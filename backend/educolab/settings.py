@@ -181,9 +181,7 @@ ACCOUNT_EMAIL_VERIFICATION = "none"
 ACCOUNT_EMAIL_REQUIRED = True
 
 # 우선 모두 연결해 놓았습니다.
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8080"
-]
+CORS_ALLOW_ORIGINS_ALL = True
 
 CORS_ALLOW_CREDENTIALS = True
 
