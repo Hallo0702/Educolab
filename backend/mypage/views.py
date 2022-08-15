@@ -101,11 +101,8 @@ class TitleChangeView(APIView):
 class IconChangeView(APIView):
     def put(self,request):
         user = request.user
-
         user.wear_icon = Icon.objects.get(id=request.data.get('pk'))
-
         user.save()
-
         return Response({
             "success" : True
         })
