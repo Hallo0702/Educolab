@@ -135,7 +135,7 @@ export default {
           headers: store.getters.authHeader,
           data: {pk,}
         })
-          .then((res) => {
+          .then(() => {
             if (props.type) {
               title.value = name
             } else {
