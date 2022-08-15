@@ -15,13 +15,13 @@
         v-model="homeroom.type"
         :val="true"
         label="담임"
-        @click="sendData({homeroom_teacher_flag: true})"/>
+        @click="sendData({homeroom_teacher_flag: 1})"/>
       <q-radio
         dense
         v-model="homeroom.type"
         :val="false"
         label="담임 아님"
-        @click="sendData({homeroom_teacher_flag: false})" />
+        @click="sendData({homeroom_teacher_flag: 0})" />
     </div>
     
     <!-- 학년/반 (학생) -->
