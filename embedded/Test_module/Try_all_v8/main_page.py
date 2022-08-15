@@ -16,13 +16,19 @@ class Main_Screen(Screen):
         Window.clearcolor = (242/255,245/255,247/255,1)
         Window.size = (1280,720)
         Window.borderless=True
+        self.emblem = ""
 
     def on_pre_enter(self):
+        self.manager.quiz_flag = False
+        self.manager.access_quiz("", "")
         with open("./login_info.json", 'r') as file:
             self.data = json.load(file)
         self.school_name = self.data["schoolname"] + ' '
-        self.query1 = 'select username, grade, class_field, name, plus_point, minus_point from accounts_userinfo where email=%s and name=%s'
-        self.args1 = (self.data["email"], self.data["name"])
+        self.query1 = '''
+            select username, grade, class_field, name, plus_point, minus_point 
+            from accounts_userinfo where username=%s and name=%s
+        '''
+        self.args1 = (self.data["username"], self.data["name"])
         self.cur1 = self.manager.DB.execute(query=self.query1, args=self.args1)
         for (username, grade, class_field, name, plus_point, minus_point) in self.cur1:
             self.manager.userID = username
@@ -40,7 +46,12 @@ class Main_Screen(Screen):
         self.survey_cnt = len(self.survey_full)
         self.current_survey = self.survey_full[0]['title']
 
-        self.query2 = 'select title from pointshop_ptitle inner join accounts_userinfo on pointshop_ptitle.id=accounts_userinfo.wear_title_id where accounts_userinfo.username=%s'
+        self.query2 = '''
+            select title from pointshop_ptitle 
+            inner join accounts_userinfo 
+            on pointshop_ptitle.id=accounts_userinfo.wear_title_id 
+            where accounts_userinfo.username=%s
+        '''
         self.args2 = (self.manager.userID, )
         self.cur2 = self.manager.DB.execute(query=self.query2, args=self.args2)
         for (title, ) in self.cur2: self.emblem = title
