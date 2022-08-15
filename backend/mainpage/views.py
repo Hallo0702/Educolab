@@ -10,7 +10,7 @@ from .serializers import AccRankSerializer, EventSerializer, MainpageNoticeSeria
 from notice.serializers import NoticeMainSerializer
 
 
-from datetime import datetime
+import datetime
 from django.db.models import Sum
 # Create your views here.
 
@@ -29,13 +29,13 @@ class MainpageView(APIView): # 메인페이지 정보 전달 (과제,공지,행�
         accrank_serializer = AccRankSerializer(accrank, many=True)
         
         # 이달 랭킹
-        today = datetime.now().date()
-        this_month = today.month - 1
-        if this_month == 0:
-            this_month = 12
+        today = datetime.date.today()
+        today_num = today.weekday()
+        last_day = today_num + 7
+        last_week = today - datetime.timedelta(days=last_day)
+        final = today - datetime.timedelta(days=today_num+1)
 
-        pointlog = PointLog.objects.filter(created_at__month=this_month).values("student").annotate(score=Sum("point")).order_by('-score')[:5]
-        print(pointlog)
+        pointlog = PointLog.objects.filter(created_at__range=[last_week,final]).values("student").annotate(score=Sum("point")).order_by('-score')[:5]
 
         user = request.user
         if request.user.userflag == True: # 선생님
@@ -48,7 +48,7 @@ class MainpageView(APIView): # 메인페이지 정보 전달 (과제,공지,행�
                 "event" : event_serializer.data,
                 "notice" : notice_serializer.data,
                 "acc_rank" : accrank_serializer.data,
-                "month_rank" : pointlog,
+                "week_rank" : pointlog,
                 "homework" : homework_serializer.data
             }
 
