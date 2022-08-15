@@ -182,8 +182,8 @@ ACCOUNT_EMAIL_REQUIRED = True
 
 # 우선 모두 연결해 놓았습니다.
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8080/",
-    "http://192.168.0.15:8080/",
+    "http://localhost:8080",
+    "http://192.168.0.15:8080",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -207,7 +207,7 @@ SIMPLE_JWT = {
     'AUTH_COOKIE': 'refresh_token',
     'AUTH_COOKIE_DOMAIN': None,
     'AUTH_COOKIE_SECURE': False,
-    'AUTH_COOKIE_HTTP_ONLY': False,
+    'AUTH_COOKIE_HTTP_ONLY': True,
     'AUTH_COOKIE_PATH': '/',
     'AUTH_COOKIE_SAMESITE': 'Lax'
 }
