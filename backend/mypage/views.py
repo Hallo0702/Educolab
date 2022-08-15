@@ -4,12 +4,11 @@ from rest_framework.response import Response
 from accounts.models import UserInfo
 from pointshop.models import PTitle, Icon
 from accounts.serializers import UserinfoSerializer
-from .serializers import PointlogSerializer,TeacherSerializer, StudentSerializer,SearchStudentSerializer
+from .serializers import PointlogSerializer,TeacherSerializer, StudentSerializer,SearchStudentSerializer, StudentUpdateSerializer, TeacherUpdateSerializer
 
 class MypageMainView(APIView):
     def get(self,req):
         ## 학생일 경우
-        print(1, req.data)
         if req.user.userflag == 0:
             score_logs = req.user.point_student.all().order_by('-id')
             userinfo_serializer = StudentSerializer(req.user)
@@ -26,10 +25,10 @@ class MypageMainView(APIView):
         print(req.data)
         if req.user.userflag:
             print(1)
-            userinfo_serializer = TeacherSerializer(req.user, data=req.data)
+            userinfo_serializer = TeacherUpdateSerializer(req.user, data=req.data)
             print(userinfo_serializer)
         else:
-            userinfo_serializer = StudentSerializer(req.user, data=req.data)
+            userinfo_serializer = StudentUpdateSerializer(req.user, data=req.data)
         if userinfo_serializer.is_valid(raise_exception=True):
             print('valid')
             userinfo_serializer.save(school = req.user.school, password = req.user.password)
