@@ -1,5 +1,5 @@
-// const FILE = 'http://127.0.0.1:8000'
-const FILE = 'https://i7c102.p.ssafy.io'
+const FILE = 'http://127.0.0.1:8000'
+// const FILE = 'https://i7c102.p.ssafy.io'
 const BASE_URL = FILE + '/api/'
 const ACCOUNTS = BASE_URL + 'accounts/'
 const NOTICE = BASE_URL + 'notice/'
