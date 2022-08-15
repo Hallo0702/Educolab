@@ -1,13 +1,13 @@
 <template>
-  <q-card class="my-card">
+  <q-card class="q-pa-md">
     <h5 class="text-center">내 정보</h5>
     <q-card-section horizontal>
+      <!-- 프로필 -->
       <label for="profil">
         <img
           :src="profil.change"
           class="cursor-pointer"
-          width="100"
-          oncontextmenu="return false">
+          width="100">
       </label>
       <input
         type="file"
@@ -16,20 +16,22 @@
         @input="changeProfil"
         accept="image/gif, image/jpeg, image/png"
       />
-      <!-- 배지가 없을 때만 뜸 -->
-      <q-icon
-        v-if="!info.userflag"
-        name="mdi-plus-circle-outline"
-        size="50px"
-        color="grey-13"
-        @click="myTitle(false)"
-        class="cursor-pointer"
-        oncontextmenu="return false"
+      <!-- 배지-->
+      <div v-if="!info.userflag">
+        <q-icon
+          v-if="!info.wear_icon"
+          name="mdi-plus-circle-outline"
+          size="50px"
+          color="grey-13"
+          @click="myTitle(false)"
+          class="cursor-pointer"
         />
-      <!-- 배지가 있을 경우 -->
-      <!-- <q-img
-
-      /> -->
+        <img
+          v-else
+          :src="profil.change"
+          class="cursor-pointer"
+          width="50">
+      </div>
       <q-card-section>
         아이디 {{info.username}} | 생년월일 {{birthday}}
         <br>
@@ -41,7 +43,7 @@
           <q-btn color="black" class="text-bold" flat @click="myTitle(true)">
             {{computedTitle}}
           </q-btn>
-          | 현재 상점(누적 상점)/벌점 +{{info.plus_point}} ({{info.acc_point}}) /-{{info.minus_point}}
+          | 현재(누적) 상점/벌점 +{{info.plus_point}} ({{info.acc_point}}) / {{info.minus_point}}
         </span>
         <br>
         이메일과 전화번호는 데이터 값에 포함되지만 출력하지 않음
@@ -65,7 +67,8 @@
       :title="apply.title"
       :changeMode="false"
       :type="type"
-      :items="info.own_title"
+      :titles="info.own_title"
+      :icons="info.own_icon"
       @reverse="applyTitle"
     />
   </q-card>
@@ -95,11 +98,14 @@ export default {
     let computedTitle = computed(() => title.value)
     const date = dayjs(props.info.birthday)
     const birthday = `${date.get('y')}년 ${date.get('M')+1}월 ${date.get('D')}일생`
-    let profil = reactive({
+    const profil = reactive({
       path: props.info.profil,
       change: computed(() => drf.file.path() + profil.path)
-      })
-    let computedProfil = computed(() => profil.value)
+    })
+    const badge = reactive({
+      path: props.info.wear_icon,
+      change: computed(() => drf.file.path() + badge.path)
+    })
     let files = null
     const apply = reactive({
       prompt: false,
@@ -112,12 +118,17 @@ export default {
       apply.title = title? '보유 업적 목록': '보유 배지 목록'
       apply.prompt = true
     }
-    const applyTitle = (val, pk, name) => {
-      console.log(val, pk, name)
+    const applyTitle = (val, pk, type, name) => {
+      console.log(val, pk, type, name)
       if (val && name !== title.value ) {
-        console.log('신호 보낼 것')
+        let url = null
+        if (type) {
+          url = drf.myPage.changeTitle()
+        } else {
+          url = drf.myPage.changeIcon()
+        }
         axios({
-          url: drf.myPage.changeTitle(),
+          url,
           method: 'put',
           headers: store.getters.authHeader,
           data: {pk,}
@@ -146,8 +157,6 @@ export default {
         .then(() => {
           // 프로필 적용
           profil.path = drf.file.change() + photo.files[0].name
-          
-          console.log(profil.path)
           console.log('적용되었습니다')
         })
     }
@@ -172,7 +181,6 @@ export default {
       } else {
         store.dispatch('changeInfo', props.info)
         router.push('/change/info')
-
       }
     }
     return {
@@ -183,7 +191,7 @@ export default {
       birthday,
       files,
       profil,
-      computedProfil,
+      badge,
       myTitle,
       applyTitle,
       changeProfil,

@@ -1,22 +1,25 @@
-<template>
+<template class="baseStyle">
+<!-- 비밀번호 입력 전까지 뜨지 않게 -->
   <main class="q-mx">
     <h3>CHANGE {{type.title}}</h3>
     <!-- form 부분 -->
     <q-form
+      v-if="correct.state"
       class="q-gutter row">
       <section class="input col-8 offset-2 col-md-3 offset-md-4">
         <!-- 회원정보 변경 -->
         <change-user-info v-if="type.isTypeInfo"/>
         <!-- 비밀번호 변경 -->
         <login-info v-if="!type.isTypeInfo" :changeMode="true"/>
-        <!-- 비밀번호 입력 팝업 -->
-        <my-page-pop-up
-          v-if="change.mode"
-          :title="change.title"
-          :changeMode="true"
-        />
       </section>
     </q-form>
+    <!-- 비밀번호 입력 팝업 -->
+    <my-page-pop-up
+      v-if="change.mode"
+      :title="change.title"
+      :changeMode="true"
+      @reverse="render"
+    />
   </main>
 
 </template>
@@ -45,11 +48,6 @@ export default {
       isTypeInfo: computed(() => type.type === 'info'),
       title : computed(() => type.isTypeInfo? 'INFO':'PW'),
     })
-    const change = reactive({
-      prompt: true,
-      title: route.params.userData === 'info'?'회원정보 수정':'비밀번호 변경',
-      mode: computed(() => change.prompt),
-    })
     onBeforeMount (() => {
       if (!type.isTypeInfo){
         if (type.type !== 'password') {
@@ -61,9 +59,31 @@ export default {
         // 로그인되지 않았을 경우
       }
     })
+    const change = reactive({
+      prompt: true,
+      title: route.params.userData === 'info'?'회원정보 수정':'비밀번호 변경',
+      mode: computed(() => change.prompt),
+    })
+    const correct = reactive({
+      password: false,
+      state: computed(() => correct.password)
+    })
+    const render = (type, success) => {
+      if (!type) {
+        if (success) {
+          // 비밀번호 일치
+          correct.password = true
+        } else {
+          console.log(false)
+          change.prompt = true
+        }
+      }
+    }
     return {
       type,
       change,
+      correct,
+      render
     }
   },
 }
