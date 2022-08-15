@@ -182,8 +182,8 @@ ACCOUNT_EMAIL_REQUIRED = True
 
 # 우선 모두 연결해 놓았습니다.
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8080",
-    "https://i7c102.p.ssafy.io"
+    "http://localhost:8080/",
+    "http://192.168.0.15:8080/",
 ]
 
 CORS_ALLOW_CREDENTIALS = True

@@ -1,6 +1,6 @@
 <template>
-  <q-card flat bordered>
-    <h1>과제 상세 페이지</h1>
+  <main flat bordered class="baseStyle">
+    <h3>과제 상세 페이지</h3>
     <section>
       <!-- 과제 내용 & 교사용 -->
       <task-detail-content v-if="!isEmptyTask" :pk="pk" :task="task" :isTeacher="user.isTeacher"/>
@@ -36,7 +36,7 @@
         </router-link>
       </div>
     </section>
-  </q-card>
+  </main>
 </template>
 
 <script>
