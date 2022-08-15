@@ -115,6 +115,7 @@ export const accounts = {
         { withCredentials: true }
       )
         .then((res) => {
+          console.log(res.data)
           const access = res.data.access
           dispatch("saveToken", access)
           commit("SET_CURRENT_USER", res.data)
