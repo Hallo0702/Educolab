@@ -101,9 +101,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def room_delete(self, data):
-        quiz_room = QuizRoom.objects.get()
+        quiz_room = QuizRoom.objects.get(roomnum=data['roomnum'], teacher=data['teacher'])
         quiz_room.delete()
         return "삭제 성공"
+    
     @database_sync_to_async
     def create_room(self, data):
         quizroom_serializer = QuizRoomSerializer(data=data)
@@ -118,7 +119,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     def join_student(self, data):
         isRoom = QuizRoom.objects.filter(roomnum=data['roomnum']).exists()
         if not isRoom:
-            return "방이 없네요"
+            return {"message":"방이 없네요", "nickname":""}
         quiz_room = QuizRoom.objects.get(roomnum=data['roomnum'])
         student = UserInfo.objects.get(username=data['student'])
         quiz_userserializer = QuizUserSerializer(data=data)
