@@ -24,7 +24,7 @@ class QuizMainView(APIView) :
         
         ## 2. 쿼리로 작성자가 user인 설문조사 목록을 가져온다.
         teacher = UserInfo.objects.get(username=req.user.username)
-        quiz = teacher.quiz_teacher.all()
+        quiz = teacher.quiz_teacher.all().order_by('-updated_at')
         print(quiz)
         # notices = Notice.objects.select_related('school').filter(school_id=schoolCode)
         

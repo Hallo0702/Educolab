@@ -11,7 +11,7 @@ from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from rest_framework.parsers import JSONParser
 from rest_framework.renderers import JSONRenderer
-import os, io
+
 class SurveyTeacherMainView(APIView) :
     ## 권한 설정 부분(View단위)
     # permission_classes = (IsAuthenticated,)
@@ -22,7 +22,7 @@ class SurveyTeacherMainView(APIView) :
         
         ## 2. 쿼리로 작성자가 user인 설문조사 목록을 가져온다.
         teacher = UserInfo.objects.get(username=req.user.username)
-        survey = teacher.survey_teacher.all()
+        survey = teacher.survey_teacher.all().order_by('-updated_at')
 
         print(survey)
         # notices = Notice.objects.select_related('school').filter(school_id=schoolCode)
@@ -37,7 +37,7 @@ class SurveyStudentMainView(APIView) :
         if req.user.userflag:
             return Response({"message" :"학생만 접근 가능합니다."})
         my_survey = SurveyList.objects.filter(target=req.user)
-        my_survey = my_survey.exclude(done_target=req.user)
+        my_survey = my_survey.exclude(done_target=req.user).order_by('-updated_at')
         print(my_survey)
         survey_serializer = SurveyMainSerializer(my_survey,many=True)
 
@@ -85,7 +85,10 @@ class SurveyDetailView(APIView):
         questions = survey.question_survey.all()
         ## 설문조사 시리얼라이저 생성
         question_serializer = QuestionDetailSerializer(questions, many=True)
-        survey_name = [{"survey_name" : survey.title}]
+        survey_name = [{"survey_name" : survey.title,
+                        "survey_grade" : survey.grade,
+                        "survey_class" : survey.class_field
+                        }]
         print(question_serializer.data)
         return Response(survey_name+question_serializer.data)
 

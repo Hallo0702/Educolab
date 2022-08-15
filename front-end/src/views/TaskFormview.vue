@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="baseStyle">
     <h1>{{userType}} 과제 {{type}} 페이지 {{taskPk}}</h1>
     <section class="q-pa-md" style="max-width: 400px">
       <q-form

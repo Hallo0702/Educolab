@@ -124,13 +124,6 @@ const routes = [
     component: () => import('@/views/MyPageView')
   },
 
-  // 내 필기(학생)
-  {
-    path: '/student/writing',
-    name: 'StudentWritingView.vue',
-    component: () => import('@/views/StudentWritingView')
-  },
-
   // 포인트 상점(학생)
   {
     path: '/student/point',

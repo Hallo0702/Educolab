@@ -27,12 +27,15 @@ class UserInfo(AbstractUser):
     acc_point = models.IntegerField(default=0, null=True)
     wear_title = models.ForeignKey(PTitle,null=True,on_delete=models.SET_NULL)
     own_title = models.ManyToManyField(PTitle,related_name='title_owner')
+    wear_icon = models.ForeignKey(Icon,null=True,on_delete=models.SET_NULL)
     own_icon = models.ManyToManyField(Icon, related_name='icon_owner')
 
     
 class PointLog(models.Model):
-    teacher = models.ForeignKey(UserInfo, on_delete=models.DO_NOTHING, related_name="point_teacher")
-    student = models.ForeignKey(UserInfo, on_delete=models.CASCADE, related_name="point_student")
+    teacher = models.ForeignKey(UserInfo, on_delete=models.DO_NOTHING, related_name="point_teacher", null=True)
+    student = models.ForeignKey(UserInfo, on_delete=models.CASCADE, related_name="point_student", null=True)
     content = models.CharField(max_length=45)
     point = models.IntegerField()
+    acc_point = models.IntegerField(null=True)
+    acc_minus = models.IntegerField(null=True)
     created_at = models.DateField(auto_now=True)

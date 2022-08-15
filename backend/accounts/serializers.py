@@ -49,7 +49,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         data['refresh'] = str(refresh)
         data['access'] = str(refresh.access_token)
         data['userflag'] = self.user.userflag
-        data['email'] = self.user.email
+        data['username'] = self.user.username
         data['profil'] = self.user.profil.url
         data['schoolname']=self.user.school.name
         return data
@@ -60,7 +60,7 @@ class ProfilFileSerializer(serializers.ModelSerializer):
         model = models.UserInfo
         fields = 'profil'
 
-class MyTokenRefershSerializer(TokenRefreshSerializer):
+class MyTokenRefreshSerializer(TokenRefreshSerializer):
         # response 커스텀 
     default_error_messages = {
         'no_active_account': {'message':'username or password is incorrect!',
@@ -78,7 +78,7 @@ class MyTokenRefershSerializer(TokenRefreshSerializer):
         user = models.UserInfo.objects.get(username=decode_data['user_id'])
         data['name'] = user.name
         data['userflag'] = user.userflag
-        data['email'] = user.email
+        data['username'] = user.username
         data['profil'] = user.profil.url
         data['schoolname']=user.school.name
         return data
@@ -86,8 +86,8 @@ class MyTokenRefershSerializer(TokenRefreshSerializer):
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
     
-class MyTokenRefershView(TokenRefreshView):
-    serializer_class = MyTokenRefershSerializer
+class MyTokenRefreshView(TokenRefreshView):
+    serializer_class = MyTokenRefreshSerializer
 
 class CustomRegisterSerializer(RegisterSerializer):
     userflag =serializers.BooleanField()

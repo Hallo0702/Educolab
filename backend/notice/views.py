@@ -16,7 +16,7 @@ class NoticeMainView(APIView) :
 
         ## 2. 쿼리로 학교 코드가 req에서 받은 학교 코드인 사람이 작성자인 공지사항 목록을 가져온다.
         school = SchoolInfo.objects.get(code=req.user.school.code)
-        notices = school.notice_school.all()
+        notices = school.notice_school.all().order_by('-updated_at')
         # notices = Notice.objects.select_related('school').filter(school_id=schoolCode)
         
         ## 3. 시리얼라이저 변환
@@ -40,7 +40,6 @@ class NoticeCreateView(APIView):
 
         files = req.FILES.getlist("files")
 
-        print(files)
         for file in files:
             fp = Files.objects.create(notice=notice, atch_file=file, atch_file_name=file)
             fp.save()
@@ -98,7 +97,7 @@ class NoticeUpdateView(APIView):
         notice_id = req.GET['notice_num']
 
         ## 공지사항 번호로 공지사항 인스턴스 가져오기
-        notice = Notice.objects.get(pk=self.notice_id)
+        notice = Notice.objects.get(pk=notice_id)
 
         notice.save()
 

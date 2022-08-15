@@ -2,16 +2,15 @@ from django.urls import is_valid_path
 from rest_framework.decorators import APIView
 from rest_framework.response import Response
 from accounts.models import UserInfo
-from pointshop.models import PTitle
+from pointshop.models import PTitle, Icon
 from accounts.serializers import UserinfoSerializer
-from .serializers import PointlogSerializer,TeacherSerializer, StudentSerializer,SearchStudentSerializer
+from .serializers import PointlogSerializer,TeacherSerializer, StudentSerializer,SearchStudentSerializer, StudentUpdateSerializer, TeacherUpdateSerializer
 
 class MypageMainView(APIView):
     def get(self,req):
         ## 학생일 경우
-        print(1, req.data)
         if req.user.userflag == 0:
-            score_logs = req.user.point_student.all()
+            score_logs = req.user.point_student.all().order_by('-id')
             userinfo_serializer = StudentSerializer(req.user)
             point_serializer = PointlogSerializer(score_logs,many=True)
             return Response({
@@ -19,19 +18,16 @@ class MypageMainView(APIView):
             'point_log' : point_serializer.data
             })
         userinfo_serializer = TeacherSerializer(req.user)
+        print(userinfo_serializer.data)
         return Response({'userinfo':userinfo_serializer.data})
 
     ## 회원정보수정(담임등록 포함)
     def put(self,req):
-        print(req.data)
         if req.user.userflag:
-            print(1)
-            userinfo_serializer = TeacherSerializer(req.user, data=req.data)
-            print(userinfo_serializer)
+            userinfo_serializer = TeacherUpdateSerializer(req.user, data=req.data)
         else:
-            userinfo_serializer = StudentSerializer(req.user, data=req.data)
+            userinfo_serializer = StudentUpdateSerializer(req.user, data=req.data)
         if userinfo_serializer.is_valid(raise_exception=True):
-            print('valid')
             userinfo_serializer.save(school = req.user.school, password = req.user.password)
         return Response({
             "success":True,
@@ -60,8 +56,13 @@ class PointGrantView(APIView):
             student.minus_point += point
         student.save()
         # 포인트 로그에 기록
-        
-        log_serializer = PointlogSerializer(data=req.data['log'])
+        data = req.data['log']
+        update = {
+            "acc_point" : student.plus_point,
+            "acc_minus" : student.minus_point
+        }
+        data.update(update)
+        log_serializer = PointlogSerializer(data=data)
         if log_serializer.is_valid(raise_exception=True):
             log_serializer.save(teacher = req.user, student = student)
         return Response({"success":True})
@@ -71,7 +72,7 @@ class ProfilChangeView(APIView):
         user = req.user
 
         user.profil = req.FILES["profil"]
-        
+
         user.save()
 
         return Response({
@@ -80,7 +81,8 @@ class ProfilChangeView(APIView):
 
     def delete(self, req):
         user = req.user
-        user.profil = 'accounts/profils/profile1.jpg'
+        user.profil ='accounts/profils/profile1.jpg'
+        print(user.profil)
         user.save()
         return Response({
             "success" : True,
@@ -92,6 +94,15 @@ class TitleChangeView(APIView):
 
         user.wear_title = PTitle.objects.get(id=request.data.get('pk'))
 
+        user.save()
+
+        return Response({
+            "success" : True
+        })
+class IconChangeView(APIView):
+    def put(self,request):
+        user = request.user
+        user.wear_icon = Icon.objects.get(id=request.data.get('pk'))
         user.save()
 
         return Response({
