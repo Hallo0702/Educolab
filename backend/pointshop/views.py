@@ -45,7 +45,7 @@ class IconView(APIView):
             if request.user.plus_point < buy_icon.price:
                 return Response({"success" : False, "message" : "포인트가 모자랍니다"})
             request.user.plus_point -= buy_icon.price
-            request.user.own_title.add(buy_icon)
+            request.user.own_icon.add(buy_icon)
             request.user.save()
 
             return Response({"success" : True, "message" : "구매가 완료되었습니다"})
