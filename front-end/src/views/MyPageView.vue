@@ -1,7 +1,7 @@
 <template>
-  <div v-if="data.computedMy">
-    <h1>{{userType}} 마이 페이지</h1>
-    <h3> 안녕하세요 {{data.my.userinfo.name}}님</h3>
+  <div v-if="data.computedMy" class="baseStyle">
+    <h3>{{userType}} 마이 페이지</h3>
+    <h5> 안녕하세요 {{data.my.userinfo.name}}님</h5>
     <my-info :info="data.my.userinfo" :profilImg="data.my.userinfo.profil" />
     <point-list v-if="!isTeacher" :point="data.my.point_log"/>
     <grant-point v-else />

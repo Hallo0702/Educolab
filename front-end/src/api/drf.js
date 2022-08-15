@@ -65,5 +65,6 @@ export default {
     point: () => MY_PAGE + 'grant/',
     changeProfil: () => MY_PAGE + 'profil/',
     changeTitle: () => MY_PAGE + 'title/',
+    changeIcon: () => MY_PAGE + 'icon/',
   },
 }

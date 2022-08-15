@@ -23,7 +23,7 @@ class TeacherSerializer(serializers.ModelSerializer):
     profil = ProfilSerializer(read_only=True)
     class Meta:
         model = get_user_model()
-        fields = ['username','email','userflag','name','birthday','phone_number','subject','homeroom_teacher_flag','grade','class_field','profil']
+        fields = ['username','email','userflag','name','birthday','phone_number','subject','homeroom_teacher_flag','grade','class_field', 'profil']
         
 class StudentSerializer(serializers.ModelSerializer):
     wear_title = TitleSerializer(read_only=True)
