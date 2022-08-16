@@ -1,14 +1,14 @@
-//const FILE = 'http://127.0.0.1:8000'
-const FILE = 'https://i7c102.p.ssafy.io'
-const BASE_URL = FILE + '/api/'
-const ACCOUNTS = BASE_URL + 'accounts/'
-const NOTICE = BASE_URL + 'notice/'
-const SURVEY = BASE_URL + 'survey/'
-const QUIZ = BASE_URL + 'quiz/'
-const MY_PAGE = BASE_URL + 'mypage/'
-const HOMEWORK = BASE_URL + 'homework/'
-const MainPage = BASE_URL + 'mainpage/'
-const POINT_SHOP = BASE_URL + 'pointshop/'
+const FILE = "https://i7c102.p.ssafy.io";
+const BASE_URL = FILE + "/api/";
+const ACCOUNTS = BASE_URL + "accounts/";
+const NOTICE = BASE_URL + "notice/";
+const SURVEY = BASE_URL + "survey/";
+const QUIZ = BASE_URL + "quiz/";
+const MY_PAGE = BASE_URL + "mypage/";
+const HOMEWORK = BASE_URL + "homework/";
+const MainPage = BASE_URL + "mainpage/";
+const POINT_SHOP = BASE_URL + "pointshop/";
+const CHAT = BASE_URL + "/chat/";
 
 export default {
   accounts: {
@@ -22,7 +22,7 @@ export default {
     sendPwEmail: () => ACCOUNTS + "send_pw_email/",
     changePw: () => ACCOUNTS + "change_pw/",
     checkePw: () => ACCOUNTS + "check_pw/",
-    currenting: () => ACCOUNTS + "login/refresh/"
+    currenting: () => ACCOUNTS + "login/refresh/",
   },
   notice: {
     noticeList: () => NOTICE + "main/",
@@ -44,6 +44,8 @@ export default {
     quizList: () => QUIZ + "main/",
     quizCreate: () => QUIZ + "create/",
     quizDetail: () => QUIZ + "detail/",
+    quizScore: () => CHAT + "req/scoreadd/",
+    quizRank: () => CHAT + "req/rank/",
   },
 
   mainpage: {
