@@ -1,82 +1,87 @@
 <template>
   <main class="baseStyle">
-    <h1>{{userType}} 과제 {{type}} 페이지 {{taskPk}}</h1>
-    <section class="q-pa-md" style="max-width: 400px">
-      <q-form
-        @reset="onReset"
-        class="q-gutter-md"
-      >
-        <q-input
-          outlined
-          v-model="task.title"
-          label="제목"
-          required
-        />
-
-        <q-input
-          outlined
-          type="textarea"
-          label="내용"
-          v-model="task.content"
-        />
-        <!-- 교사에게만 보임 -->
-        <div v-if="isTeacher">
+    <h4>과제 {{type}}</h4>
+    <q-form
+      @reset="onReset">
+      <div class="row">
+        <span class="q-py-md q-mr-lg text-size" style="width:70px; text-align:center">제목</span>
+        <q-input class="text-size" outlined v-model="task.title" label="title" style="width: 700px;" required/>
+      </div>
+      <hr>
+      <div class="row">
+        <span class="q-py-md q-mr-lg text-size" style="width:70px; text-align:center">내용</span>
+        <div style="width:700px">
+          <q-editor
+            class="text-size"
+            style="min-height:500px; max-height:100%;"
+            v-model="task.content"
+            label="content"
+            :definitions="{
+              bold: {label: 'Bold', icon: null, tip: 'My bold tooltip'}
+            }"
+            required/>
+        </div>
+      </div>
+      <hr>
+      <!-- 교사에게만 보임 -->
+      <div v-if="isTeacher">
+        <div class="row">
+          <span class="q-py-md q-mr-lg text-size" style="width:70px; text-align:center">과목 </span>
           <q-select
+            class="text-size"
+            style="width: 300px;"
             outlined
-            v-model="task.subject"
-            label="과목"
-            :options="subjectOptions"
-          />
+            v-model="task.subject" label="과목" :options="subjectOptions" required/>
+        </div>
+        <hr>
+        <div class="row">
+          <span class="q-py-md q-mr-lg text-size" style="width:70px; text-align:center">학년</span>
           <q-input
             outlined
+            style="width: 300px;"
             type="number"
             :min="1"
             :max="3"
-            label="학년"
             v-model="task.grade"
-            lazy-rules
-            :rules="[
-            val => val === '' || val === null || val > 0 && val < 4 || '값이 올바르지 않습니다'
-          ]"
+            required
           />
+          <span class="q-py-md q-mr-lg text-size" style="width:70px; text-align:center">반</span>
           <q-input
             outlined
+            style="width: 300px;"
             type="number"
-            label="반"
             :min="1"
-            :max="20"
+            :max="10"
             v-model="task.class_field"
-            lazy-rules
-            :rules="[
-            val => val === '' || val === null || val > 0 && val < 21 || '값이 올바르지 않습니다'
-            ]"
+            required
           />
         </div>
+        <hr>
+      </div>
+      <div class="row">
+        <span class="q-py-md q-ml-sm q-mr-lg text-size" style="width: 70px; text-align:center">제출기한</span>
         <q-input
           outlined
           stack-label
           type="date"
-          label="제출기한"
           v-model="task.deadline"
         />
-        <q-input
-          label="첨부파일"
-          stack-label
-          outlined
-          @update:model-value="val => { task.files = val }"
-          multiple
-          type="file"
-        />
-        <div>
-          <q-btn label="초기화" type="reset" color="primary" flat class="q-ml-sm" />
-          <q-btn :label="type" color="primary" @click="onSubmit(false)" />
-          <q-btn v-if="!isTeacher" label="제출" color="primary" @click="onSubmit(true)"/>
-          <router-link class="button" :to="{name:'TaskListView', params: {userType,}}">
-            <q-btn label="목록" color="primary"/>
-          </router-link>
-        </div>
-      </q-form>
-    </section>
+      </div>
+      <hr>
+      <div class="row items-center">
+        <span class="q-py-md q-ml-sm q-mr-lg text-size" style="width: 70px; text-align:center">첨부파일</span>
+        <input class="text-size" type="file" @change="onFileSelected" multiple>
+      </div>
+      <hr>
+      <div class="row justify-center q-mt-xl q-gutter-md">
+        <q-btn label="초기화" type="reset" color="primary" flat class="q-ml-sm" />
+        <q-btn :label="type" color="primary" @click="onSubmit(false)"  class="text-size q-px-xl q-py-md" />
+        <q-btn v-if="!isTeacher" label="제출" color="primary" @click="onSubmit(true)"  class="text-size q-px-xl q-py-md"/>
+        <router-link class="button" :to="{name:'TaskListView', params: {userType,}}">
+          <q-btn label="목록" color="primary"  class="text-size q-px-xl q-py-md" />
+        </router-link>
+      </div>
+    </q-form>
   </main>
 </template>
 
@@ -176,3 +181,11 @@ export default {
 }
 </script>
 
+<style scoped>
+  p {
+    margin: 0;
+  }
+  .text-size {
+    font-size: 1rem;
+  }
+</style>

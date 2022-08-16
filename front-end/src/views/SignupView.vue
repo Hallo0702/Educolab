@@ -1,29 +1,29 @@
 <template>
-  <div class="q-mx">
+  <div class="baseStyle">
     <h3>SIGN UP</h3>
     <!-- form 부분 -->
     <q-form
-      class="q-gutter row justify-content-around"
+    class="q-mt-md row justify-center"
     >
-      <div class="col-6 offset-3 col-md-4 offset-md-4">
+      <div class="col-6">
       <!-- 여기에 아이디, 비밀번호 입력 창 -->
-        <login-info/>
+        <login-info class="q-my-md"/>
         <!-- 학교 검색 버튼 -->
-        <search-school />
+        <search-school class="q-my-md" />
         <!-- 이름 & 전화번호 -->
-        <user-name />
-        <user-phone-number />
+        <user-name class="q-my-md" />
+        <user-phone-number class="q-my-md" />
         <!-- 생년월일-->
-        <user-birthday :userType="userType" />
+        <user-birthday :userType="userType"  class="q-my-md"/>
         <!-- 교사와 학생에 따라 다른 항목-->
-        <teacher-or-student :userType="userType" />
+        <teacher-or-student :userType="userType" class="q-my-md" />
         <!-- 이메일 -->
-        <email-confirm />
+        <email-confirm class="q-my-md" />
         <!-- 회원가입 버튼 -->
         <q-btn
           color="primary"
           label="SIGN UP"
-          class="submitButton"
+          class="submitButton q-mt-sm"
           @click="submitData"/>
       </div>
       <message-pop-up

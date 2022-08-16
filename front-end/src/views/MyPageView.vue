@@ -4,8 +4,9 @@
     v-if="data.computedMy"
     oncontextmenu="return false"
     onselectstart="return false">
-    <h1>{{userType}} 마이 페이지</h1>
-    <h5> 안녕하세요 {{data.my.userinfo.name}}님</h5>
+    <h4 class="text-center">마이페이지</h4>
+    <hr>
+    <h5 class="text-center"> 안녕하세요 {{data.my.userinfo.name}}님</h5>
     <my-info :info="data.my.userinfo" :profilImg="data.my.userinfo.profil" />
     <point-list v-if="!isTeacher" :point="data.my.point_log"/>
     <grant-point v-else />

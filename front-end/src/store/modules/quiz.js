@@ -16,6 +16,7 @@ export const quiz = {
     quiz : state => state.quiz,
     quizDetail : state => state.quizDetail,
     quizData : state => state.quizData,
+    quizLength : state => Math.ceil(state.quiz/10),
   },
 
   mutations: {

@@ -16,7 +16,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="quiz in quiz" :key="quiz">
+          <tr v-for="quiz in quiz.slice((page-1)*10, page*10)" :key="quiz">
             <td class="text-left text-size">{{ quiz.pk }}</td>
               <td @click="quizDetail(quiz.pk)" class="text-size cursor-pointer">{{ quiz.title }}</td>
             <td class="text-center text-size">{{ timeInfo(quiz.updated_at) }}</td>
@@ -27,17 +27,26 @@
           </tr>
         </tbody>
       </q-markup-table>
+      <the-pagination
+        v-if="quizLength" 
+        :limit="quizLength"
+        @change-page="changePage" />
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters } from 'vuex'
+import {ref} from 'vue'
+import ThePagination from '@/components/ThePagination.vue'
 
 export default({
   name: 'QuizView',
+  components: {
+    ThePagination,
+  },
   computed: { 
-    ...mapGetters(['quiz'])
+    ...mapGetters(['quiz', 'quizLength'])
   },
   methods: {
     ...mapActions(['quizList']),
@@ -59,6 +68,16 @@ export default({
   },
   created() {
     this.quizList()
+  },
+  setup() {
+    let page = ref(1)
+    const changePage = (value) => {
+      page.value = value
+    }
+    return {
+      page,
+      changePage
+    }
   }
 })
 </script>

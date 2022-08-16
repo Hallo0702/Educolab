@@ -1,13 +1,15 @@
 <template>
-  <div>
+  <div class="row justify-center align-center">
     <q-input
+      class="col-4"
       color="teal"
       v-model="data.username"
       label="아이디"
       lazy-rules
       :rules="[ val => val && val.length > 0 || '아이디를 입력해주세요']"
     />
-    <confirm-auth-number :data="data"/>
+    <span class="col-12"></span>
+    <confirm-auth-number class="col-12" :data="data"/>
   </div>
 
 </template>
