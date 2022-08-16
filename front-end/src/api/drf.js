@@ -12,7 +12,7 @@ const POINT_SHOP = BASE_URL + 'pointshop/'
 
 export default {
   accounts: {
-    login: () => ACCOUNTS + "login_web/",
+    login: () => ACCOUNTS + "login/",
     logout: () => ACCOUNTS + "logout/",
     signup: () => ACCOUNTS + "registration/",
     schoolInfo: () => ACCOUNTS + "schoolinfo/",
@@ -22,6 +22,7 @@ export default {
     sendPwEmail: () => ACCOUNTS + "send_pw_email/",
     changePw: () => ACCOUNTS + "change_pw/",
     checkePw: () => ACCOUNTS + "check_pw/",
+    currenting: () => ACCOUNTS + "login/refresh/"
   },
   notice: {
     noticeList: () => NOTICE + "main/",

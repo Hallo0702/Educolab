@@ -30,11 +30,10 @@ export const accounts = {
         email: null,
         userflag: true,
       },
+      access : localStorage.getItem('access') || '' ,
       userType: null,
       validEmail: false,
-      access: localStorage.getItem("access") || "",
       currentUser: {
-        userflag : true
       },
       authError: null,
       subjectOptions : [
@@ -67,7 +66,6 @@ export const accounts = {
   },
   mutations: {
     SET_TOKEN: (state, access) => (state.access = access),
-    SET_CURRENT_USER: (state, user) => (state.currentUser = user),
     SET_AUTH_ERROR: (state, error) => (state.authError = error),
     CHANGE_DATA(state, data) {
       if (state.userType === "student") {
@@ -97,7 +95,18 @@ export const accounts = {
     },
     CHANGE_VALID: (state, data) => {
       state.validEmail = data
-    }
+    },
+    CURRENTING_USER: (state, currentUser) => {
+      for (let key in currentUser) {
+        if (key === 'access') {
+          state.access = currentUser.access
+        } else if (key === 'refresh') {
+          localStorage.setItem("refresh", currentUser.refresh)
+        } else {
+          state.currentUser[key] = currentUser[key]
+        }
+      }
+    } 
   },
   actions: {
     saveToken({ commit }, access) {
@@ -108,17 +117,34 @@ export const accounts = {
       commit("SET_TOKEN", "");
       localStorage.setItem("access", "")
     },
+
+    currentingUser({ commit }) {
+      if (localStorage.getItem("refresh")) {
+        axios({
+          url : drf.accounts.currenting(),
+          method : 'post',
+          data : {
+            'refresh' : localStorage.getItem("refresh")
+          }
+        })
+          .then(res => {
+            console.log(res.data)
+            commit("CURRENTING_USER", res.data)
+          })
+      }
+    },
+
     login({ commit, dispatch }, credentials) {
-      axios.post(
-        drf.accounts.login(),
-        credentials,
-        { withCredentials: true }
-      )
-        .then((res) => {
+      axios({
+        url: drf.accounts.login(),
+        method : 'post',
+        data : credentials
+      })
+        .then(res => {
+          console.log(res.data)
           const access = res.data.access
           dispatch("saveToken", access)
-          console.log(res.data.userinfo)
-          commit("SET_CURRENT_USER", res.data.userinfo)
+          commit("CURRENTING_USER", res.data)
           router.push({ name: "educolab" })
         })
         .catch((err) => {
@@ -169,6 +195,5 @@ export const accounts = {
     changePwInfo({commit}, data) {
       commit("CHANGE_PW_INFO", data)
     },
-    // back에 현재 사용자 정보 요청 (토큰 보내면 )
-  },
-};
+  }
+}
