@@ -49,9 +49,9 @@
                 <router-link class="text-subtitle2 button color5 navBarLi" to="/notice" flat>공지사항</router-link>
                 <router-link class="text-subtitle2 button color5 navBarLi" to="/student/task" flat>과제</router-link>
                 <router-link class="text-subtitle2 button color5 navBarLi" to="/student/point" flat>포인트 상점</router-link>
-          <a href="/">
+          <!-- <a href="/"> -->
                   <router-link class="text-subtitle2 button color5 navBarLi" to="/student">마이페이지</router-link>
-          </a>
+          <!-- </a> -->
               </div>
             </div>
             <q-icon @click="activeNav" class="cursor-pointer" name="mdi-menu" />
@@ -90,14 +90,6 @@
   .baseStyle {
     width: 80%;
     margin: auto;
-    /* font-family: "jooa"; */
-    min-width: 450px;
-    height:1200px;
-  }
-  .testStyle {
-    width: 80%;
-    margin: auto;
-    font-family: "jooa";
     min-width: 450px;
     height:1200px;
   }
@@ -138,11 +130,6 @@
   .ftr-size {
     font-size: 0.9rem;
   } 
-  footer {
-    position: absolute;
-    bottom: -1000px;
-    width: 100%
-  }
   .navBarLi:hover {
     border-bottom: 2px solid #8BFF8B;
   }

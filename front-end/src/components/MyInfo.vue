@@ -4,10 +4,7 @@
     <q-card-section horizontal class="q-ml-sm">
       <!-- 프로필 -->
       <label for="profil">
-        <img
-          :src="profil.change"
-          class="cursor-pointer"
-          width="100">
+        <img :src="profil.change" class="cursor-pointer" width="100" />
       </label>
       <input
         type="file"
@@ -77,15 +74,15 @@
 </template>
 
 <script>
-import {useStore} from 'vuex'
-import { computed, reactive, ref } from 'vue'
-import {useRouter} from 'vue-router'
-import dayjs from 'dayjs'
-import axios from 'axios'
-import drf from '@/api/drf.js'
-import MyPagePopUp from '@/components/MyPagePopUp.vue'
+import { useStore } from "vuex";
+import { computed, reactive, ref } from "vue";
+import { useRouter } from "vue-router";
+import dayjs from "dayjs";
+import axios from "axios";
+import drf from "@/api/drf.js";
+import MyPagePopUp from "@/components/MyPagePopUp.vue";
 export default {
-  name: 'MyInfo',
+  name: "MyInfo",
   components: {
     MyPagePopUp,
   },
@@ -93,103 +90,105 @@ export default {
     info: Object,
   },
   setup(props) {
-    const store = useStore()
-    const router = useRouter()
-    const school = store.getters.currentUser.schoolname
-    let title = ref(props.info.wear_title?.title)
-    let icon = ref(props.info.wear_icon?.title)
-    let computedTitle = computed(() => title.value)
-    const date = dayjs(props.info.birthday)
-    const birthday = `${date.get('y')}년 ${date.get('M')+1}월 ${date.get('D')}일생`
+    const store = useStore();
+    const router = useRouter();
+    const school = store.getters.currentUser.schoolname;
+    let title = ref(props.info.wear_title?.title);
+    let icon = ref(props.info.wear_icon?.title);
+    let computedTitle = computed(() => title.value);
+    const date = dayjs(props.info.birthday);
+    const birthday = `${date.get("y")}년 ${date.get("M") + 1}월 ${date.get(
+      "D"
+    )}일생`;
     const profil = reactive({
       path: props.info.profil,
-      change: computed(() => drf.file.path() + profil.path)
-    })
+      change: computed(() => drf.file.path() + profil.path),
+    });
     const badge = reactive({
       path: props.info.wear_icon,
-      change: computed(() => drf.file.path() + badge.path)
-    })
-    let files = null
+      change: computed(() => drf.file.path() + badge.path),
+    });
+    let files = null;
     const apply = reactive({
       prompt: false,
       title: null,
       mode: computed(() => apply.prompt),
-    })
-    let type = ref(null)
+    });
+    let type = ref(null);
     const myTitle = (title) => {
-      type.value = title
-      apply.title = title? '보유 업적 목록': '보유 배지 목록'
-      apply.prompt = true
-    }
+      type.value = title;
+      apply.title = title ? "보유 업적 목록" : "보유 배지 목록";
+      apply.prompt = true;
+    };
     const applyTitle = (val, type, pk, name) => {
       if (val && name !== title.value ) {
         let url = null
         if (type) {
           url = drf.myPage.changeTitle()
         } else {
-          url = drf.myPage.changeIcon()
+          url = drf.myPage.changeIcon();
         }
-        console.log(url)
+        console.log(url);
         axios({
           url,
-          method: 'put',
+          method: "put",
           headers: store.getters.authHeader,
-          data: {pk,}
-        })
-          .then(() => {
-            if (props.type) {
-              title.value = name
-            } else {
-              icon.value = name
-              // badge.path = 
-            }
-          })
+          data: { pk },
+        }).then(() => {
+          if (props.type) {
+            title.value = name;
+          } else {
+            icon.value = name;
+          }
+        });
       }
-      apply.prompt = false
-    }
+      apply.prompt = false;
+    };
     const changeProfil = () => {
       // 자세한 건 수정 필요
-      const photo = document.getElementById('profil')
-      const form = new FormData()
-      form.append('profil', photo.files[0])
+      const photo = document.getElementById("profil");
+      const form = new FormData();
+      form.append("profil", photo.files[0]);
       axios({
         url: drf.myPage.changeProfil(),
-        method: 'put',
+        method: "put",
         headers: {
           ...store.getters.authHeader,
-          'Content-Type': 'multipart/form-data'
-          },
-        data: form
-      })
-        .then(() => {
-          // 프로필 적용
-          profil.path = drf.file.change() + photo.files[0].name
-          console.log('적용되었습니다')
-        })
-    }
+          "Content-Type": "multipart/form-data",
+        },
+        data: form,
+      }).then(() => {
+        // 프로필 적용
+        profil.path = drf.file.change() + photo.files[0].name;
+        console.log("적용되었습니다");
+      });
+    };
     const deleteProfil = () => {
       // 기본 프로필 이미지 주소
       axios({
         url: drf.myPage.changeProfil(),
-        method: 'delete',
+        method: "delete",
         headers: store.getters.authHeader,
-      })
-        .then(() => {
-          // 프로필 적용
-          profil.path = drf.file.default()
-          console.log(profil.path)
-          console.log('적용되었습니다')
-        })
-    }
+      }).then(() => {
+        // 프로필 적용
+        profil.path = drf.file.default();
+        console.log(profil.path);
+        console.log("적용되었습니다");
+      });
+    };
     const toChangePage = (path) => {
-      if (path === 'password') {
-        store.dispatch('changePwInfo', {name: props.info.name, email: props.info.email, username: props.info.username})
-        router.push('/change/password')
+      if (path === "password") {
+        store.dispatch("changePwInfo", {
+          name: props.info.name,
+          email: props.info.email,
+          username: props.info.username,
+        });
+        router.push("/change/password");
       } else {
-        store.dispatch('changeInfo', props.info)
-        router.push('/change/info')
+        store.dispatch("changeInfo", props.info);
+        router.push("/change/info");
       }
-    }
+    };
     return {
       school,
       apply,
@@ -205,10 +204,10 @@ export default {
       changeProfil,
       deleteProfil,
       toChangePage,
-      computedTitle
-    }
+      computedTitle,
+    };
   },
-}
+};
 </script>
 
 <style scoped>
