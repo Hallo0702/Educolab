@@ -26,8 +26,6 @@
       <main-acc-rank class="col-md-6 col-xs-12 q-py-lg flex justify-center"  :mainAccRank="mainAccRank"></main-acc-rank>
       <main-week-rank class="col-md-6 col-xs-12 q-py-lg flex justify-center" :mainWeekRank="mainWeekRank"></main-week-rank>
     </div>
-    <!-- <div class="row">
-    </div> -->
 
     <div class="row justify-evenly">
     </div>
@@ -59,12 +57,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-  /* footer {
-    width: 100%;
-    height: 100px; footer의 높이 */
-    /* position: absolute;  
-    bottom: 0;
-  } */
-</style>
