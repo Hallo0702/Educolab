@@ -9,7 +9,7 @@ class NoticeMainSerializer(serializers.ModelSerializer):
     teacher = UserNameSerializer(read_only=True)
     class Meta:
         model = models.Notice
-        fields = ['pk','classification','title','updated_at','views','teacher']
+        fields = ['pk','classification','title','created_at','views','teacher']
 
 class NoticeSerializer(serializers.ModelSerializer):
     teacher = UserNameSerializer(read_only=True)
