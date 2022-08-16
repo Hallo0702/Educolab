@@ -1,6 +1,6 @@
 <template>
   <main flat bordered class="baseStyle">
-    <h3>과제 상세 페이지</h3>
+    <h5 class="text-center">과제</h5>
     <section>
       <!-- 과제 내용 & 교사용 -->
       <task-detail-content v-if="!isEmptyTask" :pk="pk" :task="task" :isTeacher="user.isTeacher"/>
@@ -13,7 +13,7 @@
       <div class="buttonGroup">
         <div v-if="user.editPossible">
           <router-link
-            class="button"
+            class="button q-mx-sm"
             :to="{name: 'TaskUpdateView', params: {
             userType: user.type, taskPk:pk
           }}">
@@ -42,7 +42,7 @@
 <script>
 import {computed, onMounted, reactive} from 'vue'
 import {useStore} from 'vuex'
-import {useRoute} from 'vue-router'
+import {useRoute, useRouter} from 'vue-router'
 import {isEmpty} from 'lodash'
 import dayjs from 'dayjs'
 import StudentTaskSubmit from '@/components/StudentTaskSubmit.vue'
@@ -57,14 +57,19 @@ export default {
   },
   setup() {
     const route = useRoute()
+    const router = useRouter()
     const store = useStore()
     const pk = route.params.taskPk
     const isLecture = computed(() => route.params.taskType === 'lecture'? 1:0)
     onMounted(() => {
-      store.dispatch('taskDetail', {
-        pk,
-        teacher_flag: isLecture.value
-      })
+      if (store.getters.isLoggedIn) {
+        store.dispatch('taskDetail', {
+          pk,
+          teacher_flag: isLecture.value
+        })
+      } else {
+        router.push('/login')
+      }
     })
     const task = computed(() => store.getters.getTask)
     const isEmptyTask = computed(() => isEmpty(task.value))

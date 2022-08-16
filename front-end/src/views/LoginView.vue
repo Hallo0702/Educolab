@@ -1,15 +1,16 @@
 <template>
-  <div style="height:900px;" class="q-mx column justify-center">
+  <div style="height:700px;" class="q-mx column justify-center">
     <h3>LOGIN</h3>
     <account-error-list></account-error-list>
     <!-- form 부분 -->
     <q-form
       @submit="login(credentials)"
-      class="q-gutter row"
+      class="row justify-center"
     >
     <!-- 여기에 아이디, 비밀번호 입력 창 -->
-      <div class="input col-8 offset-2 col-md-3 offset-md-4">
+      <div class="row justify-end">
         <q-input
+          class="col-10"
           color="teal"
           v-model="credentials.username"
           label="ID"
@@ -18,6 +19,7 @@
         />
 
         <q-input
+          class="col-10"
           color="teal"
           v-model="credentials.password"
           label="Password"
@@ -32,8 +34,8 @@
       <!-- 여기에 로그인버튼 -->
       <q-btn
         color="secondary"
+        class="q-ml-xl"
         label="LOGIN"
-        class="col-8 offset-2 col-md-1 offset-md-1"
         type="submit"/>
     </q-form>
 
@@ -41,7 +43,7 @@
     <button-group :currentUrl="currentUrl"/>
     <router-view></router-view>
 
-    <footer class="bord-top bg-blue-grey-12 q-py-sm">
+    <footer class="bord-top bg-blue-grey-12 q-py-sm fixed-bottom" width="100%">
       <div class="row justify-start items-center">
         <img class="q-mx-xl" src="@/assets/footerlogo.png" alt="educolab" style="width:5rem; height:5rem;">
         <div class="ftr-size">
@@ -61,18 +63,18 @@
   .buttonGroup {
     margin-top: 100px;
   }
-  footer {
+  /* footer {
     position: absolute;
     bottom: 0;
     width: 100%
-  }
+  } */
 </style>
 
 <script>
 // import { reactive } from '@vue/reactivity'
 import { mapGetters, mapActions, useStore } from 'vuex'
 import {onBeforeMount} from 'vue'
-import {useRouter, useRoute} from 'vue-router'
+import {useRouter} from 'vue-router'
 import AccountErrorList from '@/components/AccountErrorList.vue'
 import ButtonGroup from '@/components/ButtonGroup.vue'
 
@@ -100,13 +102,9 @@ export default {
   setup () {
     const store = useStore()
     const router = useRouter()
-    const route = useRoute()
     onBeforeMount(() => {
       if (store.getters.isLoggedIn) {
-        console.log(router)
-        console.log(route)
-        // 메인 페이지로 이동
-        // router.push('/signup')
+        router.push('/educolab')
       }
     })
   }

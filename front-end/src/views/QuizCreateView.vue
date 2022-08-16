@@ -93,7 +93,11 @@ export default {
     }
   },
   mounted() {
-    if (this.quizPk) {
+    if (!this.isLoggedIn) {
+      this.$router.push('/educolab/login/')
+    } else if (!this.currentUser.flag) {
+      this.$router.push('/login/')
+    } else if (this.quizPk) {
       this.getQuizDetail(this.quizPk)
       for (var i=0; i < this.quizDetail.length; i++) {
         if ( this.quizDetail[i].quiz_name) {

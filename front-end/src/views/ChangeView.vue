@@ -5,8 +5,8 @@
     <!-- form 부분 -->
     <q-form
       v-if="correct.state"
-      class="q-gutter row">
-      <section class="input col-8 offset-2 col-md-3 offset-md-4">
+      class="q-gutter row justify-center">
+      <section class="input col-6">
         <!-- 회원정보 변경 -->
         <change-user-info v-if="type.isTypeInfo"/>
         <!-- 비밀번호 변경 -->
@@ -15,7 +15,7 @@
     </q-form>
     <!-- 비밀번호 입력 팝업 -->
     <my-page-pop-up
-      v-if="change.mode"
+      v-if="change.mode && isLoggedIn"
       :title="change.title"
       :changeMode="true"
       @reverse="render"
@@ -53,10 +53,8 @@ export default {
         if (type.type !== 'password') {
           router.push('/404')
         }
-      } else if (store.getters.isLoggedIn) {
-          // 로그인됐을 경우
-      } else {
-        // 로그인되지 않았을 경우
+      } else if (!store.getters.isLoggedIn && type.isTypeInfo) {
+          router.push('/educolab')
       }
     })
     const change = reactive({
@@ -79,11 +77,18 @@ export default {
         }
       }
     }
+    let isLoggedIn = store.getters.isLoggedIn
+    onBeforeMount(() => {
+      if (!isLoggedIn) {
+        render(false, true)
+      }
+    })
     return {
       type,
       change,
       correct,
-      render
+      render,
+      isLoggedIn
     }
   },
 }

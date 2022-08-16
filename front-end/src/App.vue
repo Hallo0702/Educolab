@@ -10,7 +10,9 @@
             <router-link class="q-ml-xl button color5 navBarLi" to="/quiz">퀴즈</router-link>
             <router-link class="q-ml-xl button color5 navBarLi" to="/survey">설문조사</router-link>
             <router-link class="q-ml-xl button color5 navBarLi" to="/teacher">마이페이지</router-link>
-            <button @click="logoutBtn" class="q-ml-xl">로그아웃</button>
+            <a href="/">
+              <button @click="logoutBtn" class="q-ml-xl">로그아웃</button>
+            </a>
           </div>
           
           <div class="navBar_tool">
@@ -36,7 +38,9 @@
             <router-link class="q-ml-xl button color5 navBarLi" to="/student/task" flat>과제</router-link>
             <router-link class="q-ml-xl button color5 navBarLi" to="/student/point" flat>포인트 상점</router-link>
             <router-link class="q-ml-xl button color5 navBarLi" to="/student">마이페이지</router-link>
-            <button @click="logoutBtn" class="q-ml-xl">로그아웃</button>
+            <a href="/">
+              <button @click="logoutBtn" class="q-ml-xl">로그아웃</button>
+            </a>
           </div>
   
           <div class="navBar_tool">
@@ -54,7 +58,7 @@
           </div>
         </div>
     </div>
-
+    <!-- <the-spinner v-if="computedLoad"/> -->
   <router-view />
   </div>
 </template>
@@ -109,7 +113,7 @@
     justify-content: center;
     text-align: center;
     gap: 10px;
-    margin: 100px 0px;
+    margin: 70px 0px;
     }
   .bord-bt {
     border-bottom: 1px solid #99DFF9;
@@ -161,13 +165,16 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+// import TheSpinner from './components/TheSpinner.vue'
 
 export default {
+  // components: { TheSpinner },
   name: 'MainPage',
   data() {
     return {
       isHovering : true,
       onNavList : false,
+      load: true,
     }
   },
   computed: {
@@ -176,6 +183,9 @@ export default {
       const flag = this.currentUser.userflag
       return flag
     },
+    computedLoad() {
+      return this.load
+    }
   },
   methods: {
     ...mapActions(['logout']),
@@ -201,9 +211,6 @@ export default {
     }
   },
   created() {
-    if (this.isLoggedIn === false) {
-      this.$router.push({name:'login'})
-    }
   }
 }
 </script>

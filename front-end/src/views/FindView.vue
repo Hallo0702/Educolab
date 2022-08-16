@@ -2,25 +2,13 @@
   <main class="q-mx">
     <h3 v-if="type.type">FIND {{type.title}}</h3>
     <!-- form 부분 -->
-    <q-form
-      class="q-gutter row">
-      <section class="input col-8 offset-2 col-md-3 offset-md-4">
+    <q-form class="column justify-center">
+      <section>
       <!-- 여기에 이름, 이메일 입력 창 -->
         <find-id />
         <send-pw-email v-if="!type.isTypeId" />
       </section>
     </q-form>
-    <q-dialog v-model="confirm.prompt" persistent>
-      <q-card style="min-width: 350px">
-        <q-card-section>
-          <div class="text-h6 center">{{confirm.message}}</div>
-        </q-card-section >
-        <q-card-actions text-align="center">
-          <button-group v-if="confirm.isSuccess" :currentUrl="type.currentUrl" @click="initInfo"/>
-          <q-btn v-else color="primary" label="확인" v-close-popup/>
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
     <!-- 여기에 회원가입 로그인 비밀번호 찾기 -->
     <button-group v-if="type.type" :currentUrl="type.currentUrl"/>
   </main>
@@ -37,6 +25,7 @@
 import { reactive } from '@vue/reactivity'
 import {computed, onBeforeMount} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
+import { useStore } from 'vuex'
 import ButtonGroup from '@/components/ButtonGroup.vue'
 import SendPwEmail from '@/components/SendPwEmail.vue'
 import FindId from '@/components/FindId.vue'
@@ -49,6 +38,7 @@ export default {
     FindId,
   },
   setup () {
+    const store = useStore()
     const route = useRoute()
     const router = useRouter()
     const type = reactive({
@@ -60,6 +50,8 @@ export default {
     onBeforeMount (() => {
       if (!type.isTypeId && type.type !== 'password') {
         router.push('/404')
+      } else if (store.getters.isLoggedIn) {
+        router.push('/educolab')
       }
     })
     return {

@@ -8,7 +8,7 @@
       :boundary-links="limit>6"
       direction-links
       @click="changePage"
-      size="20px"
+      size="17px"
     />
   </div>
 </template>

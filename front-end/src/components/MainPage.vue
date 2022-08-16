@@ -45,13 +45,17 @@ export default {
   name: 'MainPage',
   components: { MainNotice, MainHomework, MainWeekRank, MainAccRank},
   computed: {
-    ...mapGetters(['mainNotice', 'mainHomework', 'mainWeekRank', 'mainAccRank'])
+    ...mapGetters(['mainNotice', 'mainHomework', 'mainWeekRank', 'mainAccRank', 'isLoggedIn'])
   },
   methods: {
     ...mapActions(['getMainPage'])
   },
   created() {
-    this.getMainPage()
+    if (!this.isLoggedIn) {
+      this.$router.push('/educolab/login')
+    } else {
+      this.getMainPage()
+    }
   }
 }
 </script>
