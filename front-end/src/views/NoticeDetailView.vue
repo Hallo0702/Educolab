@@ -1,18 +1,20 @@
 <template>
   <div class="row justify-center q-my-xl">
-    <div class="notice_form">
-        <hr>
+    <div>
+      <div class="q-mb-md">
         <div class="row justify-between items-center">
           <div class="row start items-center">
             <p class="title-size">[{{ noticeDetail.notice.classification }}]</p>
             <p class="title-size">{{ noticeDetail.notice.title }}</p>
           </div>
+        </div>
+        <div class="row justify-between">
+          <p class="item-size text-start q-pl-sm text-grey-13">{{ noticeDetail.notice.teacher.name }}</p>
           <p class="item-size text-right q-px-md">{{ timeInfo(noticeDetail.notice.updated_at) }}</p>
         </div>
-        <p class="item-size text-start q-pl-sm text-grey-13">{{ noticeDetail.notice.teacher.name }}</p>
-        <hr>
+      </div>
 
-        <div>
+        <div class="row justify-center">
           <q-card class="bord">
             <q-card-section>
               <p class="content-size bg-white" style="min-height:500px">{{ noticeDetail.notice.content }}</p>
@@ -20,8 +22,8 @@
           </q-card>
         </div>
       <hr>
-
-      <div class="q-py-sm q-pl-sm">
+    
+      <div class="row q-py-sm q-pl-sm">
         <p class="text-size text-grey-13 q-pb-sm">첨부파일 ({{ noticeDetail.files.length }}) </p> 
         <div v-for="file in noticeDetail.files" :key="file">
           <q-btn @click="openFile(file.atch_file)" color="grey-12" class="text-black">
@@ -32,13 +34,13 @@
       </div>
       <hr>
 
-      <div class="row justify-center q-my-md q-gutter-lg">
-        <q-btn class="text-size" @click="updateNotice(noticePk)" color="orange-6 q-py-sm">공지사항 수정</q-btn>
-        <q-btn class="text-size" @click="deleteNotice(noticePk)" color="orange-6 q-py-sm">공지사항 삭제</q-btn>
+      <div class="row justify-center q-mt-xl q-gutter-md">
+        <q-btn class="text-size q-px-xl q-py-md" @click="deleteNotice(noticePk)" color="red-7">삭제</q-btn>
+        <q-btn class="text-size q-px-xl q-py-md" @click="updateNotice(noticePk)" color="blue-7">수정</q-btn>
       </div>
 
       <div class="btn-mag row justify-center">
-        <q-btn @click="goNotice" class="text-size q-px-lg q-py-sm" color="green-13" label="목록" />
+        <q-btn @click="goNotice" class="text-size q-px-xl q-py-md" color="grey-8" label="목록" />
       </div> 
     </div>  
   </div>
@@ -108,8 +110,6 @@ export default {
   }
   .notice_form {
     width: 60%;
-    /* margin : 0; */
-    /* font-family: "jooa"; */
   }
   .color1 {
     color: #FF9966;

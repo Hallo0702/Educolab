@@ -12,16 +12,16 @@ const POINT_SHOP = BASE_URL + 'pointshop/'
 
 export default {
   accounts: {
-    login: () => ACCOUNTS + 'login_web/',
-    logout: () => ACCOUNTS + 'logout/',
-    signup: () => ACCOUNTS + 'registration/',
-    schoolInfo: () => ACCOUNTS + 'schoolinfo/',
-    checkUsername: () => ACCOUNTS + 'check_username/',
-    findUsername: () => ACCOUNTS + 'find_username/',
-    sendEmail: () => ACCOUNTS + 'send_signup_email/',
-    sendPwEmail: () => ACCOUNTS + 'send_pw_email/',
-    changePw: () => ACCOUNTS + 'change_pw/',
-    checkePw: () => ACCOUNTS + 'check_pw/',
+    login: () => ACCOUNTS + "login_web/",
+    logout: () => ACCOUNTS + "logout/",
+    signup: () => ACCOUNTS + "registration/",
+    schoolInfo: () => ACCOUNTS + "schoolinfo/",
+    checkUsername: () => ACCOUNTS + "check_username/",
+    findUsername: () => ACCOUNTS + "find_username/",
+    sendEmail: () => ACCOUNTS + "send_signup_email/",
+    sendPwEmail: () => ACCOUNTS + "send_pw_email/",
+    changePw: () => ACCOUNTS + "change_pw/",
+    checkePw: () => ACCOUNTS + "check_pw/",
   },
   notice: {
     noticeList: () => NOTICE + "main/",
@@ -31,47 +31,47 @@ export default {
   },
 
   survey: {
-    surveyList: () => SURVEY + 'main/',    
-    surveyCreate: () => SURVEY + 'create/',
-    surveyDetail: () => SURVEY + 'detail/',
-    surveyUpdate: () => SURVEY + 'update/',
-    surveyStat : () => SURVEY + 'stat/',
-    surveyQuestion : () => SURVEY + 'stat/detail/'
+    surveyList: () => SURVEY + "main/",
+    surveyCreate: () => SURVEY + "create/",
+    surveyDetail: () => SURVEY + "detail/",
+    surveyUpdate: () => SURVEY + "update/",
+    surveyStat: () => SURVEY + "stat/",
+    surveyQuestion: () => SURVEY + "stat/detail/",
   },
 
   quiz: {
-    quizList: () => QUIZ + 'main/',
-    quizCreate: () => QUIZ + 'create/',
-    quizDetail: () => QUIZ + 'detail/',
+    quizList: () => QUIZ + "main/",
+    quizCreate: () => QUIZ + "create/",
+    quizDetail: () => QUIZ + "detail/",
   },
 
   mainpage: {
-    mainItem: () => MainPage
+    mainItem: () => MainPage,
   },
   task: {
-    list: () => HOMEWORK + 'main/',
-    create: () => HOMEWORK + 'create/',
-    detail: () => HOMEWORK + 'detail/',
-    check: () => HOMEWORK + 'check/',
-    checkDone: () => HOMEWORK + 'check/done/',
-    submit: () => HOMEWORK + 'submit/',
+    list: () => HOMEWORK + "main/",
+    create: () => HOMEWORK + "create/",
+    detail: () => HOMEWORK + "detail/",
+    check: () => HOMEWORK + "check/",
+    checkDone: () => HOMEWORK + "check/done/",
+    submit: () => HOMEWORK + "submit/",
   },
   file: {
     path: () => FILE,
-    change: () => '/api/media/accounts/profils/',
-    default: () => '/api/media/accounts/profils/profile1.jpg'
+    change: () => "/api/media/accounts/profils/",
+    default: () => "/api/media/accounts/profils/profile1.jpg",
   },
   myPage: {
-    main: () => MY_PAGE + 'main/',
-    point: () => MY_PAGE + 'grant/',
-    changeProfil: () => MY_PAGE + 'profil/',
-    changeTitle: () => MY_PAGE + 'title/',
-    changeIcon: () => MY_PAGE + 'icon/',
+    main: () => MY_PAGE + "main/",
+    point: () => MY_PAGE + "grant/",
+    changeProfil: () => MY_PAGE + "profil/",
+    changeTitle: () => MY_PAGE + "title/",
+    changeIcon: () => MY_PAGE + "icon/",
   },
   pointShop: {
     main: () => POINT_SHOP,
-    buyTitle: () => POINT_SHOP + 'title/',
-    buyIcon: () => POINT_SHOP + 'icon/',
+    buyTitle: () => POINT_SHOP + "title/",
+    buyIcon: () => POINT_SHOP + "icon/",
     // registerIcon: () => POINT_SHOP + 'icon/register/',
   },
-}
+};

@@ -1,8 +1,7 @@
 <template>
   <div class="baseStyle">
-    <!-- <img src="@/assets/공지사항.png" alt="notice" style="height:150px;"> -->
-      <h4 class="text-center">공지사항</h4>
-      <hr>
+    <h4 class="text-center">공지사항</h4>
+    <hr>
     <div class="row justify-end q-mt-lg">
       <q-btn @click="noticeCreate" class="text-size q-mx-lg q-py-sm" 
       color="blue-6" label="글 쓰기" />
@@ -106,15 +105,8 @@ export default {
 </script>
 
 <style scoped>
-  .text-size{font-size: 1rem;}
-  .searchWrap{border-radius:5px; text-align:center; padding:20px 0; margin-bottom:10px;}
-  .tbList th{border-top:1px solid #888;}
-	.tbList th, .tbList td{border-bottom:1px solid #eee; padding:5px 0;}
-	.tbList td.txt_left{text-align:left;}
-  .btn{margin-bottom:40px;}
-  .notice-small {
-    display: none;
-  }
+  .text-size{ font-size: 1rem; }
+  .notice-small { display: none; }
 
   @media screen and (max-width: 950px) {
     .notice-full {
