@@ -52,7 +52,7 @@ export default {
   components: { SurveyItem },
   name: 'SurveyCreateView',
   computed: {
-    ...mapGetters(['surveyData', 'survey']),
+    ...mapGetters(['surveyData', 'survey', 'isLoggedIn', 'currentUser']),
     getTitle() {
       if (this.surveyPk) return "설문조사 수정"
       return "설문조사 등록"
@@ -153,7 +153,11 @@ export default {
     },
   },
   mounted() {
-    if (this.surveyPk) {
+    if (!this.isLoggedIn) {
+      this.$router.push('/educolab/login')
+    } else if (!this.currentUser.userflag) {
+      this.$router.push('/educolab')
+    } else if (this.surveyPk) {
       for (var i=0; i < this.survey.length; i++) {
         if (this.surveyPk == this.survey[i].pk) {
           this.credentials.survey.title = this.survey[i].title

@@ -15,7 +15,7 @@
 
 <script>
 import { computed, onBeforeMount, reactive} from 'vue'
-import {useRoute} from 'vue-router'
+import {useRoute, useRouter} from 'vue-router'
 import {useStore} from 'vuex'
 import axios from 'axios'
 import drf from '@/api/drf.js'
@@ -31,6 +31,7 @@ export default {
   name: 'MyPageView',
   setup() {
     const route = useRoute()
+    const router = useRouter()
     const store = useStore()
     const {userType} = route.params
     const isTeacher = computed(() => userType === 'teacher')
@@ -51,7 +52,11 @@ export default {
       })
     }
     onBeforeMount(() => {
-      pageMain()
+      if (!this.isLoggedIn) {
+      router.push('/educolab/login')
+      } else {
+        pageMain()
+      }
     })
     return {
       userType,

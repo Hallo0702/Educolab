@@ -48,7 +48,7 @@ export default({
     ThePagination,
   },
   computed: { 
-    ...mapGetters(['quiz', 'quizLength'])
+    ...mapGetters(['quiz', 'quizLength', 'isLoggedIn', 'currentUser'])
   },
   methods: {
     ...mapActions(['quizList']),
@@ -69,7 +69,13 @@ export default({
     }
   },
   created() {
-    this.quizList()
+    if (!this.isLoggedIn) {
+      this.$router.push('/educolab/login/')
+    } else if (!this.currentUser.flag) {
+      this.$router.push('/login/')
+    } else {
+      this.quizList()
+    }
   },
   setup() {
     let page = ref(1)

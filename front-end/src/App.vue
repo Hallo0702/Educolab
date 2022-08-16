@@ -58,7 +58,7 @@
           </div>
         </div>
     </div>
-
+    <!-- <the-spinner v-if="computedLoad"/> -->
   <router-view />
   </div>
 </template>
@@ -165,13 +165,16 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+// import TheSpinner from './components/TheSpinner.vue'
 
 export default {
+  // components: { TheSpinner },
   name: 'MainPage',
   data() {
     return {
       isHovering : true,
       onNavList : false,
+      load: true,
     }
   },
   computed: {
@@ -180,6 +183,9 @@ export default {
       const flag = this.currentUser.userflag
       return flag
     },
+    computedLoad() {
+      return this.load
+    }
   },
   methods: {
     ...mapActions(['logout']),
@@ -205,9 +211,6 @@ export default {
     }
   },
   created() {
-    // if (this.isLoggedIn === false) {
-    //   this.$router.push({name:'login'})
-    // }
   }
 }
 </script>

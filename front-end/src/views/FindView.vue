@@ -25,6 +25,7 @@
 import { reactive } from '@vue/reactivity'
 import {computed, onBeforeMount} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
+import { useStore } from 'vuex'
 import ButtonGroup from '@/components/ButtonGroup.vue'
 import SendPwEmail from '@/components/SendPwEmail.vue'
 import FindId from '@/components/FindId.vue'
@@ -37,6 +38,7 @@ export default {
     FindId,
   },
   setup () {
+    const store = useStore()
     const route = useRoute()
     const router = useRouter()
     const type = reactive({
@@ -48,6 +50,8 @@ export default {
     onBeforeMount (() => {
       if (!type.isTypeId && type.type !== 'password') {
         router.push('/404')
+      } else if (store.getters.isLoggedIn) {
+        router.push('/educolab')
       }
     })
     return {

@@ -87,16 +87,19 @@
 
 <script>
 import { reactive, computed, onBeforeMount} from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import {useStore} from 'vuex'
 export default {
   name: 'TaskFormView',
   setup () {
     const route = useRoute()
     const store = useStore()
+    const router = useRouter()
     let {userType, taskPk} = route.params
     onBeforeMount(() => {
-      if (taskPk) {
+      if (!this.isLoggedIn) {
+      router.push('/educolab/login')
+    } else if (taskPk) {
         store.dispatch('initTask')
         store.dispatch('taskDetail', {pk: taskPk, teacher_flag: userType === 'teacher'? 1:0})
     }
