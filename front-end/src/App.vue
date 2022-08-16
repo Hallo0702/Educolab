@@ -172,13 +172,9 @@ export default {
   },
   computed: {
     ...mapGetters(['isLoggedIn', 'currentUser']),
-    flag() {
-      const flag = this.currentUser.userflag
-      return flag
-    },
   },
   methods: {
-    ...mapActions(['logout']),
+    ...mapActions(['logout', 'currentingUser']),
     logoutBtn() {
       if (this.isLoggedIn) {
         this.logout()
@@ -201,8 +197,9 @@ export default {
     }
   },
   created() {
+    this.currentingUser()
     if (this.isLoggedIn === false) {
-      this.$router.push({name:'login'})
+      this.$router.back()
     }
   }
 }

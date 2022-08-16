@@ -22,6 +22,7 @@ export default {
     sendPwEmail: () => ACCOUNTS + "send_pw_email/",
     changePw: () => ACCOUNTS + "change_pw/",
     checkePw: () => ACCOUNTS + "check_pw/",
+    currenting: () => ACCOUNTS + "login/refresh/"
   },
   notice: {
     noticeList: () => NOTICE + "main/",

@@ -1,5 +1,5 @@
 <template>
-  <div style="height:900px;" class="q-mx column justify-center">
+  <div style="height:800px;" class="q-mx column justify-center">
     <h3>LOGIN</h3>
     <account-error-list></account-error-list>
     <!-- form 부분 -->
