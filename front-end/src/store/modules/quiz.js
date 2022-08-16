@@ -8,7 +8,7 @@ export const quiz = {
     return {
       quiz: {},
       quizDetail: {},
-      quizData: [{}, {}],
+      quizData: [{}],
       online: {
         username: "",
         socket: null,
@@ -135,7 +135,6 @@ export const quiz = {
           quiz_num: quizPk,
         },
       }).then((res) => {
-        console.log(res.data);
         for (var i = 1; i < res.data.length; i++) {
           const bogi = res.data[i].multiple_bogi.split("/");
           res.data[i].multiple_bogi = bogi;
