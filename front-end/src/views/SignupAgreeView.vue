@@ -44,11 +44,16 @@
 import { ref } from '@vue/reactivity'
 import useProvision from '@/components/UseProvision.vue'
 import useInfo from '@/components/UseInfo.vue'
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'signupAgreeView',
   components: {
     useProvision,
     useInfo
+  },
+  computed: {
+    ...mapGetters(['isLoggedIn'])
   },
   setup () {
     let isChecked = ref(false)
@@ -56,5 +61,10 @@ export default {
       isChecked
     }
   },
+  created() {
+    if (this.isLoggedIn) {
+      this.$router.back()
+    }
+  }
 }
 </script>

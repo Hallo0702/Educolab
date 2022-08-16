@@ -1,5 +1,5 @@
 <template>
-  <div class="row justify-center q-my-xl">
+  <div class="BASE">
     <div>
       <div class="q-mb-md">
         <div class="row justify-between items-center">
