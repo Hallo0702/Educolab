@@ -6,8 +6,9 @@ from accounts.models import UserInfo, PointLog
 
 from .models import Event
 from notice.models import Notice
-from .serializers import AccRankSerializer, EventSerializer, MainpageNoticeSerializer, MainpageTHomeworkSerializer, MainpageTeacherhomeworkSerializer
+from .serializers import AccRankSerializer, EventSerializer, MainpageNoticeSerializer, MainpageTHomeworkSerializer, MainpageTeacherhomeworkSerializer, WeekRankSerializer
 from notice.serializers import NoticeMainSerializer
+from accounts.serializers import HomeworkUserSerializer
 
 
 import datetime
@@ -35,7 +36,10 @@ class MainpageView(APIView): # 메인페이지 정보 전달 (과제,공지,행�
         last_week = today - datetime.timedelta(days=last_day)
         final = today - datetime.timedelta(days=today_num+1)
 
-        pointlog = PointLog.objects.filter(created_at__range=[last_week,final]).values("student").annotate(score=Sum("point")).order_by('-score')[:5]
+        pointlogs = PointLog.objects.filter(created_at__range=[last_week,final]).values("student").annotate(score=Sum("point")).order_by('-score')[:5]
+        for pointlog in pointlogs:
+            pointlog["student"] = UserInfo.objects.get(username=pointlog["student"])
+        pointlogs_serializer = WeekRankSerializer(pointlogs, many=True)
 
         user = request.user
         if request.user.userflag == True: # 선생님
@@ -48,7 +52,7 @@ class MainpageView(APIView): # 메인페이지 정보 전달 (과제,공지,행�
                 "event" : event_serializer.data,
                 "notice" : notice_serializer.data,
                 "acc_rank" : accrank_serializer.data,
-                "week_rank" : pointlog,
+                "week_rank" : pointlogs_serializer.data,
                 "homework" : homework_serializer.data
             }
 
@@ -62,7 +66,7 @@ class MainpageView(APIView): # 메인페이지 정보 전달 (과제,공지,행�
                 "event" : event_serializer.data,
                 "notice" : notice_serializer.data,
                 "acc_rank" : accrank_serializer.data,
-                "month_rank" : pointlog,
+                "week_rank" : pointlogs_serializer.data,
                 "homework" : homework_serializer.data
             }
         
