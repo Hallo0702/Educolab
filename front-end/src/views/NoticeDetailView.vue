@@ -1,7 +1,6 @@
 <template>
-  <div class="BASE">
-    <div>
-      <div class="q-mb-md">
+  <div class="baseStyle">
+      <div class="q-mt-md">
         <div class="row justify-between items-center">
           <div class="row start items-center">
             <p class="title-size">[{{ noticeDetail.notice.classification }}]</p>
@@ -14,7 +13,7 @@
         </div>
       </div>
 
-        <div class="row justify-center">
+        <div>
           <q-card class="bord">
             <q-card-section>
               <p class="content-size bg-white" style="min-height:500px">{{ noticeDetail.notice.content }}</p>
@@ -35,14 +34,14 @@
       <hr>
 
       <div class="row justify-center q-mt-xl q-gutter-md">
-        <q-btn class="text-size q-px-xl q-py-md" @click="deleteNotice(noticePk)" color="red-7">삭제</q-btn>
-        <q-btn class="text-size q-px-xl q-py-md" @click="updateNotice(noticePk)" color="blue-7">수정</q-btn>
+        <q-btn v-if="currentUser.userflag" class="text-size q-px-xl q-py-md" @click="deleteNotice(noticePk)" color="red-7">삭제</q-btn>
+        <q-btn v-if="currentUser.userflag" class="text-size q-px-xl q-py-md" @click="updateNotice(noticePk)" color="blue-7">수정</q-btn>
       </div>
 
       <div class="btn-mag row justify-center">
         <q-btn @click="goNotice" class="text-size q-px-xl q-py-md" color="grey-8" label="목록" />
       </div> 
-    </div>  
+
   </div>
 </template>
 
@@ -62,7 +61,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['noticeDetail', 'isLoggedIn'])
+    ...mapGetters(['noticeDetail', 'isLoggedIn', 'currentUser'])
   },
   methods: {
     ...mapActions(['deleteNotice', 'getNoticeDetail']),
