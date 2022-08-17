@@ -1,5 +1,5 @@
 <template>
-  <q-dialog persistant v-model="prompt" class="content-center">
+  <q-dialog persistant v-model="prompt" no-esc-dismiss class="content-center">
     <q-card style="min-width: 350px">
       <q-card-section v-if="title">
         <div class="text-h6 text-center">{{title}}</div>
@@ -44,7 +44,6 @@ export default {
     }
     const move = () => {
       if (props.path) {
-        // 새로고침
         router.push(props.path)
         if (props.reload) {
           router.go(1)
