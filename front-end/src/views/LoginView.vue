@@ -107,11 +107,6 @@ export default {
         router.push('/educolab')
       }
     })
-  },
-  created() {
-    if (this.isLoggedIn) {
-      this.$router.back()
-    }
   }
 }
 </script>

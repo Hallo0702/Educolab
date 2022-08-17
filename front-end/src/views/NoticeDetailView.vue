@@ -62,7 +62,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['noticeDetail'])
+    ...mapGetters(['noticeDetail', 'isLoggedIn'])
   },
   methods: {
     ...mapActions(['deleteNotice', 'getNoticeDetail']),

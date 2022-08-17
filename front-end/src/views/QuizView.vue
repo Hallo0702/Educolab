@@ -89,7 +89,7 @@ export default({
   created() {
     if (!this.isLoggedIn) {
       this.$router.push('/educolab/login')
-    } else if (!this.currentUser.flag) {
+    } else if (!this.currentUser.userflag) {
       this.$router.push('/educolab')
     } else {
       this.quizList()

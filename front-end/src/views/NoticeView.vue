@@ -82,7 +82,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['notice2', 'noticeLenth'])
+    ...mapGetters(['notice2', 'noticeLenth', 'isLoggedIn'])
   },
   methods: {
     ...mapActions(['noticeList']),
