@@ -3,7 +3,7 @@
     <h4 class="text-center">공지사항</h4>
     <hr>
     <div class="row justify-end q-mt-lg">
-      <q-btn @click="noticeCreate" class="text-size q-mx-lg q-py-sm" 
+      <q-btn v-if="currentUser.userflag" @click="noticeCreate" class="text-size q-mx-lg q-py-sm" 
       color="blue-6" label="글 쓰기" />
     </div>
 
@@ -15,7 +15,7 @@
             <th class="text-size">분류</th>
             <th class="text-size">제목</th>
             <th class="text-size">작성자</th>
-            <th class="text-size">등록(수정)일</th>
+            <th class="text-size">등록일</th>
             <th class="text-size">조회수</th>
           </tr>
         </thead>
@@ -30,7 +30,7 @@
 
             <td @click="noticeDetail(notice.pk)" class="cursor-pointer text-left text-size">{{ notice.title }}</td>
             <td class="text-size">{{ notice.teacher.name }}</td>
-            <td class="text-size">{{ timeInfo(notice.updated_at) }}</td>
+            <td class="text-size">{{ timeInfo(notice.created_at) }}</td>
             <td class="text-size">{{ notice.views }}</td>
           </tr>
         </tbody>
@@ -82,7 +82,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['notice2', 'noticeLenth', 'isLoggedIn'])
+    ...mapGetters(['notice2', 'noticeLenth', 'isLoggedIn', 'currentUser'])
   },
   methods: {
     ...mapActions(['noticeList']),
