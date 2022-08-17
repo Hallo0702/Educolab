@@ -95,7 +95,7 @@ export default {
   mounted() {
     if (!this.isLoggedIn) {
       this.$router.push('/educolab/login/')
-    } else if (!this.currentUser.flag) {
+    } else if (!this.currentUser.userflag) {
       this.$router.push('/login/')
     } else if (this.quizPk) {
       this.getQuizDetail(this.quizPk)

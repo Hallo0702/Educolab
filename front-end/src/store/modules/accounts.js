@@ -116,6 +116,7 @@ export const accounts = {
     removeToken({ commit }) {
       commit("SET_TOKEN", "");
       localStorage.setItem("access", "")
+      localStorage.setItem("refresh", "")
     },
 
     currentingUser({ commit }) {
@@ -144,7 +145,7 @@ export const accounts = {
           console.log(res.data)
           const access = res.data.access
           dispatch("saveToken", access)
-          // commit("SET_CURRENT_USER", res.data)
+          commit("CURRENTING_USER", res.data)
           router.push({ name: "educolab" })
         })
         .catch((err) => {
