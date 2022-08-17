@@ -17,8 +17,8 @@
             <th class="text-center text-size">퀴즈 시작</th> 
           </tr>
         </thead>
-        <tbody>
-          <tr v-for="(quiz, index) in quiz.slice((page-1)*10, page*10)" :key="index">
+        <tbody v-if="quiz">
+          <tr v-for="(quiz, index) in quiz?.slice((page-1)*10, page*10)" :key="index">
             <td class="text-size">{{ index+1+((page-1)*10) }}</td>
               <td @click="quizDetail(quiz.pk)" class="text-size cursor-pointer text-left">{{ quiz.title }}</td>
             <td class="text-center text-size">{{ timeInfo(quiz.updated_at) }}</td>
