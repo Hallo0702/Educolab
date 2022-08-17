@@ -1,5 +1,5 @@
 <template>
-  <q-dialog persistant v-model="prompt" class="content-center">
+  <q-dialog persistant v-model="prompt" no-esc-dismiss class="content-center">
     <q-card style="min-width: 350px">
       <q-card-section v-if="title">
         <div class="text-h6 text-center">{{title}}</div>
