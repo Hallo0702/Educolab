@@ -1,7 +1,7 @@
 #  EduColab ( 교육과 서비스의 청량한 조화! )
 
 ## EduColab 소개!
-[<img src="https://user-images.githubusercontent.com/31542907/131515083-458cac93-16d0-463e-a18e-ec26156a15f3.png" width="250">](https://www.youtube.com/watch?v=_U6xNSv4kFM)
+[<img src="/uploads/85e4097f8177ffa87cc5b0dd1a7df106/educolab.37f5cd03.png" width="250">](유튜브 주소 들어갈 예정)
 
 시연 시나리오 : [시연 시나리오](시연시나리오 링크 들어갈 예정)
 
