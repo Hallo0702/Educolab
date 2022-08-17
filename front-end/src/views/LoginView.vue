@@ -94,7 +94,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['authError'])
+    ...mapGetters(['authError', 'isLoggedIn'])
   },
   methods: {
     ...mapActions(['login'])
@@ -107,6 +107,11 @@ export default {
         router.push('/educolab')
       }
     })
+  },
+  created() {
+    if (this.isLoggedIn) {
+      this.$router.back()
+    }
   }
 }
 </script>

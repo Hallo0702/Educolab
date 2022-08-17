@@ -53,6 +53,9 @@ export default {
     useProvision,
     useInfo
   },
+  computed: {
+    ...mapGetters(['isLoggedIn'])
+  },
   setup () {
     const store = useStore()
     const router = useRouter()
@@ -66,5 +69,10 @@ export default {
       isChecked
     }
   },
+  created() {
+    if (this.isLoggedIn) {
+      this.$router.back()
+    }
+  }
 }
 </script>
