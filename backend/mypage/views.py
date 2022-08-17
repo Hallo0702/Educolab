@@ -1,7 +1,7 @@
 from django.urls import is_valid_path
 from rest_framework.decorators import APIView
 from rest_framework.response import Response
-from accounts.models import UserInfo
+from accounts.models import UserInfo, SchoolInfo
 from pointshop.models import PTitle, Icon
 from accounts.serializers import UserinfoSerializer
 from .serializers import PointlogSerializer,TeacherSerializer, StudentSerializer,SearchStudentSerializer, StudentUpdateSerializer, TeacherUpdateSerializer
@@ -28,7 +28,8 @@ class MypageMainView(APIView):
         else:
             userinfo_serializer = StudentUpdateSerializer(req.user, data=req.data)
         if userinfo_serializer.is_valid(raise_exception=True):
-            userinfo_serializer.save(school = req.user.school, password = req.user.password)
+            school = SchoolInfo.objects.get(code=req.data.get('school'))
+            userinfo_serializer.save(school = school, password = req.user.password)
         return Response({
             "success":True,
             "pk" : req.user.username
