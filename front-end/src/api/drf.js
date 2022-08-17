@@ -75,6 +75,5 @@ export default {
     main: () => POINT_SHOP,
     buyTitle: () => POINT_SHOP + "title/",
     buyIcon: () => POINT_SHOP + "icon/",
-    // registerIcon: () => POINT_SHOP + 'icon/register/',
   },
 };
