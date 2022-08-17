@@ -82,7 +82,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['quizDetail', 'quizData']),
+    ...mapGetters(['quizDetail', 'quizData', 'isLoggedIn', 'currentUser']),
     getTitle() {
       if (this.quizPk) return "퀴즈 수정"
       return "퀴즈 등록"
@@ -107,7 +107,11 @@ export default {
     }
   },
   created() {
-    if (this.quizPk) {
+    if (!this.isLoggedIn) {
+      this.$router.push('/educolab/login/')
+    } else if (!this.currentUser.userflag) {
+      this.$router.push('/educolab')
+    } else if (this.quizPk) {
       this.getQuizDetail(this.quizPk)
       this.credentials.quiz.title = this.quizDetail[0].quiz_name
     } 

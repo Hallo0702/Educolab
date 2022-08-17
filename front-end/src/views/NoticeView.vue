@@ -82,7 +82,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['notice2', 'noticeLenth'])
+    ...mapGetters(['notice2', 'noticeLenth', 'isLoggedIn'])
   },
   methods: {
     ...mapActions(['noticeList']),
@@ -98,7 +98,11 @@ export default {
     }
   },
   created() {
-    this.noticeList()
+    if (!this.isLoggedIn) {
+      this.$router.push('/educolab/login/')
+    } else {
+      this.noticeList()
+    }
   }
 }
 

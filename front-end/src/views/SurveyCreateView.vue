@@ -65,7 +65,7 @@ export default {
   components: { SurveyItem },
   name: 'SurveyCreateView',
   computed: {
-    ...mapGetters(['surveyData', 'survey', 'surveyItem']),
+    ...mapGetters(['surveyData', 'survey', 'isLoggedIn', 'currentUser']),
     getTitle() {
       if (this.surveyPk) return "설문조사 수정"
       return "설문조사 등록"

@@ -90,7 +90,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['survey', 'surveyLength', ]),
+    ...mapGetters(['survey', 'surveyLength', 'currentUser', 'isLoggedIn' ]),
   },
   methods : {
     ...mapActions(['surveyList', 'getSurveyDetail',]),
@@ -110,7 +110,13 @@ export default {
 
   },
   created() {
-    this.surveyList()
+    if (!this.isLoggedIn) {
+      this.$router.push('/educolab/login')
+    } else if (!this.currentUser.userflag) {
+      this.$router.push('/educolab')
+    } else {
+      this.surveyList()
+    }
   }
 }
 

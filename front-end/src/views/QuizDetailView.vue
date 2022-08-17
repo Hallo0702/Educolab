@@ -70,7 +70,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['quizDetail'])
+    ...mapGetters(['quizDetail', 'isLoggedIn', 'currentUser'])
   },
   methods: {
     ...mapActions(['getQuizDetail', 'deleteQuiz']),
@@ -82,7 +82,13 @@ export default {
     }
   },
   mounted() {
-    this.getQuizDetail(this.quizPk)
+    if (!this.isLoggedIn) {
+      this.$router.push('/educolab/login/')
+    } else if (!this.currentUser.userflag) {
+      this.$router.push('/educolab')
+    } else {
+      this.getQuizDetail(this.quizPk)
+    }
   }
 }
 </script>

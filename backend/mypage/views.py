@@ -104,7 +104,6 @@ class IconChangeView(APIView):
         user = request.user
         user.wear_icon = Icon.objects.get(id=request.data.get('pk'))
         user.save()
-
         return Response({
             "success" : True
         })

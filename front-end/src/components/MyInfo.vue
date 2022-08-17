@@ -1,7 +1,7 @@
 <template>
-  <q-card class="q-pa-md">
-    <h5 class="text-center">내 정보</h5>
-    <q-card-section horizontal>
+  <q-card class="q-pa-md row">
+    <h6 class="text-center col-12">내 정보</h6>
+    <q-card-section horizontal class="q-ml-sm">
       <!-- 프로필 -->
       <label for="profil">
         <img :src="profil.change" class="cursor-pointer" width="100" />
@@ -23,30 +23,35 @@
           @click="myTitle(false)"
           class="cursor-pointer"
         />
-        <img v-else :src="profil.change" class="cursor-pointer" width="50" />
+        <img
+          v-else
+          :src="badge.change"
+          class="cursor-pointer"
+          @click="myTitle(false)"
+          width="50">
       </div>
-      <q-card-section>
-        아이디 {{ info.username }} | 생년월일 {{ birthday }}
-        <br />
-        학교 {{ school }}
-        <span v-if="!info.userflag || info.homeroom_teacher_flag">
-          {{ info.grade }}학년 {{ info.class_field }}반 |
+      <q-card-section class="q-mx-md">
+        <span class="text-size">
+          아이디 {{info.username}} | 생년월일 {{birthday}} | 학교 {{school}}
+        </span>
+        <br>
+        <span v-if="!info.userflag || info.homeroom_teacher_flag" class="text-size">
+          {{info.grade}}학년  {{info.class_field}}반 |
         </span>
         <span v-if="!info.userflag">
-          <q-btn color="black" class="text-bold" flat @click="myTitle(true)">
-            {{ computedTitle }}
-          </q-btn>
-          | 현재(누적) 상점/벌점 +{{ info.plus_point }} ({{ info.acc_point }}) /
-          {{ info.minus_point }}
+          <q-btn
+            color="black"
+            class="text-bold text-size"
+            flat @click="myTitle(true)"
+            :label="computedTitle" />
+          | 현재(누적) 상점/벌점 +{{info.plus_point}} ({{info.acc_point}}) / {{info.minus_point}}
         </span>
-        <br />
-        이메일과 전화번호는 데이터 값에 포함되지만 출력하지 않음
       </q-card-section>
     </q-card-section>
 
     <q-separator />
 
-    <q-card-actions>
+    <q-card-actions class="col-12">
       <q-btn flat @click="deleteProfil">프로필 삭제</q-btn>
       <q-btn color="primary" flat @click="toChangePage('info')">
         정보 수정
@@ -116,11 +121,10 @@ export default {
       apply.prompt = true;
     };
     const applyTitle = (val, type, pk, name) => {
-      console.log(val, type, pk, name);
-      if (val && name !== title.value) {
-        let url = null;
-        if (type.value) {
-          url = drf.myPage.changeTitle();
+      if (val && name !== title.value ) {
+        let url = null
+        if (type) {
+          url = drf.myPage.changeTitle()
         } else {
           url = drf.myPage.changeIcon();
         }
@@ -206,3 +210,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+  .text-size{font-size: 1rem;}
+  .searchWrap{border-radius:5px; text-align:center; padding:20px 0; margin-bottom:10px;}
+  .tbList th{border-top:1px solid #888;}
+	.tbList th, .tbList td{border-bottom:1px solid #eee; padding:5px 0;}
+	.tbList td.txt_left{text-align:left;}
+  .btn{margin-bottom:40px;}
+</style>

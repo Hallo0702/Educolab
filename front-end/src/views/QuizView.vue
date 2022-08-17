@@ -48,39 +48,26 @@
           </tr>
         </tbody>
       </q-markup-table>
-    </div>
-
-    <div>
-      <the-pagi-nation
-        v-if="quizLength"
+      <the-pagination
+        v-if="quizLength" 
         :limit="quizLength"
-        @change-page="changePage"
-      >
-      </the-pagi-nation>
+        @change-page="changePage" />
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-import { ref } from "vue";
-import ThePagiNation from "@/components/ThePagination.vue";
+import { mapActions, mapGetters } from 'vuex'
+import {ref} from 'vue'
+import ThePagination from '@/components/ThePagination.vue'
 
-export default {
-  name: "QuizView",
-  components: { ThePagiNation },
-  setup() {
-    let page = ref(1);
-    const changePage = (value) => {
-      page.value = value;
-    };
-    return {
-      page,
-      changePage,
-    };
+export default({
+  name: 'QuizView',
+  components: {
+    ThePagination,
   },
-  computed: {
-    ...mapGetters(["quiz", "quizLength"]),
+  computed: { 
+    ...mapGetters(['quiz', 'quizLength', 'isLoggedIn', 'currentUser'])
   },
   methods: {
     ...mapActions(["quizList"]),
@@ -100,9 +87,25 @@ export default {
     },
   },
   created() {
-    this.quizList();
+    if (!this.isLoggedIn) {
+      this.$router.push('/educolab/login')
+    } else if (!this.currentUser.userflag) {
+      this.$router.push('/educolab')
+    } else {
+      this.quizList()
+    }
   },
-};
+  setup() {
+    let page = ref(1)
+    const changePage = (value) => {
+      page.value = value
+    }
+    return {
+      page,
+      changePage
+    }
+  }
+})
 </script>
 
 <style scoped>

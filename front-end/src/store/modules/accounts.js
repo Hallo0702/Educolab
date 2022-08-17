@@ -125,7 +125,8 @@ export const accounts = {
     },
     removeToken({ commit }) {
       commit("SET_TOKEN", "");
-      localStorage.setItem("access", "");
+      localStorage.setItem("access", "")
+      localStorage.setItem("refresh", "")
     },
 
     currentingUser({ commit }) {

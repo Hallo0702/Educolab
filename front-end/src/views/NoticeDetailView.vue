@@ -62,7 +62,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['noticeDetail'])
+    ...mapGetters(['noticeDetail', 'isLoggedIn'])
   },
   methods: {
     ...mapActions(['deleteNotice', 'getNoticeDetail']),
@@ -84,7 +84,11 @@ export default {
     }
   },
   created() {
-    this.getNoticeDetail(this.noticePk)
+    if (!this.isLoggedIn) {
+      this.$router.push('/educolab/login/')
+    } else {
+      this.getNoticeDetail(this.noticePk)
+    }
   }
 }
 </script>

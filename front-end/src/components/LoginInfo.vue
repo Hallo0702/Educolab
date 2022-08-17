@@ -6,13 +6,13 @@
         label="아이디"
         v-model="userData.username"
         lazy-rules
-        class="col-9"
+        class="col-8"
         maxlength="20"
         :rules="[ val => val && val.length > 0 || '아이디를 입력해주세요',
         val => val && val.length > 4 ||'아이디는 최소 5자리 이상이어야 합니다'
         ]"
       />
-      <q-btn label="중복 확인" color="teal" @click="confirmUsername" class="col-2" />
+      <q-btn label="중복 확인" color="teal" @click="confirmUsername" class="text-size" />
       <message-pop-up
         v-if="computedData.confirm"
         :message="computedData.message"
@@ -23,6 +23,7 @@
       color="teal"
       label="비밀번호"
       type="password"
+      class="col-8"
       v-model="userData.password1"
       maxlength="20"
       lazy-rules
@@ -37,6 +38,7 @@
       type="password"
       v-model="userData.password2"
       @keyup="isCorrect"
+      class="col-8"
       minlength="5"
       maxlength="20"
       lazy-rules
@@ -47,10 +49,10 @@
     <!-- 비밀번호 일치 여부 확인 -->
     <p v-if="userData.password2">
       <span v-show="computedData.samePassword">비밀번호가 일치합니다</span>
-      <span v-show="!computedData.samePassword">비밀번호가 일치하지 않습니다</span>
+      <span v-show="!computedData.samePassword" class="red">비밀번호가 일치하지 않습니다</span>
     </p>
     <article v-if="changeMode">
-      <q-btn label="비밀번호 변경" color="amber" @click="changePw"/>
+      <q-btn label="비밀번호 변경" color="amber" @click="changePw" class="col-8 text-size"/>
       <message-pop-up
         v-if="password.popUpFlag"
         :message="password.message"
@@ -160,3 +162,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .text-size {
+    font-size: 1rem;
+  }
+</style>

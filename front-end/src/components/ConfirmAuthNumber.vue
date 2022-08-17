@@ -1,18 +1,18 @@
 <template>
-  <div>
+  <div class="row justify-center">
     <!-- 인증 버튼 -->
     <q-btn
       v-if="params.userType || params.userData === 'info'"
+      class="col-12"
       color="teal"
       :label="params.userType? '이메일 인증':'이메일 변경'"
-      class="col-2"
       @click="isValidEmail"/>
     <q-btn
       v-else
+      class="col-4"
       color="white"
       text-color="black"
       label="FIND PW"
-      class="col-8 offset-2 col-md-1 offset-md-1"
       @click="isValidEmail"/>
     <!-- 인증 번호 보냈음을 알림 & 인증 실패 팝업 (일치하는 회원정보가 없음) -->
     <message-pop-up 
@@ -20,17 +20,18 @@
       :message="email.message"
       @reverse="email.prompt = false"
     />
+    <span class="col-12"></span>
     <!-- 인증 번호 입력 창 -->
-    <div v-if="!email.isFail" class="row justify-between">
+    <div v-if="!email.isFail" class="col-4 row justify-between q-mt-lg">
       <q-input
         color="teal"
-        v-model="number.inputNum"
         class="col-9"
+        v-model="number.inputNum"
         lazy-rules
         :rules="[ val => val && val.length > 0 || '인증번호를 입력해주세요']"
       />
       <!-- 인증 번호 확인 버튼 -->
-      <q-btn color="teal" label="확인" class="col-2" @click="sendData" />
+      <q-btn color="teal" class="col-2" label="확인" @click="sendData" />
       <!-- 인증 제한 시간 -->
       <p>
         제한 시간 {{time.minute}}:{{time.second}}

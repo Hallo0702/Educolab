@@ -4,8 +4,9 @@
     v-if="data.computedMy"
     oncontextmenu="return false"
     onselectstart="return false">
-    <h1>{{userType}} 마이 페이지</h1>
-    <h5> 안녕하세요 {{data.my.userinfo.name}}님</h5>
+    <h4 class="text-center">마이페이지</h4>
+    <hr>
+    <h5 class="text-center"> 안녕하세요 {{data.my.userinfo.name}}님</h5>
     <my-info :info="data.my.userinfo" :profilImg="data.my.userinfo.profil" />
     <point-list v-if="!isTeacher" :point="data.my.point_log"/>
     <grant-point v-else />
@@ -14,7 +15,7 @@
 
 <script>
 import { computed, onBeforeMount, reactive} from 'vue'
-import {useRoute} from 'vue-router'
+import {useRoute, useRouter} from 'vue-router'
 import {useStore} from 'vuex'
 import axios from 'axios'
 import drf from '@/api/drf.js'
@@ -30,6 +31,7 @@ export default {
   name: 'MyPageView',
   setup() {
     const route = useRoute()
+    const router = useRouter()
     const store = useStore()
     const {userType} = route.params
     const isTeacher = computed(() => userType === 'teacher')
@@ -50,7 +52,11 @@ export default {
       })
     }
     onBeforeMount(() => {
-      pageMain()
+      if (!store.getters.isLoggedIn) {
+      router.push('/educolab/login')
+      } else {
+        pageMain()
+      }
     })
     return {
       userType,

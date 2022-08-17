@@ -48,11 +48,11 @@ export default {
   methods: {
     ...mapActions(['getMainPage'])
   },
-  mounted() {
-    if (this.isLoggedIn) {
-      this.getMainPage()
+  created() {
+    if (!this.isLoggedIn) {
+      this.$router.push('/educolab/login')
     } else {
-      this.$router.push({ name: 'login'})
+      this.getMainPage()
     }
   }
 }

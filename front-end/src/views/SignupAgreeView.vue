@@ -44,19 +44,24 @@
 import { ref } from '@vue/reactivity'
 import useProvision from '@/components/UseProvision.vue'
 import useInfo from '@/components/UseInfo.vue'
-import { mapGetters } from 'vuex'
-
+import { onBeforeMount } from '@vue/runtime-core'
+import {useStore} from 'vuex'
+import { useRouter } from 'vue-router'
 export default {
   name: 'signupAgreeView',
   components: {
     useProvision,
     useInfo
   },
-  computed: {
-    ...mapGetters(['isLoggedIn'])
-  },
   setup () {
+    const store = useStore()
+    const router = useRouter()
     let isChecked = ref(false)
+    onBeforeMount(() => {
+      if (store.getter.isLoggedIn) {
+        router.push('/educolab')
+      }
+    })
     return {
       isChecked
     }
