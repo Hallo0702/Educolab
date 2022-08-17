@@ -133,14 +133,15 @@ export default {
           url,
           method: "put",
           headers: store.getters.authHeader,
-          data: { pk },
-        }).then(() => {
-          if (props.type) {
-            title.value = name;
-          } else {
-            icon.value = name;
-          }
-        });
+          data: {pk,}
+        })
+          .then(() => {
+            if (props.type) {
+              title.value = name
+            } else {
+              icon.value = name
+            }
+          })
       }
       apply.prompt = false;
     };
