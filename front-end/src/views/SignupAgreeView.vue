@@ -53,9 +53,6 @@ export default {
     useProvision,
     useInfo
   },
-  computed: {
-    ...mapGetters(['isLoggedIn'])
-  },
   setup () {
     const store = useStore()
     const router = useRouter()

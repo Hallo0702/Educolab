@@ -53,8 +53,6 @@ export default {
       this.$router.push('/educolab/login')
     } else {
       this.getMainPage()
-    } else {
-      this.$router.push({ name: 'login'})
     }
   }
 }
