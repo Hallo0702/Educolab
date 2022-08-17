@@ -1,5 +1,5 @@
 <template>
-  <div class="baseStyle">
+  <div class="noticeDetailStyle">
       <div class="q-mt-md">
         <div class="row justify-between items-center">
           <div class="row start items-center">
@@ -22,7 +22,7 @@
         </div>
       <hr>
     
-      <div class="row q-py-sm q-pl-sm">
+      <div class="q-py-sm q-pl-sm">
         <p class="text-size text-grey-13 q-pb-sm">첨부파일 ({{ noticeDetail.files.length }}) </p> 
         <div v-for="file in noticeDetail.files" :key="file">
           <q-btn @click="openFile(file.atch_file)" color="grey-12" class="text-black">
@@ -93,6 +93,12 @@ export default {
 </script>
 
 <style scoped>
+  .noticeDetailStyle {
+    width: 60%;
+    margin: auto;
+    min-width: 450px;
+    height: 1200px;
+  }
   .title-size {
     font-size : 3vmin;
   }
