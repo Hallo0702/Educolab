@@ -34,8 +34,8 @@
       <hr>
 
       <div class="row justify-center q-mt-xl q-gutter-md">
-        <q-btn class="text-size q-px-xl q-py-md" @click="deleteNotice(noticePk)" color="red-7">삭제</q-btn>
-        <q-btn class="text-size q-px-xl q-py-md" @click="updateNotice(noticePk)" color="blue-7">수정</q-btn>
+        <q-btn v-if="currentUser.userflag" class="text-size q-px-xl q-py-md" @click="deleteNotice(noticePk)" color="red-7">삭제</q-btn>
+        <q-btn v-if="currentUser.userflag" class="text-size q-px-xl q-py-md" @click="updateNotice(noticePk)" color="blue-7">수정</q-btn>
       </div>
 
       <div class="btn-mag row justify-center">
@@ -61,7 +61,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['noticeDetail', 'isLoggedIn'])
+    ...mapGetters(['noticeDetail', 'isLoggedIn', 'currentUser'])
   },
   methods: {
     ...mapActions(['deleteNotice', 'getNoticeDetail']),
