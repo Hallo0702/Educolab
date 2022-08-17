@@ -296,9 +296,6 @@ export default {
   },
   created() {
     this.currentingUser()
-    if (!this.isLoggedIn) {
-      this.$router.push('/educolab/login')
-    }
   },
 };
 </script>

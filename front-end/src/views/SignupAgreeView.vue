@@ -58,7 +58,7 @@ export default {
     const router = useRouter()
     let isChecked = ref(false)
     onBeforeMount(() => {
-      if (store.getter.isLoggedIn) {
+      if (store.getters.isLoggedIn) {
         router.push('/educolab')
       }
     })
@@ -66,10 +66,5 @@ export default {
       isChecked
     }
   },
-  created() {
-    if (this.isLoggedIn) {
-      this.$router.back()
-    }
-  }
 }
 </script>
