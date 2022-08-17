@@ -1,7 +1,7 @@
 <template>
   <div style="height:700px;" class="q-mx column justify-center">
+
     <h3>LOGIN</h3>
-    <account-error-list></account-error-list>
     <!-- form 부분 -->
     <q-form
       @submit="login(credentials)"
@@ -39,6 +39,10 @@
         type="submit"/>
     </q-form>
 
+    <div class="text-center account-error-list">
+      <p>{{ Error }}</p>
+    </div>
+
     <!-- 여기에 회원가입 / ID 찾기 / 비밀번호 찾기 -->
     <button-group :currentUrl="currentUrl"/>
     <router-view></router-view>
@@ -63,11 +67,9 @@
   .buttonGroup {
     margin-top: 100px;
   }
-  /* footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%
-  } */
+  .account-error-list {
+    color: red;
+  }
 </style>
 
 <script>
@@ -75,13 +77,13 @@
 import { mapGetters, mapActions, useStore } from 'vuex'
 import {onBeforeMount} from 'vue'
 import {useRouter} from 'vue-router'
-import AccountErrorList from '@/components/AccountErrorList.vue'
+// import AccountErrorList from '@/components/AccountErrorList.vue'
 import ButtonGroup from '@/components/ButtonGroup.vue'
 
 export default {
   name: 'LoginView',
   components: {
-    AccountErrorList,
+    // AccountErrorList,
     ButtonGroup
   },
   data () {
@@ -94,7 +96,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['authError', 'isLoggedIn'])
+    ...mapGetters(['authError', 'isLoggedIn']),
+    Error() {
+      return this.authError
+    }
   },
   methods: {
     ...mapActions(['login'])

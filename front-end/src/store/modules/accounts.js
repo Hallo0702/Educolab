@@ -34,7 +34,7 @@ export const accounts = {
       userType: null,
       validEmail: false,
       currentUser: {},
-      authError: null,
+      authError: '',
       subjectOptions: [
         "국어",
         "수학",
@@ -158,7 +158,10 @@ export const accounts = {
           router.push({ name: "educolab" });
         })
         .catch((err) => {
-          commit("SET_AUTH_ERROR", err.response.data);
+          console.log(err.response.data)
+          if (err.response.data.message == 'username or password is incorrect!') {
+            alert('아이디 또는 비밀번호를 확인해주세요.')
+          }
         });
     },
     changeValid({ commit }, data) {

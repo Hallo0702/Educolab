@@ -44,7 +44,7 @@
     <!-- 학생 navbar -->
     <div class="jooa-font" v-if="flag && !currentUser.userflag">
       <div class="navBar q-px-xl q-py-md bord-bt">
-        <a href="/educolab"><img src="@/assets/educolab.png" alt="educolab" style="width: 4rem; height: 4rem"/></a>
+      <a href="/educolab"><img src="@/assets/educolab.png" alt="educolab" style="width: 4rem; height: 4rem"/></a>
         <div class="navBarUi nav-size">
           <div class="row justify-end">
             <div class="row items-center">
@@ -82,6 +82,7 @@
         </div>
       </div>
     </div>
+
     <router-view :key="$route.fullPath" />
   </div>
 </template>
@@ -117,11 +118,10 @@
   min-width: 450px;
   height: 1200px;
 }
-.mainStyle {
-  width: 80%;
-  margin: auto;
-  min-width: 450px;
-  height: 800px;
+.navBarUi {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 .nav-size {
   font-size: 1.3rem;
