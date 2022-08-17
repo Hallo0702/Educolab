@@ -97,7 +97,7 @@ export default {
     const router = useRouter()
     let {userType, taskPk} = route.params
     onBeforeMount(() => {
-      if (!this.isLoggedIn) {
+      if (!store.getters.isLoggedIn) {
       router.push('/educolab/login')
     } else if (taskPk) {
         store.dispatch('initTask')

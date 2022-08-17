@@ -78,7 +78,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['quizDetail', 'quizData'])
+    ...mapGetters(['quizDetail', 'quizData', 'isLoggedIn', 'currentUser'])
   },
   methods: {
     ...mapActions(['createQuiz', 'getQuizDetail', 'updateQuiz']),
