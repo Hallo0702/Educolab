@@ -117,14 +117,15 @@ export default {
       this.$router.push('/educolab')
     } else if (this.quizPk) {
       this.getQuizDetail(this.quizPk)
-      console.log(this.getQuizDetail)
       this.credentials.quiz.title = this.quizDetail[0].quiz_name
 
-      this.quizData = this.quizDetail
-      for (var i=1; i < this.quizData.length; i++) {
-        console.log(this.quizData[i])
+      for (var i=1; i < this.quizDetail.length; i++) {
+        this.quizData[i-1] = this.quizDetail[i]
+        if (this.quizData[i-1].multiple_bogi) {
+          this.quizData[i-1].multiple_bogi = this.quizData[i-1].multiple_bogi.join('/') + '/'
+        }
+        console.log(this.quizData)
       }
-      // console.log(this.quizData)
     } 
   }
 }
