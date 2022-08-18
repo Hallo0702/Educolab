@@ -57,8 +57,12 @@
       <message-pop-up
         v-if="password.popUpFlag"
         :message="password.message"
-        path="/"
-        :reload="true"
+        @reverse="toLogin"
+      />
+      <message-pop-up
+        v-if="password.ErrorpopUp"
+        :message="password.message"
+        @reverse="password.error = false"
       />
     </article>
   </section>
@@ -114,7 +118,9 @@ export default {
       message: null,
       success: false,
       prompt: false,
+      error: false,
       popUpFlag:computed(() => password?.prompt),
+      ErrorpopUp:computed(() => password?.error),
       samePassword: computed(() => password.one === password.two)
     })
     const confirmUsername = () => {
@@ -146,26 +152,49 @@ export default {
         userData.correct = false
       }
     }
+    const toLogin = () => {
+      password.prompt = false
+      store.dispatch('logout')
+    }
     const changePw = () => {
-      axios({
-        url: drf.accounts.changePw(),
-        method: 'post',
-        data: {
-          ...store.getters.getInfo,
-          password1: userData.password1,
-          password2: userData.password2
-          }
-      })
-      .then(({data}) => {
-        console.log(data)
-        password.message = data.message
-      })
-      .catch(({response}) => {
-        password.message = response.data.message
-      })
-      .finally(() => {
-        password.prompt = true
-      })
+      if (userData.password1 !== null && userData.password1 !== '') {
+        if (userData.password1.includes(' ')) {
+          password.message = '비밀번호에 공백을 포함할 수 없습니다'
+          password.error = true
+        } else if (!password.samePassword) {
+          password.message = '비밀번호가 일치하지 않습니다'
+          password.error = true
+        } else if (userData.password1.length < 6) {
+          password.message = '비밀번호를 6자리 이상 입력해주세요'
+          password.error = true
+        } else {
+          axios({
+            url: drf.accounts.changePw(),
+            method: 'post',
+            data: {
+              ...store.getters.getInfo,
+              password1: userData.password1,
+              password2: userData.password2
+              }
+          })
+          .then(({data}) => {
+            console.log(data)
+            password.message = data.message
+            if (data.success) {
+              password.prompt = true
+            } else {
+              password.error = true
+            }
+          })
+          .catch(({response}) => {
+            password.message = response.data.message
+            password.error = true
+          })
+        }
+      } else {
+        password.message = '비밀번호를 입력해주세요'
+        password.error = true
+      }
     }
     return {
       userData,
@@ -174,6 +203,7 @@ export default {
       isCorrect,
       password,
       changePw,
+      toLogin
     }
   }
 }
