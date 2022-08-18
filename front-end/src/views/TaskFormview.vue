@@ -5,7 +5,7 @@
       v-if="!taskPk || computedTask">
       <div class="row">
         <span class="q-py-md q-mr-lg text-size" style="width:70px; text-align:center">제목</span>
-        <q-input class="text-size" outlined :value="computedTask.title" label="title" style="width: 700px;" />
+        <q-input class="text-size" outlined v-model="task.title" label="title" style="width: 700px;" />
       </div>
       <hr>
       <div class="row">
@@ -27,6 +27,8 @@
         <div class="row">
           <span class="q-py-md q-mr-lg text-size" style="width:70px; text-align:center">과목 </span>
           <q-select
+            v-model="task.subject"
+            :options="subjectOptions"
             class="text-size"
             style="width: 300px;"
             outlined />
@@ -70,7 +72,7 @@
           type="file"
           outlined
           label-stack
-          @update:model-value="val => { files = val }"
+          @update:model-value="val => { task.files = val }"
           multiple
           v-model="files"
           style="width: 700px;" />
@@ -78,7 +80,7 @@
       <hr>
       <div class="row justify-center q-mt-xl q-gutter-md">
         <q-btn :label="type" color="primary" @click="onSubmit(false)"  class="text-size q-px-xl q-py-md" />
-        <q-btn v-if="!isTeacher" label="제출" color="primary" @click="onSubmit(true)"  class="text-size q-px-xl q-py-md"/>
+        <q-btn v-if="!task.teacher_flag" label="제출" color="primary" @click="onSubmit(true)"  class="text-size q-px-xl q-py-md"/>
         <router-link class="button" :to="{name:'TaskListView', params: {userType,}}">
           <q-btn label="목록" color="primary"  class="text-size q-px-xl q-py-md" />
         </router-link>
@@ -93,7 +95,7 @@
 </template>
 
 <script>
-import { reactive, computed, onBeforeMount, ref} from 'vue'
+import { reactive, computed, onBeforeMount} from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import {useStore} from 'vuex'
 import MessagePopUp from '../components/MessagePopUp.vue'
@@ -119,7 +121,6 @@ export default {
       state: computed(() => confirm.prompt)
     })
     const storeTask = computed(() => store.getters.getTask)
-    const files = ref(null)
     const computedTask = reactive({
       subject: computed(() => storeTask.value.homework?.subject),
       title: computed(() => storeTask.value.homework?.title || storeTask.value.title),
@@ -157,7 +158,13 @@ export default {
     const onSubmit = (arg) => {
       let form = new FormData()
       for (let key in task) {
-        form.append(key, task[key])
+        if (key === 'files') {
+          for (let i=0; i<task.files.length; i++) {
+            form.append('files', task['files'][i])
+          }
+        } else {
+          form.append(key, task[key])
+        }
       }
       if (arg) {
         form.append('submit_pk', task['my_submit'][0].id)
@@ -185,7 +192,6 @@ export default {
       subjectOptions,
       confirm,
       computedTask,
-      files
     }
   }
 }
