@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from accounts.serializers import UserNameSerializer
 from accounts.models import SchoolInfo,UserInfo
-from .serializers import QuizMainSerializer, QuizSerializer, QuestionSerializer,QuestionDetailSerializer
+from .serializers import QuizMainSerializer, QuizSerializer, QuestionSerializer,QuestionDetailSerializer, QuestionUpdateSerializer
 from .models import QuizList
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
@@ -90,12 +90,12 @@ class QuizDetailView(APIView):
         if quiz_serializer.is_valid(raise_exception=True):
             quiz = quiz_serializer.save(teacher = req.user)
 
-        quiz_questions = quiz.question_survey.all()
+        quiz_questions = quiz.question_quiz.all()
 
         quiz_questions.delete()
 
         for question in req.data['question']:
-            question_serializer = QuestionSerializer(data=question)
+            question_serializer = QuestionUpdateSerializer(data=question)
             if question_serializer.is_valid(raise_exception=True):
                 question_serializer.save(quiz=quiz)
 
