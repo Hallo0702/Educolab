@@ -65,7 +65,7 @@ export default {
   components: { SurveyItem },
   name: 'SurveyCreateView',
   computed: {
-    ...mapGetters(['surveyData', 'survey', 'isLoggedIn', 'currentUser']),
+    ...mapGetters(['surveyData', 'survey', 'surveyItem' ,'isLoggedIn', 'currentUser']),
     getTitle() {
       if (this.surveyPk) return "설문조사 수정"
       return "설문조사 등록"
@@ -126,10 +126,7 @@ export default {
         },        {
           label: '4반',
           value: 4
-        },        {
-          label: '4반',
-          value: 4
-        },        {
+        },         {
           label: '5반',
           value: 5
         },        {
@@ -160,7 +157,9 @@ export default {
       this.surveyData.push({})
     },
     deleteSurvey(survey, event) {
-      if (confirm('문항을 정말 삭제하시겠습니까?')) {
+      if (survey === 1 && this.surveyList === 1) {
+        alert('설문은 한 문제 이상 작성되어야 합니다')
+      } else if (confirm('문항을 정말 삭제하시겠습니까?')) {
         event.preventDefault()
         this.surveyList = this.surveyList - 1
         this.surveyData.splice(survey-1, 1)
@@ -184,10 +183,10 @@ export default {
     // }
     if (this.surveyPk) {
       this.getSurveyDetail(this.surveyPk)
-      console.log(this.surveyItem)
-      this.credentials.survey.title = this.surveyItem[0].survey_name
-      this.credentials.survey.grade = this.surveyItem[0].survey_grade
-      this.credentials.survey.class_field = this.surveyItem[0].survey_class
+      this.credentials.survey.title = this.surveyItem[0]?.survey_name
+      this.credentials.survey.grade = this.surveyItem[0]?.survey_grade
+      this.credentials.survey.class_field = this.surveyItem[0]?.survey_class
+      // console.log(this.credentials.survey)
     }
   }
 }

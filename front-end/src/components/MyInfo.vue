@@ -41,6 +41,9 @@
         <span>
           아이디 <b class="text-size"> {{info.username}} </b>
           생년월일 <b class="text-size">{{birthday}}</b>
+          <span v-if="info.userflag">
+            담당과목 <b class="text-size">{{info.subject}}</b>
+          </span>
           <br>
           <br>
           학교 <b class="text-size">{{school}}</b>
@@ -151,8 +154,8 @@ export default {
             } else {
               icon.value = name
               badge.path = path
-              console.log('path')
             }
+            router.go()
           })
       }
       apply.prompt = false;
