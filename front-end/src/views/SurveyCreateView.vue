@@ -20,7 +20,7 @@
     
     <form>
       <div v-if="surveyPk">
-        <div v-for="survey in surveyItem.length-1" :key="survey">
+        <div v-for="survey in surveyList" :key="survey">
           <div class="row justify-end q-mt-xl q-mr-xl">
             <q-btn @click="deleteSurvey(quiz, $event)" class="text-size" color="orange-6">문제 삭제</q-btn>
           </div>
@@ -58,14 +58,13 @@
 import { mapActions, mapGetters } from 'vuex'
 import { useRoute } from 'vue-router'
 import { reactive } from 'vue'
-import { ref } from 'vue'
 import SurveyItem from '../components/SurveyItem.vue'
 
 export default {
   components: { SurveyItem },
   name: 'SurveyCreateView',
   computed: {
-    ...mapGetters(['surveyData', 'survey', 'isLoggedIn', 'currentUser']),
+    ...mapGetters(['surveyData', 'survey', 'surveyItem' ,'isLoggedIn', 'currentUser', 'surveyItemLength']),
     getTitle() {
       if (this.surveyPk) return "설문조사 수정"
       return "설문조사 등록"
@@ -78,7 +77,7 @@ export default {
   },
   setup() {
     const route = useRoute()
-    let surveyPk = ref(route.params.surveyPk)
+    const {surveyPk} = route.params
     const credentials = reactive({
       survey_num : surveyPk,
       survey : {
@@ -88,8 +87,10 @@ export default {
       },
       question: {}
     })
+    let surveyDetail = null
     return {
       credentials,
+      surveyDetail,
       surveyPk,
       selGrade: [
         {
@@ -126,10 +127,7 @@ export default {
         },        {
           label: '4반',
           value: 4
-        },        {
-          label: '4반',
-          value: 4
-        },        {
+        },         {
           label: '5반',
           value: 5
         },        {
@@ -154,13 +152,15 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['submitSurvey', 'getSurveyDetail', 'updateSurvey']),
+    ...mapActions(['submitSurvey', 'getSurveyDetail', 'updateSurvey', 'surveyTotalData']),
     addSurvey() {
       this.surveyList++,
       this.surveyData.push({})
     },
     deleteSurvey(survey, event) {
-      if (confirm('문항을 정말 삭제하시겠습니까?')) {
+      if (survey === 1 && this.surveyList === 1) {
+        alert('설문은 한 문제 이상 작성되어야 합니다')
+      } else if (confirm('문항을 정말 삭제하시겠습니까?')) {
         event.preventDefault()
         this.surveyList = this.surveyList - 1
         this.surveyData.splice(survey-1, 1)
@@ -184,10 +184,14 @@ export default {
     // }
     if (this.surveyPk) {
       this.getSurveyDetail(this.surveyPk)
-      console.log(this.surveyItem)
-      this.credentials.survey.title = this.surveyItem[0].survey_name
-      this.credentials.survey.grade = this.surveyItem[0].survey_grade
-      this.credentials.survey.class_field = this.surveyItem[0].survey_class
+      this.credentials.survey.title = this.surveyItem[0]?.survey_name
+      this.credentials.survey.grade = this.surveyItem[0]?.survey_grade
+      this.credentials.survey.class_field = this.surveyItem[0]?.survey_class
+      console.log(this.surveyItemLength)
+      this.surveyTotalData(this.surveyItem.slice(1,this.surveyItemLength))
+      this.surveyList = this.surveyItemLength - 1
+
+      // console.log(this.credentials.survey)
     }
   }
 }

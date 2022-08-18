@@ -5,11 +5,14 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.image import Image, AsyncImage
 import requests, json
 from myTextInput import limitedTextInput
-from kivy.properties import NumericProperty
+from kivy.properties import NumericProperty,BooleanProperty
 from myPopup import MyPopUp2, MyPopUp3
+from kivy.clock import Clock
 
 class Survey_Select_Screen(Screen):
     percent=NumericProperty(0.7)
+    trigger=BooleanProperty(True)
+
     ##**# self.manager.survey_ans [자료형: dictionary][key: 문항 번호(string)][value: 설문조사 답안(list-객관식/string-주관식)]
     ##**# 3번 문항의 객관식 답안 예시{'3': [1,2,3]}
     ##**# survey_word.py에서도 같은 형식이라 중복되는 부분이 있습니다.
@@ -25,7 +28,10 @@ class Survey_Select_Screen(Screen):
         self.key_color=[0/255, 176/255, 240/255,1]
         self.popup = MyPopUp2()
         self.popup2 = MyPopUp3()
-    
+
+    def my_callback(self,dt):
+        self.trigger=True 
+
     def on_pre_enter(self):
         self.check_flag=True
         self.end_flag = False
@@ -93,28 +99,40 @@ class Survey_Select_Screen(Screen):
             self.next_page=self.name
 
     def checkbox_click(self, instance, value, ans_num): # 체크박스 클릭시 결과를 넣어준다.
-        if self.check_flag:
-            self.manager.survey_ans.pop(self.data_full[self.prob_num]['id'], None)
+        if self.trigger==True:
+            self.trigger=False    
+            if self.check_flag:
+                self.manager.survey_ans.pop(self.data_full[self.prob_num]['id'], None)
 
-            if value==True:
-                self.result.append(ans_num)
-            else:
-                self.result.remove(ans_num)
-            
-            self.result.sort()
-            if len(self.result)!=0:
-                self.manager.survey_ans[self.data_full[self.prob_num]['id']]=self.result.copy()
-            self.manager.survey_ans=dict(sorted(self.manager.survey_ans.items()))
+                if value==True:
+                    self.result.append(ans_num)
+                else:
+                    self.result.remove(ans_num)
+                
+                self.result.sort()
+                if len(self.result)!=0:
+                    self.manager.survey_ans[self.data_full[self.prob_num]['id']]=self.result.copy()
+                self.manager.survey_ans=dict(sorted(self.manager.survey_ans.items()))
 
-            self.percent=len(self.manager.survey_ans)/self.manager.max_prob_num
-            self.ids.progress.text=f'{self.percent*100:.1f}%'
-            if self.percent == 1.0: self.end_flag = True
+                self.percent=len(self.manager.survey_ans)/self.manager.max_prob_num
+                if self.percent==0: self.percent=0.00001
+
+                self.ids.progress.text=f'{self.percent*100:.1f}%'
+                if self.percent == 1.0: self.end_flag = True
+            Clock.schedule_once(self.my_callback,0.3)
+        else:
+            pass
 
     def toggle_btn(self, btn): # 체크박스 뿐 아니라 보기를 눌렀을 때 활성화 하기 위한 용도의 함수
-        if self.ids[btn].active==True:
-            self.ids[btn].active=False
+        if self.trigger==True:
+            # self.trigger=False
+            if self.ids[btn].active==True:
+                self.ids[btn].active=False
+            else:
+                self.ids[btn].active=True
+            # Clock.schedule_once(self.my_callback,0.1)
         else:
-            self.ids[btn].active=True
+            pass
 
     def onPopUp(self, btn_flag):
         if self.end_flag and btn_flag:
@@ -123,6 +141,36 @@ class Survey_Select_Screen(Screen):
         else:
             self.popup.ids.alert.text="설문이 끝나지 않았습니다. 종료하시겠습니까?\n종료시 현재까지 진행된 내용은 저장하지 않습니다."
             self.popup.open()
+
+    def l_btn(self):
+        if self.trigger==True:
+            self.trigger=False 
+
+            self.next_flag_setup("before")
+            self.next_page_setup()
+            # root.cnt_setup()
+            self.manager.current=self.next_page
+            self.manager.transition.direction="right"
+            print(self.manager.survey_ans)
+
+            Clock.schedule_once(self.my_callback,1)
+        else:
+            pass
+
+    def r_btn(self):
+        if self.trigger==True:
+            self.trigger=False
+
+            self.next_flag_setup("after")
+            self.next_page_setup()
+            # root.cnt_setup()
+            self.manager.current=self.next_page
+            self.manager.transition.direction="left"
+            print(self.manager.survey_ans)
+
+            Clock.schedule_once(self.my_callback,1)
+        else:
+            pass
 
     def on_leave(self):
         self.check_flag=False

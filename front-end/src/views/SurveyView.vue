@@ -1,5 +1,5 @@
 <template>
-  <div class="baseStyle">
+  <div class="baseStyle" v-if="!emptySurvey">
     <h4 class="text-center">설문조사</h4>
     <hr>
     <div class="row justify-end q-mt-lg">
@@ -63,8 +63,8 @@
     </div>
 
     <div>
-      <the-pagi-nation v-if="surveyLength" :limit="surveyLength" @change-page="changePage">
-      </the-pagi-nation>
+      <the-pagination v-if="surveyLength" :limit="surveyLength" @change-page="changePage">
+      </the-pagination>
     </div>   
 
   </div>
@@ -73,11 +73,12 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import { ref } from 'vue'
-import ThePagiNation from '@/components/ThePagination.vue'
+import ThePagination from '@/components/ThePagination.vue'
+import {isEmpty} from 'lodash'
 
 export default {
   name : 'SurveyView',
-  components: {ThePagiNation},
+  components: {ThePagination},
   setup() {
     let page = ref(1)
     const changePage = (value) => {
@@ -91,6 +92,9 @@ export default {
   },
   computed: {
     ...mapGetters(['survey', 'surveyLength', 'currentUser', 'isLoggedIn' ]),
+    emptySurvey() {
+      return isEmpty(this.survey)
+    }
   },
   methods : {
     ...mapActions(['surveyList', 'getSurveyDetail',]),
