@@ -110,7 +110,7 @@ export default {
       this.$router.push({name:'Quiz'})
     }
   },
-  mounted() {
+  created() {
     if (!this.isLoggedIn) {
       this.$router.push('/educolab/login/')
     } else if (!this.currentUser.userflag) {
@@ -122,7 +122,7 @@ export default {
       for (var i=1; i < this.quizDetail.length; i++) {
         this.quizData[i-1] = this.quizDetail[i]
         if (this.quizData[i-1].multiple_bogi) {
-          this.quizData[i-1].multiple_bogi = this.quizData[i-1].multiple_bogi.join('/') + '/'
+          this.quizData[i-1].multiple_bogi = this.quizData[i-1].multiple_bogi.join('/')
         }
         console.log(this.quizData)
       }
