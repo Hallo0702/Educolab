@@ -1,28 +1,30 @@
 <template>
   <div class="noticeDetailStyle">
-      <div class="q-mt-md">
+    <h4>공지사항 상세</h4>
+      <hr>
+      <div class="q-my-md">
         <div class="row justify-between items-center">
           <div class="row start items-center">
-            <p class="title-size">[{{ noticeDetail.notice.classification }}]</p>
-            <p class="title-size">{{ noticeDetail.notice.title }}</p>
+            <p class="title-size">[{{ noticeDetail.notice?.classification }}]</p>
+            <p class="title-size">{{ noticeDetail.notice?.title }}</p>
           </div>
         </div>
         <div class="row justify-between">
-          <p class="item-size text-start q-pl-sm text-grey-13">{{ noticeDetail.notice.teacher.name }}</p>
-          <p class="item-size text-right q-px-md">{{ timeInfo(noticeDetail.notice.updated_at) }}</p>
+          <p class="item-size text-start q-pl-sm text-grey-13">{{ noticeDetail.notice?.teacher.name }}</p>
+          <p class="item-size text-right q-px-md">{{ timeInfo(noticeDetail.notice?.updated_at) }}</p>
         </div>
       </div>
 
         <div>
           <q-card class="bord">
             <q-card-section>
-              <p class="content-size bg-white" style="min-height:500px">{{ noticeDetail.notice.content }}</p>
+              <p class="content-size bg-white" style="min-height:500px">{{ noticeDetail.notice?.content }}</p>
             </q-card-section>
           </q-card>
         </div>
       <hr>
     
-      <div class="q-py-sm q-pl-sm">
+      <div class="q-mt-md q-py-sm q-pl-sm">
         <p class="text-size text-grey-13 q-pb-sm">첨부파일 ({{ noticeDetail.files.length }}) </p> 
         <div v-for="file in noticeDetail.files" :key="file">
           <q-btn @click="openFile(file.atch_file)" color="grey-12" class="text-black">

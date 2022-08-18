@@ -126,10 +126,7 @@ export default {
         },        {
           label: '4반',
           value: 4
-        },        {
-          label: '4반',
-          value: 4
-        },        {
+        },         {
           label: '5반',
           value: 5
         },        {
@@ -160,7 +157,9 @@ export default {
       this.surveyData.push({})
     },
     deleteSurvey(survey, event) {
-      if (confirm('문항을 정말 삭제하시겠습니까?')) {
+      if (survey === 1 && this.surveyList === 1) {
+        alert('설문은 한 문제 이상 작성되어야 합니다')
+      } else if (confirm('문항을 정말 삭제하시겠습니까?')) {
         event.preventDefault()
         this.surveyList = this.surveyList - 1
         this.surveyData.splice(survey-1, 1)
