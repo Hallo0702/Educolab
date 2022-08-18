@@ -112,12 +112,13 @@
 			pos_hint: {"right":0.95,"top":0.5}
 
 			on_release:
-				root.next_flag_setup("after")
-				root.next_page_setup()
-				# root.cnt_setup()
-				app.root.current=root.next_page
-				root.manager.transition.direction="left"
-				print(root.manager.survey_ans)
+				root.r_btn()
+				# root.next_flag_setup("after")
+				# root.next_page_setup()
+				# # root.cnt_setup()
+				# app.root.current=root.next_page
+				# root.manager.transition.direction="left"
+				# print(root.manager.survey_ans)
 
 			Image:
 				id:after
@@ -134,12 +135,13 @@
 
 			pos_hint: {"x":0.05, "top":0.5}
 			on_release:
-				root.next_flag_setup("before")
-				root.next_page_setup()
-				# root.cnt_setup()
-				app.root.current=root.next_page
-				root.manager.transition.direction="right"
-				print(root.manager.survey_ans)
+				root.l_btn()
+				# root.next_flag_setup("before")
+				# root.next_page_setup()
+				# # root.cnt_setup()
+				# app.root.current=root.next_page
+				# root.manager.transition.direction="right"
+				# print(root.manager.survey_ans)
 
 			Image:
 				id:before
