@@ -93,7 +93,7 @@ class QuizDetailView(APIView):
         quiz_questions = quiz.question_quiz.all()
 
         quiz_questions.delete()
-
+        print(req.data)
         for question in req.data['question']:
             question_serializer = QuestionUpdateSerializer(data=question)
             if question_serializer.is_valid(raise_exception=True):
