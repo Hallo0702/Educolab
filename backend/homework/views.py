@@ -88,7 +88,7 @@ class HomeworkCreateView(APIView):
             homework_serializer = StudentHomeworkCreateSerializer(data=request.data)
             
             if homework_serializer.is_valid(raise_exception=True):
-                teacher = UserInfo.objects.get(school=request.user.school,class_field=request.user.class_field,grade=request.user.grade,userflag=True)
+                teacher = UserInfo.objects.get(school=request.user.school,class_field=request.user.class_field,grade=request.user.grade,userflag=True,homeroom_teacher_flag=True)
                 homework = homework_serializer.save(student=request.user,teacher=teacher)
                 files = request.FILES.getlist("files")
                 for file in files:
