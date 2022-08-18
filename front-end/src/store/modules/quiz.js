@@ -128,7 +128,7 @@ export const quiz = {
     },
 
     // 퀴즈 상세
-    getQuizDetail({ getters, commit }, quizPk) {
+    getQuizDetail({ getters, }, quizPk) {
       axios({
         url: drf.quiz.quizDetail(),
         method: "get",
@@ -136,13 +136,16 @@ export const quiz = {
         params: {
           quiz_num: quizPk,
         },
-      }).then((res) => {
-        for (var i = 1; i < res.data.length; i++) {
-          const bogi = res.data[i].multiple_bogi.split("/");
-          res.data[i].multiple_bogi = bogi;
-        }
-        commit("QUIZ_DETAIL", res.data);
-        commit("QUIZ_DETAIL_LEN", res.data);
+      })
+        .then((res) => {
+          console.log(res.data)
+          for (var i = 1; i < res.data.length; i++) {
+            const bogi = res.data[i].multiple_bogi.split('/');
+            console.log(bogi)
+        //     res.data[i].multiple_bogi = bogi;
+          }
+        // commit("QUIZ_DETAIL", res.data);
+        // commit("QUIZ_DETAIL_LEN", res.data);
       });
     },
 
@@ -180,7 +183,6 @@ export const quiz = {
 
     updateQuiz({ getters }, credentials) {
       credentials.question = getters.quizData
-      console.log(credentials)
       axios({
         url: drf.quiz.quizDetail(),
         method: 'put',
@@ -193,7 +195,7 @@ export const quiz = {
     },
     ////////////////////////////////
     ansgoodQuiz({ getters, commit }, data) {
-      console.log(data);
+      // console.log(data);
       axios({
         url: drf.quiz.quizScore(),
         method: "get",
