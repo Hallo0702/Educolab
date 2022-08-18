@@ -172,22 +172,11 @@ export default {
     }
   },
   created() {
-    // if (this.surveyPk) {
-    //   for (var i=0; i < this.survey.length; i++) {
-    //     if (this.surveyPk == this.survey[i].pk) {
-    //       this.credentials.survey.title = this.survey[i].title
-    //       this.credentials.survey.grade = this.survey[i].grade
-    //       this.credentials.survey.class_field = this.survey[i].class_field
-    //       return
-    //     }
-    //   }
-    // }
     if (this.surveyPk) {
       this.getSurveyDetail(this.surveyPk)
       this.credentials.survey.title = this.surveyItem[0]?.survey_name
       this.credentials.survey.grade = this.surveyItem[0]?.survey_grade
       this.credentials.survey.class_field = this.surveyItem[0]?.survey_class
-      console.log(this.surveyItemLength)
       this.surveyTotalData(this.surveyItem.slice(1,this.surveyItemLength))
       this.surveyList = this.surveyItemLength-1
 
