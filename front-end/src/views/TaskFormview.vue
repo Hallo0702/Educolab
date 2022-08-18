@@ -2,10 +2,10 @@
   <main class="baseStyle">
     <h4>과제 {{type}}</h4>
     <q-form
-      @reset="onReset">
+      v-if="!taskPk || computedTask">
       <div class="row">
         <span class="q-py-md q-mr-lg text-size" style="width:70px; text-align:center">제목</span>
-        <q-input class="text-size" outlined v-model="task.title" label="title" style="width: 700px;" required/>
+        <q-input class="text-size" outlined :value="computedTask.title" label="title" style="width: 700px;" />
       </div>
       <hr>
       <div class="row">
@@ -18,22 +18,18 @@
             class="text-size"
             v-model="task.content"
             label="content"
-            :definitions="{
-              bold: {label: 'Bold', icon: null, tip: 'My bold tooltip'}
-            }"
             required/>
         </div>
       </div>
       <hr>
       <!-- 교사에게만 보임 -->
-      <div v-if="isTeacher">
+      <div v-if="task.teacher_flag">
         <div class="row">
           <span class="q-py-md q-mr-lg text-size" style="width:70px; text-align:center">과목 </span>
           <q-select
             class="text-size"
             style="width: 300px;"
-            outlined
-            v-model="task.subject" label="과목" :options="subjectOptions" required/>
+            outlined />
         </div>
         <hr>
         <div class="row">
@@ -45,7 +41,6 @@
             :min="1"
             :max="3"
             v-model="task.grade"
-            required
           />
           <span class="q-py-md q-mr-lg text-size" style="width:70px; text-align:center">반</span>
           <q-input
@@ -55,7 +50,6 @@
             :min="1"
             :max="10"
             v-model="task.class_field"
-            required
           />
         </div>
         <hr>
@@ -76,13 +70,13 @@
           type="file"
           outlined
           label-stack
-          @update:model-value="val => { student.files = val[0] }"
-          v-model="task.files"
+          @update:model-value="val => { files = val }"
+          multiple
+          v-model="files"
           style="width: 700px;" />
       </div>
       <hr>
       <div class="row justify-center q-mt-xl q-gutter-md">
-        <q-btn label="초기화" type="reset" color="primary" flat class="q-ml-sm" />
         <q-btn :label="type" color="primary" @click="onSubmit(false)"  class="text-size q-px-xl q-py-md" />
         <q-btn v-if="!isTeacher" label="제출" color="primary" @click="onSubmit(true)"  class="text-size q-px-xl q-py-md"/>
         <router-link class="button" :to="{name:'TaskListView', params: {userType,}}">
@@ -99,7 +93,7 @@
 </template>
 
 <script>
-import { reactive, computed, onBeforeMount} from 'vue'
+import { reactive, computed, onBeforeMount, ref} from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import {useStore} from 'vuex'
 import MessagePopUp from '../components/MessagePopUp.vue'
@@ -114,14 +108,18 @@ export default {
     onBeforeMount(() => {
       if (!store.getters.isLoggedIn) {
       router.push('/educolab/login')
-    } else if (taskPk) {
-        store.dispatch('editTask', {pk: taskPk, teacher_flag: userType === 'teacher'? 1:0})
-    }
-    })
+      } else if (taskPk) {
+        store.dispatch('taskDetail', {pk: taskPk, teacher_flag: userType === 'teacher'? 1:0})
+    }})
     const subjectOptions = store.getters.getSubject
-    let isTeacher = computed(() => userType === 'teacher')
     let type = computed(() => taskPk? '수정':'등록')
-    const storeTask = computed(() => store.getters.getEditTask)
+    const confirm = reactive({
+      prompt: false,
+      message: '',
+      state: computed(() => confirm.prompt)
+    })
+    const storeTask = computed(() => store.getters.getTask)
+    const files = ref(null)
     const computedTask = reactive({
       subject: computed(() => storeTask.value.homework?.subject),
       title: computed(() => storeTask.value.homework?.title || storeTask.value.title),
@@ -131,13 +129,8 @@ export default {
       files: computed(() => storeTask.value.homework?.files || storeTask.value['student_file']),
       deadline: computed(() => storeTask.value.homework?.deadline || storeTask.value.deadline),
     })
-    const confirm = reactive({
-      prompt: false,
-      message: '',
-      state: computed(() => confirm.prompt)
-    })
     const task = reactive({
-      teacher_flag: isTeacher.value? 1:0,
+      teacher_flag: userType === 'teacher'?1:0,
       subject: taskPk? computedTask.subject: '',
       title: taskPk? computedTask.title: '',
       content: taskPk? computedTask.content : '',
@@ -148,7 +141,7 @@ export default {
     })
     const isValid = computed(() => {
       if (task.title && task.content && task.deadline ) {
-        if (isTeacher.value) {
+        if (task.teacher_flag) {
           if (task.subject && task.grade && task.class_field) {
             return true
           } else {
@@ -167,7 +160,7 @@ export default {
         form.append(key, task[key])
       }
       if (arg) {
-        form.append('submit_pk', storeTask.value['my_submit'][0].id)
+        form.append('submit_pk', task['my_submit'][0].id)
         store.dispatch('submitTask', form)
       } else if (taskPk) {
         form.append('pk', taskPk)
@@ -183,35 +176,16 @@ export default {
         }
       }
     }
-    const onReset = () => {
-      if (taskPk) {
-        for (let key in task) {
-          if (key === 'teacher') {
-              task[key] = store.getters.currentUser.username
-            } else if (key === 'subject') {
-              task[key] = store.getters.currentUser.subject
-            } else {
-            task[key] = storeTask.value[key]
-          }
-        }
-      } else {
-        for (let key in task) {
-          task[key] = ''
-        }
-      }
-    }
     return {
       task,
-      storeTask,
       userType,
       taskPk,
       type,
-      isTeacher,
       onSubmit,
-      onReset,
       subjectOptions,
+      confirm,
       computedTask,
-      confirm
+      files
     }
   }
 }
