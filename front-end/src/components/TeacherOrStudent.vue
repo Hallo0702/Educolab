@@ -57,7 +57,7 @@ export default {
     userType: String,
     data: Object,
     type: String,
-    homeroomFlag: Boolean,
+    homeroomFlag: Number,
   },
   setup(props) {
     const store = useStore()

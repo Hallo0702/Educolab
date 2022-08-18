@@ -419,4 +419,4 @@ backend/my_settings.py
 front-end/node_modules
 front-end/node_modules/*
 login_info.json
-profile
+profile.jpg

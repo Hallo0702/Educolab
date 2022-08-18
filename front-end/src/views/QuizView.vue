@@ -1,5 +1,5 @@
 <template>
-  <div class="baseStyle">
+  <div class="baseStyle" v-if="!emptyQuiz">
     <h4 class="text-center">Quiz</h4>
     <hr>
     <div class="row justify-end q-mt-lg">
@@ -60,6 +60,7 @@
 import { mapActions, mapGetters } from 'vuex'
 import {ref} from 'vue'
 import ThePagination from '@/components/ThePagination.vue'
+import {isEmpty} from 'lodash'
 
 export default({
   name: 'QuizView',
@@ -67,7 +68,10 @@ export default({
     ThePagination,
   },
   computed: { 
-    ...mapGetters(['quiz', 'quizLength', 'isLoggedIn', 'currentUser'])
+    ...mapGetters(['quiz', 'quizLength', 'isLoggedIn', 'currentUser']),
+    emptyQuiz() {
+      return isEmpty(this.quiz)
+    }
   },
   methods: {
     ...mapActions(["quizList"]),

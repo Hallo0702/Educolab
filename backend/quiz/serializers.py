@@ -25,3 +25,10 @@ class QuestionDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.QuizQuestions
         fields= ['id','question_number', 'quiz_question', 'multiple_bogi','answer']
+        
+class QuestionUpdateSerializer(serializers.ModelSerializer):
+    quiz = QuizSerializer(read_only=True)
+    class Meta:
+        model = models.QuizQuestions
+        fields=['question_number', 'quiz_question', 'multiple_bogi','answer', 'quiz']
+
