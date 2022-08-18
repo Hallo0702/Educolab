@@ -20,6 +20,7 @@ export const quiz = {
         ranking_list: [],
         quizDetail_len: 0,
       },
+      quiz_length: 0,
     };
   },
 
@@ -35,6 +36,7 @@ export const quiz = {
     quizDetail_len: (state) => state.online.quizDetail_len,
     username: (state) => state.online.username,
     ranking_list: (state) => state.online.ranking_list,
+    quiz_length: (state) => state.quiz_length
   },
 
   mutations: {
@@ -58,6 +60,9 @@ export const quiz = {
       console.log(temp);
       return temp;
     },
+    // 일단 대기
+    QUIZ_LEN: (state, length) => state.length = length,
+
     SOCKET_COUNT_FLAG: (state, flag) => {
       state.online_cnt_flag = flag;
     },
@@ -128,7 +133,7 @@ export const quiz = {
     },
 
     // 퀴즈 상세
-    getQuizDetail({ getters, }, quizPk) {
+    getQuizDetail({ getters, commit }, quizPk) {
       axios({
         url: drf.quiz.quizDetail(),
         method: "get",
@@ -138,14 +143,13 @@ export const quiz = {
         },
       })
         .then((res) => {
-          console.log(res.data)
           for (var i = 1; i < res.data.length; i++) {
             const bogi = res.data[i].multiple_bogi.split('/');
-            console.log(bogi)
-        //     res.data[i].multiple_bogi = bogi;
+            res.data[i].multiple_bogi = bogi;
           }
-        // commit("QUIZ_DETAIL", res.data);
-        // commit("QUIZ_DETAIL_LEN", res.data);
+          commit("QUIZ_DETAIL", res.data);
+          commit("QUIZ_DETAIL_LEN", res.data);
+          commit("QUIZ_LEN", res.data.length)
       });
     },
 
@@ -183,6 +187,7 @@ export const quiz = {
 
     updateQuiz({ getters }, credentials) {
       credentials.question = getters.quizData
+      console.log(credentials)
       axios({
         url: drf.quiz.quizDetail(),
         method: 'put',
