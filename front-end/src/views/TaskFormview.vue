@@ -150,8 +150,7 @@ export default {
         console.log('create')
       }
     }
-    const onReset = (event) => {
-      event.preventDefault()
+    const onReset = () => {
       if (taskPk) {
         for (let key in task) {
           if (key === 'teacher') {

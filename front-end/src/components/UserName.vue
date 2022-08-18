@@ -4,7 +4,7 @@
     label="이름"
     v-model="name"
     maxlength="20"
-    :value="name.value"
+    style="ime-mode:active"
     @change="sendData"
     clearable
     :dense="false"
