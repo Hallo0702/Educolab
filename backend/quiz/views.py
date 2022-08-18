@@ -90,7 +90,7 @@ class QuizDetailView(APIView):
         if quiz_serializer.is_valid(raise_exception=True):
             quiz = quiz_serializer.save(teacher = req.user)
 
-        quiz_questions = quiz.question_survey.all()
+        quiz_questions = quiz.question_quiz.all()
 
         quiz_questions.delete()
 
