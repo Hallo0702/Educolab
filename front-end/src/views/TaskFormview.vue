@@ -108,6 +108,7 @@ export default {
     let isTeacher = computed(() => userType === 'teacher')
     let type = computed(() => taskPk? '수정':'등록')
     const storeTask = computed(() => store.getters.getTask)
+    const confirmPk = computed(() => storeTask.value.homework?.id === taskPk)
     const computedTask = reactive({
       subject: computed(() => storeTask.value.homework?.subject),
       title: computed(() => storeTask.value.homework?.title || storeTask.value.title),
@@ -150,8 +151,7 @@ export default {
         console.log('create')
       }
     }
-    const onReset = (event) => {
-      event.preventDefault()
+    const onReset = () => {
       if (taskPk) {
         for (let key in task) {
           if (key === 'teacher') {
@@ -178,7 +178,8 @@ export default {
       onSubmit,
       onReset,
       subjectOptions,
-      computedTask
+      computedTask,
+      confirmPk
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
-  <div class="row justify-center q-my-xl">
-    <div class="notice_form">
+  <div class="noticeDetailStyle">
+    <div class="q-mt-md">
         <hr>
         <div class="row justify-between items-center">
           <div class="row start items-center">
@@ -27,13 +27,12 @@
       <hr>
 
       <div class="q-py-sm q-pl-sm">
-        <p class="text-size text-grey-13 q-pb-sm">첨부파일 ({{ files?.length }}) </p> 
-        <div v-for="file in files" :key="file">
-          <q-btn @click="openFile(url+file['atch_file'])" color="grey-12" class="text-black">
-          <q-icon name="mdi-paperclip"/>
-          {{ file.atch_file_name }}
-          </q-btn>
-        </div> 
+        <p class="text-size text-grey-13 q-pb-sm">첨부파일 ({{ files? 1:0 }}) </p>
+          <q-btn v-if="files?.atch_file" @click="openFile(url+files?.atch_file)" color="grey-12" class="text-black">
+            <q-icon name="mdi-paperclip"/>
+            {{ files?.atch_file_name }}
+            </q-btn>
+        </div>
       </div>
       <hr>
       <!-- 교사용 -->
@@ -94,7 +93,6 @@
           />
         </div>
       </article>
-    </div>  
   </div>
 </template>
 
@@ -143,17 +141,17 @@ export default {
       }),
       student: false,
       confirmStudent: computed(() => check.student)
-    })
+  })
     
     const files = computed(() => {
       if (isLecture.value) {
-        return props.task.homework?.teacher_file
+        return props.task.homework?.teacher_file[0]
       } else {
-        return props.task.student_file
+        return props.task.student_file[0]
       }
     })
     const openFile = (url) => {
-      window.open(drf.file.path() + url)
+      window.open(url)
     }
     const date = computed(() => {
       if (!isLecture.value) {
@@ -225,6 +223,13 @@ export default {
 </script>
 
 <style scoped>
+  .noticeDetailStyle {
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    min-width: 450px;
+    height: 800px;
+  }
   .title-size {
     font-size : 3vmin;
   }

@@ -6,7 +6,7 @@
         label="아이디"
         v-model="userData.username"
         lazy-rules
-        class="col-8"
+        class="col-8 alp"
         maxlength="20"
         :rules="[ val => val && val.length > 0 || '아이디를 입력해주세요',
         val => val && val.length > 4 ||'아이디는 최소 5자리 이상이어야 합니다'
@@ -23,7 +23,7 @@
       color="teal"
       label="비밀번호"
       type="password"
-      class="col-8"
+      class="col-8 han"
       v-model="userData.password1"
       maxlength="20"
       lazy-rules
@@ -36,9 +36,10 @@
       color="teal"
       label="비밀번호 확인"
       type="password"
+      style="ime-mode:disabled"
       v-model="userData.password2"
       @keyup="isCorrect"
-      class="col-8"
+      class="col-8 han"
       minlength="5"
       maxlength="20"
       lazy-rules
@@ -56,12 +57,31 @@
       <message-pop-up
         v-if="password.popUpFlag"
         :message="password.message"
-        path="/"
-        :reload="true"
+        @reverse="toLogin"
+      />
+      <message-pop-up
+        v-if="password.ErrorpopUp"
+        :message="password.message"
+        @reverse="password.error = false"
       />
     </article>
   </section>
 </template>
+
+<style scoped>
+  .alp {
+    -webkit-ime-mode:disabled;
+    -moz-ime-mode:disabled;
+    -ms-ime-mode:disabled;
+    ime-mode:disabled;
+  }
+  .han {
+    -webkit-ime-mode:active;
+    -moz-ime-mode:active;
+    -ms-ime-mode:active;
+    ime-mode:active;
+  }
+</style>
 
 <script>
 import {reactive} from '@vue/reactivity'
@@ -98,7 +118,9 @@ export default {
       message: null,
       success: false,
       prompt: false,
+      error: false,
       popUpFlag:computed(() => password?.prompt),
+      ErrorpopUp:computed(() => password?.error),
       samePassword: computed(() => password.one === password.two)
     })
     const confirmUsername = () => {
@@ -130,26 +152,49 @@ export default {
         userData.correct = false
       }
     }
+    const toLogin = () => {
+      password.prompt = false
+      store.dispatch('logout')
+    }
     const changePw = () => {
-      axios({
-        url: drf.accounts.changePw(),
-        method: 'post',
-        data: {
-          ...store.getters.getInfo,
-          password1: userData.password1,
-          password2: userData.password2
-          }
-      })
-      .then(({data}) => {
-        console.log(data)
-        password.message = data.message
-      })
-      .catch(({response}) => {
-        password.message = response.data.message
-      })
-      .finally(() => {
-        password.prompt = true
-      })
+      if (userData.password1 !== null && userData.password1 !== '') {
+        if (userData.password1.includes(' ')) {
+          password.message = '비밀번호에 공백을 포함할 수 없습니다'
+          password.error = true
+        } else if (!password.samePassword) {
+          password.message = '비밀번호가 일치하지 않습니다'
+          password.error = true
+        } else if (userData.password1.length < 6) {
+          password.message = '비밀번호를 6자리 이상 입력해주세요'
+          password.error = true
+        } else {
+          axios({
+            url: drf.accounts.changePw(),
+            method: 'post',
+            data: {
+              ...store.getters.getInfo,
+              password1: userData.password1,
+              password2: userData.password2
+              }
+          })
+          .then(({data}) => {
+            console.log(data)
+            password.message = data.message
+            if (data.success) {
+              password.prompt = true
+            } else {
+              password.error = true
+            }
+          })
+          .catch(({response}) => {
+            password.message = response.data.message
+            password.error = true
+          })
+        }
+      } else {
+        password.message = '비밀번호를 입력해주세요'
+        password.error = true
+      }
     }
     return {
       userData,
@@ -158,6 +203,7 @@ export default {
       isCorrect,
       password,
       changePw,
+      toLogin
     }
   }
 }
