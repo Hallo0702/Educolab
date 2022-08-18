@@ -20,7 +20,6 @@ export const quiz = {
         ranking_list: [],
         quizDetail_len: 0,
       },
-      quiz_length: 0,
     };
   },
 
@@ -36,7 +35,6 @@ export const quiz = {
     quizDetail_len: (state) => state.online.quizDetail_len,
     username: (state) => state.online.username,
     ranking_list: (state) => state.online.ranking_list,
-    quiz_length: (state) => state.quiz_length
   },
 
   mutations: {
@@ -149,7 +147,7 @@ export const quiz = {
           }
           commit("QUIZ_DETAIL", res.data);
           commit("QUIZ_DETAIL_LEN", res.data);
-          commit("QUIZ_LEN", res.data.length)
+          // commit("QUIZ_LEN", res.data.length)
       });
     },
 
