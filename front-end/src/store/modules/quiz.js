@@ -146,19 +146,20 @@ export const quiz = {
 
     // 퀴즈 번호, 보기, 답 가져오기
     onQuiz({ commit }, data) {
-      console.log(data);
+      // console.log(data)
+      // console.log(getters.quizData)
       commit("QUIZ_DATA", data);
     },
 
     createQuiz({ getters }, credentials) {
       credentials.question = getters.quizData;
-      console.log(credentials);
       axios({
         url: drf.quiz.quizCreate(),
         method: "post",
         headers: getters.authHeader,
         data: credentials,
-      }).then(router.push({ name: "Quiz" }));
+      })
+        .then(router.push({ name: "Quiz" }));
     },
 
     deleteQuiz({ getters }, quizPk) {
@@ -176,17 +177,17 @@ export const quiz = {
     },
 
     updateQuiz({ getters }, credentials) {
-      credentials.question = getters.quizData;
-      console.log(credentials);
+      credentials.question = getters.quizData
+      console.log(credentials)
       axios({
         url: drf.quiz.quizDetail(),
-        method: "put",
+        method: 'put',
         headers: getters.authHeader,
         data: credentials,
-      }).then((res) => {
-        console.log(res);
-        router.push({ name: "Quiz" });
-      });
+      })
+        .then(
+        router.push({ name: "Quiz" })
+        )
     },
     ////////////////////////////////
     ansgoodQuiz({ getters, commit }, data) {

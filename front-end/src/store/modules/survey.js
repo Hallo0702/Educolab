@@ -105,6 +105,7 @@ export const survey = {
     },
     updateSurvey({ getters }, credentials) {
       credentials.question = getters.surveyData
+      console.log(credentials.question)
       axios({
         url: drf.survey.surveyUpdate(),
         method: 'put',
