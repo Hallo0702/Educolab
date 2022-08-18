@@ -84,16 +84,14 @@ class QuizDetailView(APIView):
     def put(self, req):
         quiz_id = req.data['quiz_num']
         quiz = QuizList.objects.get(pk=quiz_id)
-
         quiz_serializer = QuizSerializer(quiz, data=req.data['quiz'])
-
+        print(quiz_serializer)
         if quiz_serializer.is_valid(raise_exception=True):
             quiz = quiz_serializer.save(teacher = req.user)
 
         quiz_questions = quiz.question_quiz.all()
 
         quiz_questions.delete()
-        print(req.data)
         for question in req.data['question']:
             question_serializer = QuestionUpdateSerializer(data=question)
             if question_serializer.is_valid(raise_exception=True):
