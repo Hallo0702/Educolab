@@ -7,7 +7,7 @@
     >
       <q-card>
         <q-card-section>
-            {{item.content}}
+            <p v-html="content"></p>
           <div>
             <div v-for="(file, idx) in item['atch_file_name']" :key="idx">
               <a :href="url+item['atch_file'][idx]">{{file}}</a>
@@ -68,6 +68,7 @@ export default {
         }
       })
     })
+    const content = computed(() => props.item.content.split('\n').join('<br>'))
     let point = ref(null)
     let submitState = computed(() => props.item.submit_flag?'제출':'미제출')
     let message = ref(null)
@@ -107,7 +108,8 @@ export default {
       confirm,
       checkTask,
       isChecked,
-      check
+      check,
+      content
     }
   }
 }
