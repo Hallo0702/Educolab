@@ -24,7 +24,6 @@ class SurveyTeacherMainView(APIView) :
         teacher = UserInfo.objects.get(username=req.user.username)
         survey = teacher.survey_teacher.all().order_by('-updated_at')
 
-        print(survey)
         # notices = Notice.objects.select_related('school').filter(school_id=schoolCode)
         
         ## 3. 시리얼라이저 변환
@@ -38,7 +37,6 @@ class SurveyStudentMainView(APIView) :
             return Response({"message" :"학생만 접근 가능합니다."})
         my_survey = SurveyList.objects.filter(target=req.user)
         my_survey = my_survey.exclude(done_target=req.user).order_by('-updated_at')
-        print(my_survey)
         survey_serializer = SurveyMainSerializer(my_survey,many=True)
 
         return Response(survey_serializer.data)
@@ -61,7 +59,6 @@ class SurveyCreateView(APIView):
             students = UserInfo.objects.filter(grade = req.data['survey']['grade'],school=req.user.school, userflag=False)
         else:
             students = UserInfo.objects.filter(grade = req.data['survey']['grade'], class_field=req.data['survey']['class_field'], school=req.user.school, userflag=False);
-        print(students)
         if survey_serializer.is_valid(raise_exception=True):
             survey = survey_serializer.save(target=students, teacher = req.user)
         # 설문조사 등록하기 end
@@ -89,7 +86,6 @@ class SurveyDetailView(APIView):
                         "survey_grade" : survey.grade,
                         "survey_class" : survey.class_field
                         }]
-        print(question_serializer.data)
         return Response(survey_name+question_serializer.data)
 
     def delete(self, req):
@@ -150,7 +146,6 @@ class SurveyStatView(APIView):
         survey = SurveyList.objects.get(pk=survey_id)
 
         survey_questions = survey.question_survey.all()
-        print(survey_questions)
         question_serializer = QuestionStatSerializer(survey_questions,many=True)
         res = Response({
             "survey_title" : survey.title,
@@ -185,8 +180,6 @@ class SurveySubmitView(APIView):
             return Response({"message" : "이미 제출하셨습니다."})
 
         for answer in answers:
-            print(answer['id'])
-            print(type(answer['id']))
             question = SurveyQuestions.objects.get(id=answer['id'])
             
             if question.multiple_bogi is not None:
