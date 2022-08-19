@@ -50,16 +50,13 @@ export const quiz = {
 
     RANK_SCORE: (state) => {
       let temp = [];
-      console.log(state.online.ranking_list);
       for (let i of state.online.ranking_list) {
-        console.log(i);
         if (temp.length === 0) {
           temp.push(i.score);
         } else if (temp[0] !== i.score) {
           temp.push(i.score);
         }
       }
-      console.log(temp);
       return temp;
     },
     // 일단 대기
@@ -71,7 +68,6 @@ export const quiz = {
     ANS_GOOD_NUM: (state, data) => (state.online.ans_good_num = data),
     RANKING_LIST: (state, data) => (state.online.ranking_list = data),
     SOCKET_ON: (state, data) => {
-      console.log("Starting connection to WebSocket Server");
       state.online.socket = new WebSocket(data.url);
       state.online.RoomNumber = data.RoomNumber;
       state.online.quizPK = data.quizPK;
@@ -79,10 +75,7 @@ export const quiz = {
       state.online.ans_list = [];
 
       state.online.socket.addEventListener("message", (event) => {
-        state.online.result = JSON.parse(event.data); //['message'] //test용
-        // console.log("받기")
-        console.log(state.online.result);
-        // console.log(state.online.result.split('/'))
+        state.online.result = JSON.parse(event.data);  //test용
         if (
           state.online.cnt_flag === true &&
           state.online.result["message"] === "등록 성공"
@@ -90,13 +83,8 @@ export const quiz = {
           state.online.ans_list.unshift(state.online.result["nickname"]);
         }
       });
-      state.online.socket.onclose = function (event) {
-        console.log(event);
-        console.error("Chat socket closed unexpectedly");
-      };
-      state.online.socket.addEventListener("open", (event) => {
-        console.log(event);
-        console.log("Successfully connected to the echo websocket server...");
+
+      state.online.socket.addEventListener("open", () => {
         state.online.socket.send(
           JSON.stringify({
             message: "방 생성",
@@ -108,8 +96,6 @@ export const quiz = {
       });
     },
     SOCKET_SEND: (state, data) => {
-      // console.log("보내기")
-      // console.log(data)
       if(state.online.socket!==null){
         state.online.socket.send(JSON.stringify(data));
       }
@@ -153,14 +139,11 @@ export const quiz = {
           }
           commit("QUIZ_DETAIL", res.data);
           commit("QUIZ_DETAIL_LEN", res.data);
-          // commit("QUIZ_LEN", res.data.length)
       });
     },
 
     // 퀴즈 번호, 보기, 답 가져오기
     onQuiz({ commit }, data) {
-      // console.log(data)
-      // console.log(getters.quizData)
       commit('QUIZ_DATA', data);
     },
 
@@ -191,7 +174,6 @@ export const quiz = {
 
     updateQuiz({ getters }, credentials) {
       credentials.question = getters.quizData
-      console.log(credentials)
       axios({
         url: drf.quiz.quizDetail(),
         method: 'put',
@@ -204,12 +186,10 @@ export const quiz = {
     },
 
     quizTotalData({ commit }, data) {
-      console.log(data)
       commit('QUIZ_TOTAL_DATA', data)
     },
     ////////////////////////////////
     ansgoodQuiz({ getters, commit }, data) {
-      // console.log(data);
       axios({
         url: drf.quiz.quizScore(),
         method: "get",
@@ -231,19 +211,8 @@ export const quiz = {
           room_num: roomNum,
         },
       }).then((res) => {
-        // console.log(res.data)
         commit("RANKING_LIST", res.data.ranks); //임시'
       });
-      // .then(res=>{
-      //   let result=commit('RANK_SCORE')
-      //   console.log(result)
-      //   console.log(res)
-      // })
-      // .then(res=>{
-      //   let result=commit('RANK_SCORE')
-      //   console.log(result)
-      //   console.log(res)
-      // })
     },
     ///////////////////////////
   },

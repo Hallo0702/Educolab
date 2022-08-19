@@ -20,6 +20,7 @@
             <th class="text-center text-size">설문 통계</th>
           </tr>
         </thead>
+        
         <tbody>
           <tr v-for="(survey, index) in survey.slice((page-1)*10, page*10)" :key="index">
             <td class="text-center text-size">{{ index+1+((page-1)*10) }}</td>

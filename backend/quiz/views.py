@@ -25,7 +25,6 @@ class QuizMainView(APIView) :
         ## 2. 쿼리로 작성자가 user인 설문조사 목록을 가져온다.
         teacher = UserInfo.objects.get(username=req.user.username)
         quiz = teacher.quiz_teacher.all().order_by('-updated_at')
-        print(quiz)
         # notices = Notice.objects.select_related('school').filter(school_id=schoolCode)
         
         ## 3. 시리얼라이저 변환
@@ -68,7 +67,6 @@ class QuizDetailView(APIView):
         ## 설문조사 시리얼라이저 생성
         question_serializer = QuestionDetailSerializer(questions, many=True)
         quiz_name = [{"quiz_name" : quiz.title}]
-        print(question_serializer.data)
         return Response(quiz_name+question_serializer.data)
 
     def delete(self, req):
@@ -85,7 +83,6 @@ class QuizDetailView(APIView):
         quiz_id = req.data['quiz_num']
         quiz = QuizList.objects.get(pk=quiz_id)
         quiz_serializer = QuizSerializer(quiz, data=req.data['quiz'])
-        print(quiz_serializer)
         if quiz_serializer.is_valid(raise_exception=True):
             quiz = quiz_serializer.save(teacher = req.user)
 

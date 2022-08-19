@@ -40,7 +40,8 @@
 
     <div class="row items-center">
       <span class="q-py-md q-ml-sm q-mr-lg text-size" style="width: 70px; text-align:center">첨부파일</span>
-      <q-file outlined label="첨부 파일" v-model="credentials.files" style="width: 700px;" multiple/>
+      <q-file outlined v-model="credentials.files" style="width: 700px;" multiple use-chips
+      label="첨부파일"></q-file>
     </div>
     <hr>
 
@@ -69,10 +70,11 @@ export default {
     getTitle() {
       if (this.noticePk) return "공지사항 수정 페이지"
       return "공지사항 등록 페이지"
-    }
+    },
   },
   setup() {
     const route = useRoute()
+    let fileName = ''
     let noticePk = ref(route.params.noticePk)
     const credentials = reactive({
       classification: '',
@@ -85,6 +87,7 @@ export default {
       options : ['공지', '변경', '행사'],
       noticePk,
       credentials,
+      fileName
     }
   },
   methods: {
