@@ -7,7 +7,7 @@
     >
       <q-card>
         <q-card-section>
-            {{item.content}}
+            <p v-html="content"></p>
           <div v-if="typeof(item['atch_file_name']) === 'string'">
             <q-btn v-if="item?.atch_file" @click="openFile(url)" color="grey-12" class="text-black" size="xs">
             <q-icon name="mdi-paperclip"/>
@@ -79,6 +79,7 @@ export default {
     const openFile = (url) => {
       window.open(url)
     }
+    const content = computed(() => props.item.content.split('\n').join('<br>'))
     let point = ref(null)
     let submitState = computed(() => props.item.submit_flag?'제출':'미제출')
     let message = ref(null)
@@ -124,7 +125,8 @@ export default {
       isChecked,
       check,
       buttonConfirm,
-      openFile
+      openFile,
+      content
     }
   }
 }
