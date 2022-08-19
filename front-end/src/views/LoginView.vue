@@ -73,17 +73,14 @@
 </style>
 
 <script>
-// import { reactive } from '@vue/reactivity'
 import { mapGetters, mapActions, useStore } from 'vuex'
 import {onBeforeMount} from 'vue'
 import {useRouter} from 'vue-router'
-// import AccountErrorList from '@/components/AccountErrorList.vue'
 import ButtonGroup from '@/components/ButtonGroup.vue'
 
 export default {
   name: 'LoginView',
   components: {
-    // AccountErrorList,
     ButtonGroup
   },
   data () {

@@ -1,9 +1,9 @@
 #  EduColab ( 교육과 기술의 청량한 조화! )
 <img src="/uploads/85e4097f8177ffa87cc5b0dd1a7df106/educolab.37f5cd03.png" width="250">
 
-[UCC 링크](https://youtu.be/ESee2Ut4Xcg)
+### UCC : [링크](https://youtu.be/ESee2Ut4Xcg)
 
-시연 시나리오 : [시연 시나리오](https://lab.ssafy.com/s07-webmobile3-sub2/S07P12C102/-/blob/master/exec/%EC%8B%9C%EC%97%B0%20%EC%8B%9C%EB%82%98%EB%A6%AC%EC%98%A4.md)
+### 시연 시나리오 : [링크](https://lab.ssafy.com/s07-webmobile3-sub2/S07P12C102/-/blob/master/exec/%EC%8B%9C%EC%97%B0%20%EC%8B%9C%EB%82%98%EB%A6%AC%EC%98%A4.md)
 
 ## ✨Overview
 1. 수업에 도움을 주는 서비스! : 교사는 설문조사를 통해 수업을 개선, 퀴즈와 과제 기능을 수업에 활용!
@@ -28,7 +28,7 @@ Embeded : 여동준, 이국희
 ![선생_017_설문조사_통계](/uploads/275cf0fd357a5e5410a5f66a44090d3e/선생_017_설문조사_통계.gif)
 
 ### 과제 등록
-![선생_005_과제_등록](/uploads/afb438ad80d257f7091f5fd42ec05d34/선생_005_과제_등록.gif)
+![선생_005_과제_등록](/uploads/ae6174c6390b86dd22d4d0b6b300cb06/선생_005_과제_등록.gif)
 
 ### 과제 제출
 ![학생_004_과제_제출](/uploads/d3c93c60a3e82bcc1e6cd7f975e7326a/학생_004_과제_제출.gif)
@@ -39,7 +39,7 @@ Embeded : 여동준, 이국희
 ![선생_007_과제_채점2](/uploads/03f0de57631ceecc38a1a66f6c1b5a05/선생_007_과제_채점2.gif)
 
 ### 퀴즈
-![공통_001_퀴즈](/uploads/207d3fbc1d9445c31f5d29623b675f0d/공통_001_퀴즈.gif)
+![공통_001_퀴즈](/uploads/540e196e0cf7d82b91c4579988c5bcca/공통_001_퀴즈.gif)
 
 ### 포인트 상점
 ![학생_007_포인트상점](/uploads/87ac0201dce594e06aff43b0b792887e/학생_007_포인트상점.gif)
@@ -96,7 +96,7 @@ Embeded : 여동준, 이국희
 
 Frontend : [링크](https://lab.ssafy.com/s07-webmobile3-sub2/S07P12C102/-/blob/master/front-end/README.md)
 
-Backend : [링크]()백엔드 README 추가바랍니다.
+Backend : [링크](https://lab.ssafy.com/s07-webmobile3-sub2/S07P12C102/-/blob/master/backend/README.MD)
 
 Embeded : [링크](https://lab.ssafy.com/s07-webmobile3-sub2/S07P12C102/-/blob/master/embedded/README.md)
 
