@@ -141,7 +141,6 @@ export default {
         } else {
           url = drf.myPage.changeIcon();
         }
-        console.log(url);
         axios({
           url,
           method: "put",

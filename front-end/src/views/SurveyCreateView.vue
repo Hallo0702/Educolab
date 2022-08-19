@@ -14,11 +14,11 @@
     <div class="row q-mt-xl">
       <span class="q-py-md q-mx-lg text-center text-size">제목</span>
       <q-input class="text-size" outlined v-model="credentials.survey.title" 
-      style="width: 700px;" placeholder="설문 제목을 입력해주세요." required/>
+      style="width: 700px;" placeholder="설문 제목을 입력해주세요." />
     </div>
     <hr>
     
-    <form>
+    <q-form>
       <div v-if="surveyPk">
         <div v-for="survey in surveyList" :key="survey">
           <div class="row justify-end q-mt-xl q-mr-xl">
@@ -41,7 +41,7 @@
             :surveyPk="surveyPk"/>
         </div>
       </div>
-    </form>
+    </q-form>
 
     <div class="row justify-center q-my-xl">
       <q-btn @click="goSurvey" class="text-size q-px-xl q-py-md" color="grey-8">취소</q-btn>
@@ -127,7 +127,8 @@ export default {
         },        {
           label: '4반',
           value: 4
-        },         {
+        },
+        {
           label: '5반',
           value: 5
         },        {
