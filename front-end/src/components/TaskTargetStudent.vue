@@ -79,7 +79,7 @@ export default {
     const openFile = (url) => {
       window.open(url)
     }
-    const content = computed(() => props.item.content.split('\n').join('<br>'))
+    const content = computed(() => props.item.content?.split('\n').join('<br>'))
     let point = ref(null)
     let submitState = computed(() => props.item.submit_flag?'제출':'미제출')
     let message = ref(null)
