@@ -139,7 +139,6 @@ export const accounts = {
             refresh: localStorage.getItem("refresh"),
           },
         }).then((res) => {
-          console.log(res.data);
           commit("CURRENTING_USER", res.data);
         });
       }
@@ -152,7 +151,6 @@ export const accounts = {
         data: credentials,
       })
         .then((res) => {
-          console.log(res.data);
           const access = res.data.access;
           dispatch("saveToken", access);
           commit("CURRENTING_USER", res.data);

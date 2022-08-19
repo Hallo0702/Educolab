@@ -52,7 +52,7 @@
 <script>
 import {reactive, ref} from '@vue/reactivity'
 import {useRoute} from 'vue-router'
-import {computed, onBeforeMount} from 'vue'
+import {computed} from 'vue'
 import {useStore} from 'vuex'
 import axios from 'axios'
 import drf from '@/api/drf.js'
@@ -159,11 +159,6 @@ export default {
       }
       alert.state = true
     }
-    onBeforeMount (() => {
-      // if (!params.userType && params.info !== 'password') {
-      //   router.push('/404')
-      // }
-    })
     return {
       params,
       email,
