@@ -1,9 +1,9 @@
 #  EduColab ( 교육과 기술의 청량한 조화! )
-<img src="/uploads/85e4097f8177ffa87cc5b0dd1a7df106/educolab.37f5cd03.png" width="250">
+<img src="/outputs/assets/educolab.png" width="250">
 
 ### UCC : [링크](https://youtu.be/ESee2Ut4Xcg)
 
-### 시연 시나리오 : [링크](https://lab.ssafy.com/s07-webmobile3-sub2/S07P12C102/-/blob/master/exec/%EC%8B%9C%EC%97%B0%20%EC%8B%9C%EB%82%98%EB%A6%AC%EC%98%A4.md)
+### 시연 시나리오 : [링크](/exec/%EC%8B%9C%EC%97%B0%20%EC%8B%9C%EB%82%98%EB%A6%AC%EC%98%A4.md)
 
 ## ✨Overview
 1. 수업에 도움을 주는 서비스! : 교사는 설문조사를 통해 수업을 개선, 퀴즈와 과제 기능을 수업에 활용!
@@ -19,30 +19,30 @@ Embeded : 여동준, 이국희
 ## 핵심 서비스
 
 ### 설문조사 등록
-![선생_013_설문조사_등록](/uploads/1dd1b65146c0f9b696f1ac4dca000f9a/선생_013_설문조사_등록.gif)
+![선생_013_설문조사_등록](/outputs/assets/선생_013_설문조사_등록.gif)
 
 ### 설문조사 제출
-![학생_임베디드__003_설문조사_제출](/uploads/be5d1c289a81ddc4b8c20fea8b30a2a5/학생_임베디드__003_설문조사_제출.gif)
+![학생_임베디드__003_설문조사_제출](/outputs/assets/학생_임베디드__003_설문조사_제출.gif)
 
 ### 설문조사 통계
-![선생_017_설문조사_통계](/uploads/275cf0fd357a5e5410a5f66a44090d3e/선생_017_설문조사_통계.gif)
+![선생_017_설문조사_통계](/outputs/assets/선생_017_설문조사_통계.gif)
 
 ### 과제 등록
-![선생_005_과제_등록](/uploads/ae6174c6390b86dd22d4d0b6b300cb06/선생_005_과제_등록.gif)
+![선생_005_과제_등록](/outputs/assets/선생_005_과제_등록.gif)
 
 ### 과제 제출
-![학생_004_과제_제출](/uploads/d3c93c60a3e82bcc1e6cd7f975e7326a/학생_004_과제_제출.gif)
+![학생_004_과제_제출](/outputs/assets/학생_004_과제_제출.gif)
 
 ### 과제 채점
-![선생_006_과제_채점](/uploads/dc331e6614f9369e357abefbc14f92c4/선생_006_과제_채점.gif)
+![선생_006_과제_채점](/outputs/assets/선생_006_과제_채점.gif)
 
-![선생_007_과제_채점2](/uploads/03f0de57631ceecc38a1a66f6c1b5a05/선생_007_과제_채점2.gif)
+![선생_007_과제_채점2](/outputs/assets/선생_007_과제_채점2.gif)
 
 ### 퀴즈
-![공통_001_퀴즈](/uploads/540e196e0cf7d82b91c4579988c5bcca/공통_001_퀴즈.gif)
+![공통_001_퀴즈](/outputs/assets/공통_001_퀴즈.gif)
 
 ### 포인트 상점
-![학생_007_포인트상점](/uploads/87ac0201dce594e06aff43b0b792887e/학생_007_포인트상점.gif)
+![학생_007_포인트상점](/outputs/assets/학생_007_포인트상점.gif)
 
 ## ✨ 주요 기능
 ---
@@ -94,23 +94,23 @@ Embeded : 여동준, 이국희
 
 ###각 개발 환경 별 포팅 매뉴얼
 
-Frontend : [링크](https://lab.ssafy.com/s07-webmobile3-sub2/S07P12C102/-/blob/master/front-end/README.md)
+Frontend : [링크](/front-end/README.md)
 
-Backend : [링크](https://lab.ssafy.com/s07-webmobile3-sub2/S07P12C102/-/blob/master/backend/README.MD)
+Backend : [링크](/backend/README.MD)
 
-Embeded : [링크](https://lab.ssafy.com/s07-webmobile3-sub2/S07P12C102/-/blob/master/embedded/README.md)
+Embeded : [링크](/embedded/README.md)
 
 ### 아키텍쳐 구성도
 
 ---
 
-![아키텍쳐 구성도](/uploads/a1a8362d2e4b2565ec68fb7a3f6177ec/Image_Pasted_at_2022-8-15_22-31.png)
+![아키텍쳐 구성도](/outputs/assets/architecture.png)
 
 ### Jenkins를 이용한 CD 구축 및 SSL 인증서 적용
 
 ---
 
-백엔드 CICD 배포 및 SSL 인증서 적용 과정은 [여기](https://lab.ssafy.com/s07-webmobile3-sub2/S07P12C102/-/blob/master/CICD.md)에서 설명해두었습니다.
+백엔드 CICD 배포 및 SSL 인증서 적용 과정은 [여기](/CICD_MANUAL.md)에서 설명해두었습니다.
 
 ### 특이점
 
@@ -149,18 +149,18 @@ Docker, Nginx, Jenkins를 이용하여 무중단 자동 배포를 구축하였�
 ### 기능 정의서
 
 ---
-![기능_정의서_1](/uploads/ca30c9aa7193e1a2656f5aa5013e497b/기능_정의서_1.jpg)
+![기능_정의서_1](/outputs/assets/기능_정의서_1.jpg)
 
-![기능_정의서_2](/uploads/c611b84956c82e61dd148eeee7d20392/기능_정의서_2.jpg)
+![기능_정의서_2](/outputs/assets/기능_정의서_2.jpg)
 
-![기능_정의서_3](/uploads/4d89e9feeaa9207aafce54efb568dbc1/기능_정의서_3.jpg)
+![기능_정의서_3](/outputs/assets/기능_정의서_3.jpg)
 
 
 ### 화면 정의서
 
 ---
 
-화면 정의서는 [여기](https://lab.ssafy.com/s07-webmobile3-sub2/S07P12C102/-/blob/master/outputs/%ED%99%94%EB%A9%B4_%EC%A0%95%EC%9D%98%EC%84%9C.pdf)에서 확인해주시기 바랍니다.
+화면 정의서는 [여기](/outputs/%ED%99%94%EB%A9%B4_%EC%A0%95%EC%9D%98%EC%84%9C.pdf)에서 확인해주시기 바랍니다.
 
 
 ### ✨Git 컨벤션
@@ -206,10 +206,10 @@ Docker, Nginx, Jenkins를 이용하여 무중단 자동 배포를 구축하였�
 
 ---
 
-![ERD](/uploads/53e58cf572132880d670c9944203a78b/image.png)
+![ERD](/outputs/assets/ERD.png)
 
 - ERD입니다.
 
 ### Sequence Diagram
 
-시퀀스 다이어그램은 [여기](https://lab.ssafy.com/s07-webmobile3-sub2/S07P12C102/-/blob/master/outputs/Sequence%20Diagram.docx)에서 확인하세요!
+시퀀스 다이어그램은 [여기](/outputs/Sequence%20Diagram.docx)에서 확인하세요!
