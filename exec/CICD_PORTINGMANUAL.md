@@ -2,7 +2,7 @@
 
 이 프로젝트의 CI/CD 및 배포 구성은 다음과 같다.
 
-![구성도](/uploads/c70e6b8970e77da07069a5b2f1dcf235/Image_Pasted_at_2022-8-15_22-31.png)
+![구성도](/outputs/assets/architecture.png)
 
 1. Gitlab은 AWS 클라우드 EC2에 `WebHooks`로 연결되어 `Master Branch`가 갱신될 때마다 지정된 Build를 수행한다.
 2. 젠킨스의 빌드 단계에서는 백엔드 서버 결과물(Django)을 Docker Image화 시켜 `DOCKER HUB`에 Push한다.
@@ -37,7 +37,7 @@ image는 `jenkins/jenkins:lts`로, 젠킨스 컨테이너에서 docker 빌드를
 
 컨테이너가 실행되었다면, AWS의 `Public IP:9090`으로 젠킨스에 접속이 가능하다.
 
-![01](/uploads/6b40b9e8f11b4f107fe002b1665ce223/01.jpg)
+![01](/exec/README_pic/01.jpg)
 
 젠킨스에 처음 접속하면 위와 같은 화면이 나타날 것이다. AWS 서버에서 위의 docker-compose.yml 파일이 있는 위치로 이동한다.
 
@@ -47,7 +47,7 @@ docker logs jenkins_cicd
 
 위 명령어를 통해 젠킨스를 설치 할 때 생기는 비밀번호를 찾아 위 사진의 빈칸에 입력해줍니다.
 
-![02](/uploads/5863dbee631a2ad3e968ea8fd098835e/02.jpg)
+![02](/exec/README_pic/02.jpg)
 
 이후 기본으로 설치하라는 플러그인을 설치하고, 기본 설정할 admin 계정 정보를 세팅하면, Jenkins 설치가 끝이 난다.
 
@@ -56,60 +56,60 @@ docker logs jenkins_cicd
 
 #### jenkins WebHooks
 
-![03](/uploads/045b65abb5ed0e3596583bcd78aac29a/03.jpg)
+![03](/exec/README_pic/03.jpg)
 
 먼저 Jenkins에서 플러그인 설치로 이동해 gitlab을 검색하고 다음 플러그인들을 설치한다.
 
-![04](/uploads/cbfd8080ec5bdafca7974f15ae9694f4/04.jpg)
+![04](/exec/README_pic/04.jpg)
 
 docker를 검색한 후 해당 플러그인들도 설치해준다.
 
-![05](/uploads/9a019d4e47a289dca04f6a366f9b5900/05.jpg)
+![05](/exec/README_pic/05.jpg)
 
 이제 젠킨스 메인화면으로 돌아와서 item을 한 개 생성한다. 타입으로는 FreeStyle Project를 선택해준다.
 
-![06](/uploads/2ef950193ce2dede327954771f74ab20/06.jpg)
+![06](/exec/README_pic/06.jpg)
 
 이후 소스코드 관리 탭에서, `Repositories` 에 프로젝트 url을, Credentials를 등록하여 추가해준다.
 
 Credentials 등록 방법은 다음과 같다.
 
-![07](/uploads/c318fab1ba2ab0badb4ac110a5d1c91e/07.jpg)
+![07](/exec/README_pic/07.jpg)
 
 add -> jenkins 클릭
 
-![08](/uploads/dcee76d4e70cf2392ace5e68b1cb3bbf/08.jpg)
+![08](/exec/README_pic/08.jpg)
 
 username에 gitlab ID, Password에 gitlab PW, ID에 적당한 식별가능한 값을 넣어준다.
 
-![06](/uploads/2ef950193ce2dede327954771f74ab20/06.jpg)
+![09](/exec/README_pic/09.jpg)
 
 이 사진처럼 빨간색 에러 메시지가 안 뜨면 성공한 것이다.
 
-![09](/uploads/310faed941d466b02581acfc7da1be53/09.jpg)
+![10](/exec/README_pic/10.jpg)
 
 다음으로, 빌드 유발 탭에서 다음과 같이 설정해준다.
 
-![10](/uploads/8296c7cb2601ef236c9238085e202851/10.jpg)
+![11](/exec/README_pic/11.jpg)
 
 다음에는 추후 WebHooks를 설정할 Secret token 값을 따로 저장해 두도록 하자. 빌드 유발 탭에서 고급 버튼을 클릭한다.
 
-![11](/uploads/58d0a794d2e890f3b0906d08f75768aa/11.jpg)
+![12](/exec/README_pic/12.jpg)
 
 위 사진처럼 시크릿 토큰 칸이 있을텐데, `Generate` 버튼을 눌러 키를 생성하고 복사해둔다.
 
-![12](/uploads/e9bf6f36b24b9924cbb3f838db24697c/12.jpg)
+![13](/exec/README_pic/13.jpg)
 
 이후 Item을 생성하면 완료된다. 빌드 테스트를 위해 테스트 코드를 넣어보았다.
 
 
 이제 `gitlab`에서 WebHooks 설정을 해줄 것이다.
 
-![13](/uploads/acd27166a9ba0bf6e05ed35ed0b13779/13.jpg)
+![14](/exec/README_pic/14.jpg)
 
 깃랩 프로젝트에서 위의 경로로 이동한다.
 
-![14](/uploads/a8544ef03400e13d1385898c721acb51/14.jpg)
+![15](/exec/README_pic/15.jpg)
 
 WebHooks를 이제 생성하도록 하자 위의 사진처럼 URL에는 `public IP OR URL:port/project/<item_name>`를 넣는다
 
@@ -117,7 +117,7 @@ Secret Token에는 아까 복사해두었던 토큰 값을 붙여넣기 하고,
 
 그 아래의 Trigger에는 빌드를 유발하는 트리거 종류중 원하는 부분을 체크하면 된다.
 
-![15](/uploads/a7b2f1f861379ed27423017e359863c6/15.jpg)
+![16](/exec/README_pic/16.jpg)
 
 Master 브랜치에 Push 이후 자동으로 Build가 진행되는 모습이다.
 
@@ -125,7 +125,7 @@ Master 브랜치에 Push 이후 자동으로 Build가 진행되는 모습이다.
 
 깃랩과 Jenkins 연결이 완료되었다. 이제 Dockerfile을 이용해 Django를 빌드해보자.
 
-![16](/uploads/d0fa30788adf9ea78819cc362c1f1eb6/16.jpg)
+![17](/exec/README_pic/17.jpg)
 
 일단 먼저 jenkins 컨테이너 안에 필요한 패키지들을 설치해준다. root 권한으로 jenkins 컨테이너에 접속한다.
 
@@ -228,7 +228,7 @@ docker rmi $ID/$DOCKER_REPOSITORY_NAME:$NEW_TAG_VER
 
 해당 명령어를 jenkins 빌드 옵션에 추가해야 한다.
 
-![17](/uploads/370020985479cb3054b11c1f0d39a168/17.jpg)
+![18](/exec/README_pic/18.jpg)
 
 젠킨스 item의 구성에서, Build 탭에 위 사진처럼 명령어를 추가해준다.
 
@@ -238,15 +238,15 @@ docker rmi $ID/$DOCKER_REPOSITORY_NAME:$NEW_TAG_VER
 
 이제 Jenkins가 설치된 AWS에 SSH로 명령어를 보내 배포를 실행해볼 것이다.
 
-![18](/uploads/4922407a2db1f13219bebc86304b03b9/18.jpg)
+![19](/exec/README_pic/19.jpg)
 
 Jenkins에 해당 플러그인을 설치해준다.
 
-![19](/uploads/88d8ac6c0d9b4fb2cc131ae78e17ce87/19.jpg)
+![20](/exec/README_pic/20.jpg)
 
 jenkins 프로젝트의 구성에서, 빌드 후 조치 탭으로 이동하여, 빌드 후 조치 추가에 위 사진에 해당하는 항목(`Send build artifacts over SSH`)을 추가해준다.
 
-![20](/uploads/32bd4bbb0119e848ccca438f10b8cda3/20.jpg)
+![21](/exec/README_pic/21.jpg)
 
 최종적으로 빌드 후 조치 SSH 명령어는 다음과 같다.
 
@@ -263,11 +263,11 @@ sudo apt install nginx
 
 `/etc/nginx/sites-available/default` 파일을 vim 으로 열어보자, 설정된 파일 정보는 다음과 같다.
 
-![21](/uploads/ac006d5871b8409e1c99c9f4f8f695b1/21.jpg)
+![23](/exec/README_pic/22.jpg)
 
-![22](/uploads/d16cec1735d05449f7e42023d23490f1/22.jpg)
+![23](/exec/README_pic/23.jpg)
 
-![23](/uploads/aef6809fa0b915b38bc074075463e2f5/23.jpg)
+![24](/exec/README_pic/24.jpg)
 
 가려진 부분은 AWS public ip를 적으면 된다. HTTPS를 적용하려면 IP 대신 구매한 domain을 적으면 된다.
 
